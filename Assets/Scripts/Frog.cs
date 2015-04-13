@@ -4,6 +4,14 @@ using System;
 
 public class Frog : MonoBehaviour 
 {
+	GameObject menuObject;
+	GameOverScript menu;
+
+	void Start()
+	{
+		menuObject = GameObject.FindGameObjectWithTag ("Menus");
+		menu = menuObject.GetComponent<GameOverScript> ();
+	}
 
 	// Jump Speed - how fast the frog will jump
 	public float speed = 0.1f;
@@ -21,6 +29,7 @@ public class Frog : MonoBehaviour
 	void OnCollisionEnter2D(Collision2D coll)
 	{
 		Destroy (gameObject);
+		menu.ShowLoseMenu ();
 	}
 
 	// FixedUpdate is called in a fixed time interval
