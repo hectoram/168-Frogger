@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public class Frog : MonoBehaviour 
 {
+	public AudioClip jumpSFX;
+
 	GameObject menuObject;
 	GameOverScript menu;
 
@@ -56,16 +59,28 @@ public class Frog : MonoBehaviour
 			// Detects arrow key presses
 			// UP ARROW OR W KEY
 			if (Input.GetKey (KeyCode.UpArrow) || Input.GetKey (KeyCode.W))
+			{
 				jump = Vector2.up;
+				GetComponent<AudioSource>().PlayOneShot(jumpSFX);
+			}
 			// RIGHT ARROW OR D KEY
 			else if (Input.GetKey (KeyCode.RightArrow) || Input.GetKey (KeyCode.D))
+			{
 				jump = Vector2.right;
+				GetComponent<AudioSource>().PlayOneShot(jumpSFX);
+			}
 			// DOWN ARROW OR S KEY
 			else if (Input.GetKey (KeyCode.DownArrow) || Input.GetKey (KeyCode.S))
+			{
 				jump = -Vector2.up; // -up means down
+				GetComponent<AudioSource>().PlayOneShot(jumpSFX);
+			}
 			// LEFT ARROW OR A KEY
 			else if (Input.GetKey (KeyCode.LeftArrow) || Input.GetKey (KeyCode.A))
+			{
 				jump = -Vector2.right; // -right means left
+				GetComponent<AudioSource>().PlayOneShot(jumpSFX);
+			}
 		}
 
 		// Setting up animation parameters

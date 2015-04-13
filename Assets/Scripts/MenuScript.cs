@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -9,6 +9,9 @@ public class MenuScript : MonoBehaviour {
 	public Button playButton;
 	public Button creditsButton;
 	public Button quitButton;
+
+	public AudioClip buttonClickSFX;
+	public AudioClip buttonHoverSFX;
 
 	// Use this for initialization
 	void Start () {
@@ -27,6 +30,8 @@ public class MenuScript : MonoBehaviour {
 		playButton.enabled = false;
 		creditsButton.enabled = false;
 		quitButton.enabled = false;
+
+		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 	}
 
 	public void CreditsPressed()
@@ -35,6 +40,8 @@ public class MenuScript : MonoBehaviour {
 		playButton.enabled = false;
 		creditsButton.enabled = false;
 		quitButton.enabled = false;
+
+		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 	}
 
 	public void NoPressed()
@@ -43,6 +50,8 @@ public class MenuScript : MonoBehaviour {
 		playButton.enabled = true;
 		creditsButton.enabled = true;
 		quitButton.enabled = true;
+
+		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 	}
 
 	public void ContinuePressed()
@@ -51,15 +60,26 @@ public class MenuScript : MonoBehaviour {
 		playButton.enabled = true;
 		creditsButton.enabled = true;
 		quitButton.enabled = true;
+
+		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 	}
 
 	public void StartGame()
 	{
+		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
+
 		Application.LoadLevel ("Main Scene");
 	}
 
 	public void QuitGame()
 	{
+		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
+
 		Application.Quit ();
+	}
+
+	public void PlayButtonHover()
+	{
+		GetComponent<AudioSource>().PlayOneShot(buttonHoverSFX);
 	}
 }
