@@ -302,7 +302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 185498, guid: fb4ab9b90ef2b0b4ea038e24010dfc5d, type: 2}
   interval: 3
-  velocity: {x: 2, y: 0}
+  velocity: {x: -2, y: 0}
 --- !u!4 &166709228
 Transform:
   m_ObjectHideFlags: 0
@@ -310,7 +310,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 166709226}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8, y: -5, z: 0}
+  m_LocalPosition: {x: 8, y: -5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1924,7 +1924,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 185498, guid: fb4ab9b90ef2b0b4ea038e24010dfc5d, type: 2}
-  interval: 2
+  interval: 1.70000005
   velocity: {x: -4, y: 0}
 --- !u!4 &1511242110
 Transform:
