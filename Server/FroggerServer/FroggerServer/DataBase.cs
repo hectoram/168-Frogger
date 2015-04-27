@@ -14,10 +14,9 @@ namespace FroggerServer
 
     private static DataBase instance = null;
     private static readonly object padlock = new object();
-    
     private string dbname = "MyDatabase.sqlite";
     private bool dbSet = false;
-    SQLiteConnection m_dbConnection;
+    private SQLiteConnection m_dbConnection;
 
     DataBase()
     {
@@ -27,6 +26,11 @@ namespace FroggerServer
     //Check to see if the user/password combo exits in the DB
     private bool userExists(string username, string password) 
     {
+        if (!open())
+        {
+            return false;
+        }
+
         string sql = "SELECT COUNT(*) from Login where username like '" + username + "' AND " + "password like '" + password + "'";
         SQLiteCommand checkForUser = new SQLiteCommand(sql,m_dbConnection);
 
@@ -42,7 +46,7 @@ namespace FroggerServer
 
     public bool login(string username, string password) 
     {
-        if (userExists(username, password))
+        if (open() && userExists(username, password))
             return true;
         else
             return false;
@@ -50,7 +54,7 @@ namespace FroggerServer
 
     public bool registerUser(string username, string password)
     {
-        if (!userExists(username, password))
+        if (open() && !userExists(username, password))
         {
             string sql = "insert into Login (username, password) values ";
             string temp = "('" + username + "', " + "'" + password + "')";
@@ -63,7 +67,7 @@ namespace FroggerServer
         return false;
     }
     
-    public bool open()
+    private bool open()
     {
         if (!File.Exists(dbname))
         {
@@ -83,8 +87,8 @@ namespace FroggerServer
             {
                 m_dbConnection = new SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;");
                 dbSet = !dbSet;
+                m_dbConnection.Open();
             }
-            m_dbConnection.Open();
             return true;
 
         }

@@ -108,9 +108,23 @@ namespace FroggerServer
                     {
                         // All the data has been read from the
                         // client. Display it on the console.
-                        Console.WriteLine("Read {0} bytes from socket. \n Data : {1}",
-                        content.Length, content);
-                        Console.WriteLine("\n\n");
+                        char[] delimiterChars = { ' ', ',','<','>'};
+                        string[] message = content.Split(delimiterChars);
+
+
+                        //userLogin, username, password<EOF>
+
+                        if(message[0] == "userLogin")
+                        {
+                            if (DataBase.Instance.login(message[1], message[2]))
+                            {
+                                Send(handler, "login,true<EOF>");
+                            }
+                            else
+                                Send(handler, "login,new<EOF>");
+                            
+                        }
+
                         // Echo the data back to the client.
                         Send(handler, content);
                         // Setup a new state object
@@ -153,7 +167,6 @@ namespace FroggerServer
             }
             public static int Main(String[] args)
             {
-                DataBase.Instance.open();
                 DataBase.Instance.registerUser("AA", "temp");
 
 
