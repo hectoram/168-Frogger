@@ -39,10 +39,12 @@ public class LoginScript : MonoBehaviour {
 	public void LogIn()
 	{
 		string temp = username.text;
-		username.text = "Test Message";
+		username.text = "";
+
+        password.text = "";
 
 		// Testing ability to connect to the server
-		Network.Connect (ipAddress, port);
+		//Network.Connect (ipAddress, port);
 	}
 
 	public void DisplayLoginMenu()
