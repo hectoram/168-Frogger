@@ -830,8 +830,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 177951068}
-        m_MethodName: ContinuePressed
+      - m_Target: {fileID: 1723246510}
+        m_MethodName: DisplayMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1656,8 +1656,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 177951068}
-        m_MethodName: ContinuePressed
+      - m_Target: {fileID: 1723246510}
+        m_MethodName: DisplayMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1714,7 +1714,7 @@ GameObject:
   - 114: {fileID: 871337315}
   - 114: {fileID: 871337314}
   m_Layer: 5
-  m_Name: Password Input Field 1
+  m_Name: Password Input Field
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3090,8 +3090,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 177951068}
-        m_MethodName: ContinuePressed
+      - m_Target: {fileID: 1723246510}
+        m_MethodName: LogIn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3667,6 +3667,7 @@ GameObject:
   - 114: {fileID: 1723246508}
   - 114: {fileID: 1723246507}
   - 114: {fileID: 1723246510}
+  - 114: {fileID: 1723246511}
   m_Layer: 5
   m_Name: Login Menu
   m_TagString: Untagged
@@ -3762,8 +3763,23 @@ MonoBehaviour:
   loginFailedMenu: {fileID: 1002275377}
   loginSuccessMenu: {fileID: 1776833445}
   loginNewUserMenu: {fileID: 1981997061}
-  buttonClickSFX: {fileID: 8300000, guid: d0e438da8618e5c41a88316bfaf21233, type: 3}
-  buttonHoverSFX: {fileID: 8300000, guid: 271b5e5d2354ad647a4bbd8d9d59fddd, type: 3}
+  username: {fileID: 1985847449}
+  password: {fileID: 871337314}
+  port: 11000
+  ipAddress: 127.0.0.1
+--- !u!114 &1723246511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1723246505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e1883b8415c4b4d84b0c71d0982a6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  port: 11000
+  ipAddress: 127.0.0.1
 --- !u!1 &1776833441
 GameObject:
   m_ObjectHideFlags: 0
@@ -4044,8 +4060,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 177951068}
-        m_MethodName: ContinuePressed
+      - m_Target: {fileID: 1723246510}
+        m_MethodName: DisplayLoginMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

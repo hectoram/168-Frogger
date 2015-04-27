@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using System.Text;
 
 public class LoginScript : MonoBehaviour {
 	
@@ -9,39 +14,43 @@ public class LoginScript : MonoBehaviour {
 	public Canvas loginSuccessMenu;
 	public Canvas loginNewUserMenu;
 
-	//public Button playButton;
-	//public Button creditsButton;
-	//public Button quitButton;
-	
-	public AudioClip buttonClickSFX;
-	public AudioClip buttonHoverSFX;
-	
+	public InputField username;
+	public InputField password;
+
+	public string port = "11000";
+	public string ipAddress = "127.0.0.1";
+
 	// Use this for initialization
 	void Start () {
-		
 		loginMenu = loginMenu.GetComponent<Canvas> ();
 		loginFailedMenu = loginFailedMenu.GetComponent<Canvas> ();
 		loginSuccessMenu = loginSuccessMenu.GetComponent<Canvas> ();
 		loginNewUserMenu = loginNewUserMenu.GetComponent<Canvas> ();
 
-		//playButton = playButton.GetComponent<Button> ();
-		//creditsButton = creditsButton.GetComponent<Button> ();
-		//quitButton = quitButton.GetComponent<Button> ();
+		username = username.GetComponent<InputField> ();
+		password = password.GetComponent<InputField> ();
 
 		loginMenu.enabled = true;
 		loginFailedMenu.enabled = false;
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
 	}
-	
+
+	public void LogIn()
+	{
+		string temp = username.text;
+		username.text = "Test Message";
+
+		// Testing ability to connect to the server
+		Network.Connect (ipAddress, port);
+	}
+
 	public void DisplayLoginMenu()
 	{
 		loginMenu.enabled = true;
 		loginFailedMenu.enabled = false;
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
-		
-		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 	}
 	
 	public void DisplayLoginFailedMenu()
@@ -50,8 +59,6 @@ public class LoginScript : MonoBehaviour {
 		loginFailedMenu.enabled = true;
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
-		
-		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 	}
 	
 	public void DisplayLoginSuccessMenu()
@@ -60,8 +67,6 @@ public class LoginScript : MonoBehaviour {
 		loginFailedMenu.enabled = false;
 		loginSuccessMenu.enabled = true;
 		loginNewUserMenu.enabled = false;
-		
-		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 	}
 	
 	public void DisplayLoginNewUserMenu()
@@ -70,8 +75,6 @@ public class LoginScript : MonoBehaviour {
 		loginFailedMenu.enabled = false;
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = true;
-		
-		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 	}
 	
 	public void DisplayMainMenu()
@@ -80,12 +83,5 @@ public class LoginScript : MonoBehaviour {
 		loginFailedMenu.enabled = false;
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
-		
-		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
-	}
-	
-	public void PlayButtonHover()
-	{
-		GetComponent<AudioSource>().PlayOneShot(buttonHoverSFX);
 	}
 }
