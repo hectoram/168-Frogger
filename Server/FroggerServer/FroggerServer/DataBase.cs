@@ -21,13 +21,59 @@ namespace FroggerServer
 
     DataBase()
     {
+
     }
 
+    //Check to see if the user/password combo exits in the DB
+    private bool userExists(string username, string password) 
+    {
+        string sql = "SELECT COUNT(*) from Login where username like '" + username + "' AND " + "password like '" + password + "'";
+        SQLiteCommand checkForUser = new SQLiteCommand(sql,m_dbConnection);
+
+        var userCount = checkForUser.ExecuteScalar();
+        userCount.ToString();
+        int count = Convert.ToInt32(userCount);
+
+        if (count > 0)
+            return true;
+        else
+            return false;
+    }
+
+    public bool login(string username, string password) 
+    {
+        if (userExists(username, password))
+            return true;
+        else
+            return false;
+    }
+
+    public bool registerUser(string username, string password)
+    {
+        if (!userExists(username, password))
+        {
+            string sql = "insert into Login (username, password) values ";
+            string temp = "('" + username + "', " + "'" + password + "')";
+            sql += temp;
+            SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
+            command.ExecuteNonQuery();
+
+            return true;
+        }
+        return false;
+    }
+    
     public bool open()
     {
         if (!File.Exists(dbname))
         {
             SQLiteConnection.CreateFile(dbname);
+            m_dbConnection = new SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;");
+            m_dbConnection.Open();
+
+            string sql = "create table Login (username varchar(20), password varchar(20))";
+            SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
+            command.ExecuteNonQuery();
             return true;
         }
         else 
@@ -60,7 +106,4 @@ namespace FroggerServer
         }
     }
   }
-
-
-
 }
