@@ -43,8 +43,10 @@ public class ClientScript : MonoBehaviour {
 			//IPAddress ipAddress = ipHostInfo.AddressList[0];
 			//IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 
-			var ip = IPAddress.Parse(ipAddress);
-			IPEndPoint remoteEP = new IPEndPoint(ip, port);
+			//var ip = IPAddress.Parse(ipAddress);
+            IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
+            IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+            IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 			
 			// Create a TCP/IP socket.
 			Socket client = new Socket(AddressFamily.InterNetwork,
