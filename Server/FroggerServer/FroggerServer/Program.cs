@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 //networking
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Collections.Generic;
 
 namespace FroggerServer
 {
@@ -44,9 +42,9 @@ namespace FroggerServer
                 //Listen to external IP address
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
                 IPAddress ipAddress = ipHostInfo.AddressList[0];
-                IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
+                IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 8000);
                 // Listen to any IP Address
-                IPEndPoint any = new IPEndPoint(IPAddress.Any, 11000);
+                IPEndPoint any = new IPEndPoint(IPAddress.Any, 8000);
                 // Bind the socket to the local endpoint and listen for incoming connections.
                 try
                 {
@@ -155,7 +153,9 @@ namespace FroggerServer
             }
             public static int Main(String[] args)
             {
+                DataBase.Instance.open();
                 StartListening();
+                   
                 return 0;
             }
         }
