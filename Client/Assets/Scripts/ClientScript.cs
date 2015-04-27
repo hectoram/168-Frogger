@@ -10,7 +10,7 @@ public class ClientScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+        StartClient();
 	}
 	
 	// Update is called once per frame
@@ -25,15 +25,19 @@ public class ClientScript : MonoBehaviour {
 	// ManualResetEvent instances signal completion.
 	private static ManualResetEvent connectDone = 
 		new ManualResetEvent(false);
-	//private static ManualResetEvent sendDone = 
-		//new ManualResetEvent(false);
-	//private static ManualResetEvent receiveDone = 
-		//new ManualResetEvent(false);
+    private static ManualResetEvent sendDone = 
+		new ManualResetEvent(false);
+	private static ManualResetEvent receiveDone = 
+		new ManualResetEvent(false);
 	
 	// The response from the remote device.
 	private static String response = String.Empty;
 	
 	public void StartClient() {
+
+         // setup receiving thread
+        Thread receiveThread = new Thread(delegate()
+        {
 		// Connect to a remote device.
 		try {
 			// Establish the remote endpoint for the socket.
@@ -45,29 +49,39 @@ public class ClientScript : MonoBehaviour {
 
 			//var ip = IPAddress.Parse(ipAddress);
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+            //IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+            IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
-			
+
+            Debug.Log("Creating TCP/IP socket...");
 			// Create a TCP/IP socket.
 			Socket client = new Socket(AddressFamily.InterNetwork,
 			                           SocketType.Stream, ProtocolType.Tcp);
-			
+
+            Debug.Log("Connecting to the remote endpoint...");
 			// Connect to the remote endpoint.
 			client.BeginConnect( remoteEP, 
 			                    new AsyncCallback(ConnectCallback), client);
 			connectDone.WaitOne();
-			
+
+            Debug.Log("Sending test data...");
 			// Send test data to the remote device.
 			Send(client,"This is a test<EOF>");
-			//sendDone.WaitOne();
-			
+            Console.WriteLine("Message Sent!");
+			sendDone.WaitOne();
+
+            Debug.Log("Recieving response...");
 			// Receive the response from the remote device.
 			Receive(client);
-			//receiveDone.WaitOne();
+            Console.WriteLine("Message Recieved!");
+			receiveDone.WaitOne();
 			
 			// Write the response to the console.
 			Console.WriteLine("Response received : {0}", response);
-			
+
+            Debug.Log("Response received : " + response);
+
+            Debug.Log("Releasing the socket...");
 			// Release the socket.
 			try {
 				client.Shutdown(SocketShutdown.Both);
@@ -80,6 +94,8 @@ public class ClientScript : MonoBehaviour {
 		} catch (Exception e) {
 			Console.WriteLine(e.ToString());
 		}
+        });
+        receiveThread.Start();
 	}
 	
 	private static void ConnectCallback(IAsyncResult ar) {
@@ -137,7 +153,7 @@ public class ClientScript : MonoBehaviour {
 					response = state.sb.ToString();
 				}
 				// Signal that all bytes have been received.
-				//receiveDone.Set();
+				receiveDone.Set();
 			}
 		} catch (Exception e) {
 			Console.WriteLine(e.ToString());
@@ -163,7 +179,7 @@ public class ClientScript : MonoBehaviour {
 			Console.WriteLine("Sent {0} bytes to server.", bytesSent);
 			
 			// Signal that all bytes have been sent.
-			//sendDone.Set();
+			sendDone.Set();
 		} catch (Exception e) {
 			Console.WriteLine(e.ToString());
 		}
