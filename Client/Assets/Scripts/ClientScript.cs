@@ -105,7 +105,8 @@ public class ClientScript : MonoBehaviour {
 			
 			// Complete the connection.
 			client.EndConnect(ar);
-			
+
+            Debug.Log("Socket connected to {0}" + client.RemoteEndPoint.ToString());
 			Console.WriteLine("Socket connected to {0}",
 			                  client.RemoteEndPoint.ToString());
 			
