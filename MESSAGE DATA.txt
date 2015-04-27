@@ -1,0 +1,11 @@
+We are using strings separated by commas to pass information.
+
+===== CLIENT MESSAGES =====
+
+"userLogin,username,password<EOF>" = sent by the player to login to their account
+
+===== SERVER MESSAGES =====
+
+"login,true<EOF>" = sent if the username and password matches the record in the database
+"login,false<EOF>" = sent if the username and password doesn't match the record in the database
+"login,new<EOF>" = sent if the username is not found in the database

@@ -42,9 +42,9 @@ namespace FroggerServer
                 //Listen to external IP address
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
                 IPAddress ipAddress = ipHostInfo.AddressList[0];
-                IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 8000);
+                IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
                 // Listen to any IP Address
-                IPEndPoint any = new IPEndPoint(IPAddress.Any, 8000);
+                IPEndPoint any = new IPEndPoint(IPAddress.Any, 11000);
                 // Bind the socket to the local endpoint and listen for incoming connections.
                 try
                 {
@@ -61,6 +61,7 @@ namespace FroggerServer
                         listener);
                         // Wait until a connection is made before continuing.
                         allDone.WaitOne();
+                        Console.WriteLine("Client has connected!");
                     }
                 }
                 catch (Exception e)
@@ -123,6 +124,12 @@ namespace FroggerServer
                             else
                                 Send(handler, "login,new<EOF>");
                             
+                        }
+                        else if (message[0] == "test")
+                        {
+                            Console.WriteLine("Testing user login data: ");
+                            Console.WriteLine("Username: " + message[1]);
+                            Console.WriteLine("Password: " + message[2]);
                         }
 
                         // Echo the data back to the client.
