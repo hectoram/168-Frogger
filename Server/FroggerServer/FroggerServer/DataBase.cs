@@ -12,6 +12,7 @@ namespace FroggerServer
     class DataBase
     {
 
+
     private static DataBase instance = null;
     private static readonly object padlock = new object();
     private string dbname = "MyDatabase.sqlite";
