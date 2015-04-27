@@ -153,7 +153,6 @@ namespace FroggerServer
             }
             public static int Main(String[] args)
             {
-                DataBase.Instance.open();
                 DataBase.Instance.registerUser("AA", "temp");
 
 
