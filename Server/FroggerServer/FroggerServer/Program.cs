@@ -175,12 +175,7 @@ namespace FroggerServer
             public static int Main(String[] args)
             {
                 DataBase.Instance.registerUser("AA", "temp");
-
-
-                if (DataBase.Instance.login("AA", "temp")) 
-                {
-                    Console.WriteLine("I have logged in!");
-                }
+                
                 StartListening();
 
                 return 0;
