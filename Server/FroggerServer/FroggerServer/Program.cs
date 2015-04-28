@@ -119,10 +119,15 @@ namespace FroggerServer
                         {
                             if (DataBase.Instance.login(message[1], message[2]))
                             {
+                                Console.WriteLine("Login was successful");
                                 Send(handler, "login,true<EOF>");
                             }
                             else
+                            {
+                                Console.WriteLine("Login was not successful");
                                 Send(handler, "login,new<EOF>");
+                            }
+                                
                             
                         }
                         else if (message[0] == "test")

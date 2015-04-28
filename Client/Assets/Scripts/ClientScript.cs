@@ -7,16 +7,20 @@ using System.Threading;
 using System.Text;
 
 public class ClientScript : MonoBehaviour {
-
+	
 	// Use this for initialization
-	void Start () {
-        StartClient();
+	void Start ()
+    {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 	
 	}
+
+
+
 
 	// The port number for the remote device.
 	public int port = 11000;
@@ -33,8 +37,8 @@ public class ClientScript : MonoBehaviour {
 	// The response from the remote device.
 	private static String response = String.Empty;
 	
-	public void StartClient() {
-
+	public void StartClient(string userName,string password)
+	{
          // setup receiving thread
         Thread receiveThread = new Thread(delegate()
         {
@@ -66,7 +70,8 @@ public class ClientScript : MonoBehaviour {
 
             Debug.Log("Sending test data...");
 			// Send test data to the remote device.
-			Send(client,"This is a test<EOF>");
+			string message = "userLogin," + userName + "," + password + "<EOF>";
+            Send(client, message);
             Console.WriteLine("Message Sent!");
 			sendDone.WaitOne();
 

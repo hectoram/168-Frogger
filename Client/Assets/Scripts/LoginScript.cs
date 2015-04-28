@@ -19,9 +19,10 @@ public class LoginScript : MonoBehaviour {
 
 	public string port = "11000";
 	public string ipAddress = "127.0.0.1";
-
+	public ClientScript clientManager;
 	// Use this for initialization
-	void Start () {
+	public void Start ()
+    {
 		loginMenu = loginMenu.GetComponent<Canvas> ();
 		loginFailedMenu = loginFailedMenu.GetComponent<Canvas> ();
 		loginSuccessMenu = loginSuccessMenu.GetComponent<Canvas> ();
@@ -38,10 +39,7 @@ public class LoginScript : MonoBehaviour {
 
 	public void LogIn()
 	{
-		string temp = username.text;
-		username.text = "";
-
-        password.text = "";
+		clientManager.StartClient (username.text,password.text);
 
 		// Testing ability to connect to the server
 		//Network.Connect (ipAddress, port);
