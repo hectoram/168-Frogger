@@ -125,6 +125,13 @@ namespace FroggerServer
                             else
                             {
                                 Console.WriteLine("Login was not successful");
+                                Console.WriteLine("Creating new user......");
+
+                                if (DataBase.Instance.registerUser(message[1], message[2]))
+                                    Console.WriteLine("User " + message[1] + " was created!");
+                                else
+                                    Console.WriteLine("User " + message[1] + " was not created!");
+
                                 Send(handler, "login,new<EOF>");
                             }
                                 
