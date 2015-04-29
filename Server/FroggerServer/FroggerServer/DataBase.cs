@@ -32,8 +32,28 @@ namespace FroggerServer
             return false;
         }
 
-        string sql = "SELECT COUNT(*) from Login where username like '" + username + "' AND " + "password like '" + password + "'";
+        string sql = "SELECT COUNT(*) from Login where username like '" + username + "'";
         SQLiteCommand checkForUser = new SQLiteCommand(sql,m_dbConnection);
+
+        var userCount = checkForUser.ExecuteScalar();
+        userCount.ToString();
+        int count = Convert.ToInt32(userCount);
+
+        if (count > 0)
+            return true;
+        else
+            return false;
+    }
+
+    private bool checkCredentials(string username, string password)
+    {
+        if (!open())
+        {
+            return false;
+        }
+
+        string sql = "SELECT COUNT(*) from Login where username like '" + username + "' AND " + "password like '" + password + "'";
+        SQLiteCommand checkForUser = new SQLiteCommand(sql, m_dbConnection);
 
         var userCount = checkForUser.ExecuteScalar();
         userCount.ToString();
@@ -47,7 +67,7 @@ namespace FroggerServer
 
     public bool login(string username, string password) 
     {
-        if (open() && userExists(username, password))
+        if (open() && checkCredentials(username, password))
             return true;
         else
             return false;
