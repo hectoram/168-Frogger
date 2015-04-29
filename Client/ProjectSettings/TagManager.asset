@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Menus
+  - Networking
   layers:
   - Default
   - TransparentFX
