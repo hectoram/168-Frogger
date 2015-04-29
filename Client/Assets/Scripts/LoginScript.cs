@@ -59,6 +59,7 @@ public class LoginScript : MonoBehaviour {
 		loginFailedMenu.enabled = false;
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
+        Debug.Log("Displaying Login Menu...");
 	}
 	
 	public void DisplayLoginFailedMenu()
@@ -91,5 +92,6 @@ public class LoginScript : MonoBehaviour {
 		loginFailedMenu.enabled = false;
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
+        Debug.Log("Displaying Main Menu...");
 	}
 }

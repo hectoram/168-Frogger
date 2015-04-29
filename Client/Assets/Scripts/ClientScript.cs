@@ -25,6 +25,16 @@ public class ClientScript : MonoBehaviour
     // Create the state object for receiving.
     StateObject recv_so;
 
+    LoginScript loginInfo;
+    GameObject loginMenu;
+
+    static string data = "";
+
+    public static void setData(string newData)
+    {
+        data = newData;
+    }
+
     public void Start()
     {
         Debug.Log("In Start()");
@@ -47,7 +57,26 @@ public class ClientScript : MonoBehaviour
         recv_so = new StateObject();
         recv_so.workSocket = client;
 
+        loginMenu = GameObject.FindGameObjectWithTag("Login Menu");
+        loginInfo = loginMenu.GetComponent<LoginScript>();
+
         //StartClient();
+    }
+
+    public void Update()
+    {
+        if (data == "true")
+        {
+            loginInfo.DisplayLoginSuccessMenu();
+        }
+        else if (data == "false")
+        {
+            loginInfo.DisplayLoginFailedMenu();
+        }
+        else if (data == "new")
+        {
+            loginInfo.DisplayLoginNewUserMenu();
+        }
     }
 
 	//public void StartClient (string username, string password)
@@ -149,8 +178,30 @@ public class ClientScript : MonoBehaviour
 
 				string[] messageToCheck = content.Split(delimiterChars);
 
-
+                //Debug.Log("I sent you this back: " + messageToCheck[0] + " " + messageToCheck[1]);
 				Console.WriteLine("I sent you this back~ : {0}", messageToCheck);
+
+                if (messageToCheck[0] == "login")
+                {
+                    if (messageToCheck[1] == "true")
+                    {
+                        //loginInfo.DisplayMainMenu();
+                        Debug.Log("Login successful!");
+                        setData(messageToCheck[1]);
+                    }
+                    else if (messageToCheck[1] == "false")
+                    {
+                        //loginInfo.DisplayLoginFailedMenu();
+                        Debug.Log("Login failed!");
+                        setData(messageToCheck[1]);
+                    }
+                    else if (messageToCheck[1] == "new")
+                    {
+                        //loginInfo.DisplayLoginNewUserMenu();
+                        Debug.Log("A new user has been created!");
+                        setData(messageToCheck[1]);
+                    }
+                }
 
                 if (messageToCheck.Length == 2)
                 {
