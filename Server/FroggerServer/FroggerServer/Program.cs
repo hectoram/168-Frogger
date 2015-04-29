@@ -145,7 +145,7 @@ namespace FroggerServer
                         }
 
                         // Echo the data back to the client.
-                        Send(handler, content);
+                        //Send(handler, content);
                         // Setup a new state object
                         StateObject newstate = new StateObject();
                         newstate.workSocket = handler;
@@ -164,6 +164,7 @@ namespace FroggerServer
             private static void Send(Socket handler, String data)
             {
                 // Convert the string data to byte data using ASCII encoding.
+                //Console.WriteLine("I'm sending this: " + data);
                 byte[] byteData = Encoding.ASCII.GetBytes(data);
                 // Begin sending the data to the remote device.
                 handler.BeginSend(byteData, 0, byteData.Length, 0,
