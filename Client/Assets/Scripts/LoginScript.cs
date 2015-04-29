@@ -45,9 +45,9 @@ public class LoginScript : MonoBehaviour {
 
 	public void LogIn()
 	{
-		clientManager.Send("userLogin," + username.text + "," + password.text + "<EOF>");
+		//clientManager.Send("userLogin," + username.text + "," + password.text + "<EOF>");
 
-        //clientManager.StartClient(username.text, password.text);
+        clientManager.StartClient(username.text, password.text);
 
 		// Testing ability to connect to the server
 		//Network.Connect (ipAddress, port);

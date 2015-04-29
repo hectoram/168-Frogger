@@ -47,11 +47,11 @@ public class ClientScript : MonoBehaviour
         recv_so = new StateObject();
         recv_so.workSocket = client;
 
-        StartClient();
+        //StartClient();
     }
 
-    //public void StartClient(string username, string password)
-    public void StartClient()
+	//public void StartClient (string username, string password)
+    public void StartClient(string username, string password)
     {
         Debug.Log("Starting client...");
         // Connect to a remote device.
@@ -66,8 +66,9 @@ public class ClientScript : MonoBehaviour
 
             Debug.Log("Sending test data...");
             // Send test data to the remote device.
-            Send("This is a test message.<EOF>");
-            //Send("userLogin," + username + "," + password + "<EOF>");
+            //Send("This is a test message.<EOF>");
+            Send("userLogin," + username + "," + password + "<EOF>");
+
             send_so.sendDone.WaitOne(5000);
 
             Debug.Log("Waiting for response...");
@@ -144,11 +145,17 @@ public class ClientScript : MonoBehaviour
                 state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
                 string content = state.sb.ToString();
 
-                String[] message = content.Split(stringSeparators, StringSplitOptions.None);
-                if (message.Length == 2)
+				char[] delimiterChars = { ' ', ',','<','>'};
+
+				string[] messageToCheck = content.Split(delimiterChars);
+
+
+				Console.WriteLine("I sent you this back~ : {0}", messageToCheck);
+
+                if (messageToCheck.Length == 2)
                 {
                     state.receiveDone.Set();
-                    state.response = message[0];
+                    state.response = messageToCheck[0];
 
                     state.workSocket.Shutdown(SocketShutdown.Both);
                     state.workSocket.Close();
