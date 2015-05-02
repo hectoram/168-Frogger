@@ -60,6 +60,7 @@ public class LoginScript : MonoBehaviour {
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
         Debug.Log("Displaying Login Menu...");
+		clientManager.resetData();
 	}
 	
 	public void DisplayLoginFailedMenu()
@@ -68,6 +69,7 @@ public class LoginScript : MonoBehaviour {
 		loginFailedMenu.enabled = true;
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
+		clientManager.resetData();
 	}
 	
 	public void DisplayLoginSuccessMenu()
@@ -76,6 +78,7 @@ public class LoginScript : MonoBehaviour {
 		loginFailedMenu.enabled = false;
 		loginSuccessMenu.enabled = true;
 		loginNewUserMenu.enabled = false;
+		clientManager.resetData();
 	}
 	
 	public void DisplayLoginNewUserMenu()
@@ -84,6 +87,7 @@ public class LoginScript : MonoBehaviour {
 		loginFailedMenu.enabled = false;
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = true;
+		clientManager.resetData();
 	}
 	
 	public void DisplayMainMenu()
@@ -93,5 +97,6 @@ public class LoginScript : MonoBehaviour {
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
         Debug.Log("Displaying Main Menu...");
+		clientManager.resetData();
 	}
 }

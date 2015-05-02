@@ -30,7 +30,11 @@ public class ClientScript : MonoBehaviour
 
     static string data = "";
 
-    public static void setData(string newData)
+    public void resetData(){
+		data = "";
+	}
+
+	public static void setData(string newData)
     {
         data = newData;
     }
