@@ -132,7 +132,7 @@ namespace FroggerServer
                                 else
                                     Console.WriteLine("User " + message[1] + " was not created!");
 
-                                Send(handler, "login,new<EOF>");
+                                Send(handler, "login,false<EOF>");
                             }
                                 
                             
