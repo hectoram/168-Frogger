@@ -125,23 +125,20 @@ namespace FroggerServer
                             else
                             {
                                 Console.WriteLine("Login was not successful");
-                                Console.WriteLine("Attemping to creat new user......");
+                                Console.WriteLine("Attemping to create new user......");
 
-                                if (DataBase.Instance.registerUser(message[1], message[2]))
+                                if (DataBase.Instance.registerUser(message[1], message[2])){
                                     Console.WriteLine("User " + message[1] + " was created!");
+                                    Send(handler, "login,new<EOF>");
+                                }
                                 else
+                                {
                                     Console.WriteLine("User " + message[1] + " was not created!");
-
-                                Send(handler, "login,false<EOF>");
+                                    Send(handler, "login,false<EOF>");
+                                }
                             }
                                 
                             
-                        }
-                        else if (message[0] == "test")
-                        {
-                            Console.WriteLine("Testing user login data: ");
-                            Console.WriteLine("Username: " + message[1]);
-                            Console.WriteLine("Password: " + message[2]);
                         }
 
                         // Echo the data back to the client.
