@@ -16,7 +16,7 @@ namespace FroggerServer
         private string username;
         private Socket connection;
 
-        Player(string name,Socket myConnection ) 
+        public Player(string name,Socket myConnection ) 
         {
             username = name;
             connection = myConnection;

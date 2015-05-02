@@ -38,9 +38,10 @@ namespace FroggerServer
             //Do things here
         }
 
-        public void addNewPlayer() 
+        public void addNewPlayer(string ID, Socket mySocket) 
         {
-            
+            connectedPlayers.Add(new Player(ID,mySocket));
+            Console.WriteLine("I've added my newly connected player to my list!");
         }
 
         private void parseMessage(string toParse)
@@ -178,6 +179,7 @@ namespace FroggerServer
                         if (DataBase.Instance.login(message[1], message[2]))
                         {
                             Console.WriteLine("Login was successful");
+                            NetworkHandler.Instance.addNewPlayer(message[1],handler);
                             Send(handler, "login,true<EOF>");
                         }
                         else

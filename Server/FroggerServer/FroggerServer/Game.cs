@@ -23,6 +23,13 @@ namespace FroggerServer
             gameHandler = new GameLogic();
         }
 
+        Game(Player playerOne, Player playerTwo)
+        {
+            p1 = playerOne;
+            p2 = playerTwo;
+            gameHandler = new GameLogic();
+        }
+
         public void update() 
         {
             gameHandler.update();
