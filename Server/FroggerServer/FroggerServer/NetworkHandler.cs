@@ -15,6 +15,11 @@ namespace FroggerServer
     {
 
         AsynchronousSocketListener listener;
+        //Add some sort of list of messages with a pair type architecutre
+        //So <Username,message, timestamp>
+        //In the update send it off to the game class to process.
+        //After that it's up to the gamelogic to send them or have another queue that can be emptied
+        List<Player> connectedPlayers = new List<Player>();
 
         NetworkHandler()
         {
@@ -33,6 +38,15 @@ namespace FroggerServer
             //Do things here
         }
 
+        public void addNewPlayer() 
+        {
+            
+        }
+
+        private void parseMessage(string toParse)
+        {
+
+        }
 
         //Handle being a singleton
         private static NetworkHandler instance = null;
@@ -71,6 +85,8 @@ namespace FroggerServer
         // Thread signal.
         public static ManualResetEvent allDone = new ManualResetEvent(false);
         public static List<Socket> clients = new List<Socket>();
+
+
         public AsynchronousSocketListener()
         {
         }
