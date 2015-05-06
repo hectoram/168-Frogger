@@ -9,9 +9,27 @@ namespace FroggerServer
     class GameLogic
     {
         //Add some type of datastructure to hold messages of the players. Map maybe?
-        public GameLogic() 
-        { 
-        
+        Player first;
+        Player second;
+        Player third;
+        Player fourth;
+
+        bool fourPlayer;
+
+        public GameLogic(Player one, Player two, Player three, Player four) 
+        {
+            first = one;
+            second = two;
+            third = three;
+            fourth = four;
+            fourPlayer = true;
+        }
+
+        public GameLogic(Player one, Player two)
+        {
+            first = one;
+            second = two;
+            fourPlayer = false;
         }
 
         public void update() 
@@ -19,7 +37,7 @@ namespace FroggerServer
             
         }
 
-        public void addMessage()
+        public void addMessage(string username)
         { 
             
         }

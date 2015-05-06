@@ -15,11 +15,11 @@ namespace FroggerServer
     {
 
         AsynchronousSocketListener listener;
-        //Add some sort of list of messages with a pair type architecutre
-        //So <Username,message, timestamp>
-        //In the update send it off to the game class to process.
-        //After that it's up to the gamelogic to send them or have another queue that can be emptied
-        List<Player> connectedPlayers = new List<Player>();
+
+        //Key is IP address of the player. 
+        public  SortedDictionary<string, Player> connectedPlayers = new SortedDictionary<string, Player>();
+        public SortedDictionary<string, Queue<string>> messagesRecieved = new SortedDictionary<string, Queue<string>>();
+
 
         NetworkHandler()
         {
@@ -38,10 +38,19 @@ namespace FroggerServer
             //Do things here
         }
 
+        public bool sendMessage(string userToSend, string message)
+        {
+            return true;
+        }
+
         public void addNewPlayer(string ID, Socket mySocket) 
         {
-            connectedPlayers.Add(new Player(ID,mySocket));
-            Console.WriteLine("I've added my newly connected player to my list!");
+            if (!connectedPlayers.ContainsKey(ID))
+            {
+                connectedPlayers.Add(ID, new Player(ID, mySocket));
+                messagesRecieved.Add(ID, new Queue<string>());
+                Console.WriteLine("I've added my newly connected player to my list!");
+            }
         }
 
         private void parseMessage(string toParse)
@@ -163,45 +172,53 @@ namespace FroggerServer
                 state.buffer, 0, bytesRead));
                 // Check for end-of-file tag. If it is not there, read
                 // more data.
+                String myIP = String.Empty;
+                string[] messageIP = handler.RemoteEndPoint.ToString().Split(':');
+                myIP = messageIP[0];
+
+                Console.WriteLine("The following IP is sending me a message: " + myIP);
+
                 content = state.sb.ToString();
                 if (content.IndexOf("<EOF>") > -1)
                 {
                     // All the data has been read from the
                     // client. Display it on the console.
+                    
                     char[] delimiterChars = { ' ', ',', '<', '>' };
                     string[] message = content.Split(delimiterChars);
 
 
                     //userLogin, username, password<EOF>
 
-                    if (message[0] == "userLogin") // Handles log ins
+                    if (message[0] == "userLogin")
                     {
                         if (DataBase.Instance.login(message[1], message[2]))
                         {
                             Console.WriteLine("Login was successful");
-                            NetworkHandler.Instance.addNewPlayer(message[1],handler);
+                            NetworkHandler.Instance.addNewPlayer(myIP, handler);
                             Send(handler, "login,true<EOF>");
                         }
                         else
                         {
                             Console.WriteLine("Login was not successful");
-                            Send(handler, "login,false<EOF>");
+                            Console.WriteLine("Attemping to create new user......");
+
+                            if (DataBase.Instance.registerUser(message[1], message[2]))
+                            {
+                                Console.WriteLine("User " + message[1] + " was created!");
+                                Send(handler, "login,new<EOF>");
+                            }
+                            else
+                            {
+                                Console.WriteLine("User " + message[1] + " was not created!");
+                                Send(handler, "login,false<EOF>");
+                            }
                         }
 
-
-                    } else if (message[0] == "userCreate"){ // Handles creating new users
-                        Console.WriteLine("Attemping to create new user......");
-
-                        if (DataBase.Instance.registerUser(message[1], message[2]))
-                        {
-                            Console.WriteLine("User " + message[1] + " was created!");
-                            Send(handler, "login,new<EOF>");
-                        }
-                        else
-                        {
-                            Console.WriteLine("User " + message[1] + " was not created!");
-                            Send(handler, "login,false<EOF>");
-                        }
+                    }
+                    else 
+                    {
+                        NetworkHandler.Instance.messagesRecieved[myIP].Enqueue(content.ToString());
                     }
 
                     // Echo the data back to the client.
