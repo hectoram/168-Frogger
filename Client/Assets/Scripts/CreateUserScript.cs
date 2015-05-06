@@ -7,55 +7,55 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Text;
 
-public class LoginScript : MonoBehaviour {
+public class CreateUserScript : MonoBehaviour {
 	
 	public Canvas loginMenu;
 	public Canvas loginFailedMenu;
 	public Canvas loginSuccessMenu;
 	public Canvas loginNewUserMenu;
 	public Canvas loginNewUserFailedMenu; // Ceci
-
+	
 	public InputField username;
 	public InputField password;
-
+	
 	public string port = "11000";
 	public string ipAddress = "127.0.0.1";
-
+	
 	ClientScript clientManager;
-    GameObject networking;
-
+	GameObject networking;
+	
 	// Use this for initialization
 	public void Start ()
-    {
+	{
 		loginMenu = loginMenu.GetComponent<Canvas> ();
 		loginFailedMenu = loginFailedMenu.GetComponent<Canvas> ();
 		loginSuccessMenu = loginSuccessMenu.GetComponent<Canvas> ();
 		loginNewUserMenu = loginNewUserMenu.GetComponent<Canvas> ();
 		loginNewUserFailedMenu = loginNewUserFailedMenu.GetComponent<Canvas> (); //Ceci
-
+		
 		username = username.GetComponent<InputField> ();
 		password = password.GetComponent<InputField> ();
-
-        networking = GameObject.FindGameObjectWithTag("Networking");
-        clientManager = networking.GetComponent<ClientScript>();
-
+		
+		networking = GameObject.FindGameObjectWithTag("Networking");
+		clientManager = networking.GetComponent<ClientScript>();
+		
 		loginMenu.enabled = true;
 		loginFailedMenu.enabled = false;
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
 		loginNewUserFailedMenu.enabled = false;
 	}
-
+	
 	public void LogIn()
 	{
 		//clientManager.Send("userLogin," + username.text + "," + password.text + "<EOF>");
-
-        clientManager.StartClient("userLogin", username.text, password.text);
-
+		
+		clientManager.StartClient("userCreate", username.text, password.text);
+		
 		// Testing ability to connect to the server
 		//Network.Connect (ipAddress, port);
 	}
-
+	
 	public void DisplayLoginMenu()
 	{
 		loginMenu.enabled = true;
@@ -63,7 +63,7 @@ public class LoginScript : MonoBehaviour {
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
 		loginNewUserFailedMenu.enabled = false;
-        Debug.Log("Displaying Login Menu...");
+		Debug.Log("Displaying Login Menu...");
 		clientManager.resetData();
 	}
 	
@@ -96,7 +96,7 @@ public class LoginScript : MonoBehaviour {
 		loginNewUserFailedMenu.enabled = false;
 		clientManager.resetData();
 	}
-
+	
 	public void DisplayLoginNewUserFailedMenu()
 	{
 		loginMenu.enabled = false;
@@ -106,8 +106,8 @@ public class LoginScript : MonoBehaviour {
 		loginNewUserFailedMenu.enabled = true;
 		clientManager.resetData();
 	}
-
-
+	
+	
 	public void DisplayMainMenu()
 	{
 		loginMenu.enabled = false;
@@ -115,7 +115,7 @@ public class LoginScript : MonoBehaviour {
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
 		loginNewUserFailedMenu.enabled = false;
-        Debug.Log("Displaying Main Menu...");
+		Debug.Log("Displaying Main Menu...");
 		clientManager.resetData();
 	}
 }

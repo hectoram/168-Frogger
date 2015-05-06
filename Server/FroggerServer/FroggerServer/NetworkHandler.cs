@@ -174,7 +174,7 @@ namespace FroggerServer
 
                     //userLogin, username, password<EOF>
 
-                    if (message[0] == "userLogin")
+                    if (message[0] == "userLogin") // Handles log ins
                     {
                         if (DataBase.Instance.login(message[1], message[2]))
                         {
@@ -185,21 +185,23 @@ namespace FroggerServer
                         else
                         {
                             Console.WriteLine("Login was not successful");
-                            Console.WriteLine("Attemping to create new user......");
-
-                            if (DataBase.Instance.registerUser(message[1], message[2]))
-                            {
-                                Console.WriteLine("User " + message[1] + " was created!");
-                                Send(handler, "login,new<EOF>");
-                            }
-                            else
-                            {
-                                Console.WriteLine("User " + message[1] + " was not created!");
-                                Send(handler, "login,false<EOF>");
-                            }
+                            Send(handler, "login,false<EOF>");
                         }
 
 
+                    } else if (message[0] == "userCreate"){ // Handles creating new users
+                        Console.WriteLine("Attemping to create new user......");
+
+                        if (DataBase.Instance.registerUser(message[1], message[2]))
+                        {
+                            Console.WriteLine("User " + message[1] + " was created!");
+                            Send(handler, "login,new<EOF>");
+                        }
+                        else
+                        {
+                            Console.WriteLine("User " + message[1] + " was not created!");
+                            Send(handler, "login,false<EOF>");
+                        }
                     }
 
                     // Echo the data back to the client.

@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Border.cs" />
      <Compile Include="Assets\Scripts\ClientScript.cs" />
+     <Compile Include="Assets\Scripts\CreateUserScript.cs" />
      <Compile Include="Assets\Scripts\FinishLineScript.cs" />
      <Compile Include="Assets\Scripts\Frog.cs" />
      <Compile Include="Assets\Scripts\GameOverScript.cs" />

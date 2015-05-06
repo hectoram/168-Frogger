@@ -84,7 +84,7 @@ public class ClientScript : MonoBehaviour
     }
 
 	//public void StartClient (string username, string password)
-    public void StartClient(string username, string password)
+	public void StartClient(string message, string username, string password) //Ceci: added the first param
     {
         Debug.Log("Starting client...");
         // Connect to a remote device.
@@ -100,7 +100,7 @@ public class ClientScript : MonoBehaviour
             Debug.Log("Sending test data...");
             // Send test data to the remote device.
             //Send("This is a test message.<EOF>");
-            Send("userLogin," + username + "," + password + "<EOF>");
+            Send(message + "," + username + "," + password + "<EOF>");
 
             send_so.sendDone.WaitOne(5000);
 
