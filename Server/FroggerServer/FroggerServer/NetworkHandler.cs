@@ -190,7 +190,7 @@ namespace FroggerServer
 
                     //userLogin, username, password<EOF>
 
-                    if (message[0] == "userLogin")
+                    if (message[0] == "userLogin") // handle Login
                     {
                         if (DataBase.Instance.login(message[1], message[2]))
                         {
@@ -201,22 +201,25 @@ namespace FroggerServer
                         else
                         {
                             Console.WriteLine("Login was not successful");
-                            Console.WriteLine("Attemping to create new user......");
-
-                            if (DataBase.Instance.registerUser(message[1], message[2]))
-                            {
-                                Console.WriteLine("User " + message[1] + " was created!");
-                                Send(handler, "login,new<EOF>");
-                            }
-                            else
-                            {
-                                Console.WriteLine("User " + message[1] + " was not created!");
-                                Send(handler, "login,false<EOF>");
-                            }
+                            Send(handler, "login,false<EOF>");
                         }
-
                     }
-                    else 
+                    else if (message[0] == "userCreate")
+                    { // Handles creating new users
+                        Console.WriteLine("Attempting to create new user......");
+
+                        if (DataBase.Instance.registerUser(message[1], message[2]))
+                        {
+                            Console.WriteLine("User " + message[1] + " was created!");
+                            Send(handler, "login,new<EOF>");
+                        }
+                        else
+                        {
+                            Console.WriteLine("User " + message[1] + " was not created!");
+                            Send(handler, "login,newfailed<EOF>");
+                        }
+                    }
+                    else
                     {
                         NetworkHandler.Instance.messagesRecieved[myIP].Enqueue(content.ToString());
                     }

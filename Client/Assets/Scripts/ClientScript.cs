@@ -81,6 +81,10 @@ public class ClientScript : MonoBehaviour
         {
             loginInfo.DisplayLoginNewUserMenu();
         }
+		else if (data == "newfailed")
+		{
+			loginInfo.DisplayLoginNewUserFailedMenu();
+		}
     }
 
 	//public void StartClient (string username, string password)
@@ -205,6 +209,12 @@ public class ClientScript : MonoBehaviour
                         Debug.Log("A new user has been created!");
                         setData(messageToCheck[1]);
                     }
+					else if (messageToCheck[1] == "newfailed")
+					{
+						//loginInfo.DisplayLoginNewUserMenu();
+						Debug.Log("Failed to create new uer!");
+						setData(messageToCheck[1]);
+					}
                 }
 
                 if (messageToCheck.Length == 2)
