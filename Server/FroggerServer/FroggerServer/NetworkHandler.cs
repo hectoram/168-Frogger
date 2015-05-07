@@ -43,12 +43,12 @@ namespace FroggerServer
             return true;
         }
 
-        public void addNewPlayer(string ID, Socket mySocket) 
+        public void addNewPlayer(string username, string IP, Socket mySocket) 
         {
-            if (!connectedPlayers.ContainsKey(ID))
+            if (!connectedPlayers.ContainsKey(IP))
             {
-                connectedPlayers.Add(ID, new Player(ID, mySocket));
-                messagesRecieved.Add(ID, new Queue<string>());
+                connectedPlayers.Add(IP, new Player(username, mySocket, IP));
+                messagesRecieved.Add(IP, new Queue<string>());
                 Console.WriteLine("I've added my newly connected player to my list!");
             }
         }
@@ -152,6 +152,13 @@ namespace FroggerServer
             // Games have bidirectional communication (as opposed to request/response)
             // So I need to store all clients sockets so I can send them messages later
             // TODO: store in meaningful way,such as Dictionary<string,Socket>
+            String myIP = String.Empty;
+            string[] messageIP = handler.RemoteEndPoint.ToString().Split(':');
+            myIP = messageIP[0];
+
+            //Fix this by adding new method!
+            //NetworkHandler.Instance.addNewPlayer(myIP, handler);
+
             clients.Add(handler);
             handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
             new AsyncCallback(ReadCallback), state);
@@ -195,7 +202,6 @@ namespace FroggerServer
                         if (DataBase.Instance.login(message[1], message[2]))
                         {
                             Console.WriteLine("Login was successful");
-                            NetworkHandler.Instance.addNewPlayer(myIP, handler);
                             Send(handler, "login,true<EOF>");
                         }
                         else
