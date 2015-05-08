@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.IO;
 
+// Ceci
+using System.Security.Cryptography;
+using System.Globalization;
+
 
 namespace FroggerServer
 {
@@ -52,7 +56,13 @@ namespace FroggerServer
             return false;
         }
 
-        string sql = "SELECT COUNT(*) from Login where username like '" + username + "' AND " + "password like '" + password + "'";
+        string sqlSalt = "SELECT salt from Login where username like '" + username + "'";
+        SQLiteCommand retrieveSalt = new SQLiteCommand(sqlSalt, m_dbConnection);
+        var salt = retrieveSalt.ExecuteScalar();
+        string passSalt = salt.ToString();
+
+
+        string sql = "SELECT COUNT(*) from Login where username like '" + username + "' AND " + "password like '" + HashPassword(password, passSalt) + "'";
         SQLiteCommand checkForUser = new SQLiteCommand(sql, m_dbConnection);
 
         var userCount = checkForUser.ExecuteScalar();
@@ -77,8 +87,10 @@ namespace FroggerServer
     {
         if (open() && !userExists(username, password))
         {
-            string sql = "insert into Login (username, password) values ";
-            string temp = "('" + username + "', " + "'" + password + "')";
+            string salt = GenerateSaltValue();
+
+            string sql = "insert into Login (username, password, salt) values ";
+            string temp = "('" + username + "', " + "'" + HashPassword(password, salt) + "', " + "'" + salt + "')";
             sql += temp;
             SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
@@ -88,6 +100,74 @@ namespace FroggerServer
         return false;
     }
     
+
+        //Ceci's
+    private static string GenerateSaltValue()
+    {
+        UnicodeEncoding utf16 = new UnicodeEncoding();
+
+        if (utf16 != null)
+        {
+            // Create a random number object seeded from the value
+            // of the last random seed value. This is done
+            // interlocked because it is a static value and we want
+            // it to roll forward safely.
+
+            Random random = new Random(unchecked((int)DateTime.Now.Ticks));
+
+            if (random != null)
+            {
+                // Create an array of random values.
+
+                byte[] saltValue = new byte[20];
+
+                random.NextBytes(saltValue);
+
+                // Convert the salt value to a string. Note that the resulting string
+                // will still be an array of binary values and not a printable string. 
+                // Also it does not convert each byte to a double byte.
+
+                string saltValueString = utf16.GetString(saltValue);
+
+                // Return the salt value as a string.
+
+                return saltValueString;
+            }
+        }
+
+        return null;
+    }
+
+
+    // For hashing passwords
+    private static string HashPassword(string clearData, string saltValue)
+    {
+        // Convert clearData and salt value into a byte array
+        byte[] clearDataBytes = Encoding.UTF8.GetBytes(clearData);
+        byte[] saltValueBytes = Encoding.UTF8.GetBytes(saltValue);
+
+        // Allocate new array which will hold both
+        byte[] clearDataSaltBytes = new byte[clearDataBytes.Length + saltValueBytes.Length];
+        for (int i = 0; i < clearDataBytes.Length; i++)
+        {
+            clearDataSaltBytes[i] = clearDataSaltBytes[i];
+        }
+        for (int i = 0; i < saltValueBytes.Length; i++)
+        {
+            clearDataSaltBytes[clearDataBytes.Length + i] = clearDataSaltBytes[i];
+        }
+
+        // Define hash algorithm
+        HashAlgorithm hash = new SHA1Managed();
+
+        // Compute hash value
+        byte[] hashBytes = hash.ComputeHash(clearDataSaltBytes);
+
+        // Convert result into a base64-encoded string    
+        string hashedPassword = Convert.ToBase64String(hashBytes);
+        return hashedPassword;
+    }
+
     private bool open()
     {
         if (!File.Exists(dbname))
