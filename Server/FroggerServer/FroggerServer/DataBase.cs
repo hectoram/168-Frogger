@@ -32,9 +32,7 @@ namespace FroggerServer
     private bool userExists(string username, string password) 
     {
         if (!open())
-        {
             return false;
-        }
 
         string sql = "SELECT COUNT(*) from Login where username like '" + username + "'";
         SQLiteCommand checkForUser = new SQLiteCommand(sql,m_dbConnection);
@@ -52,15 +50,17 @@ namespace FroggerServer
     private bool checkCredentials(string username, string password)
     {
         if (!open())
-        {
             return false;
-        }
 
         string sqlSalt = "SELECT salt from Login where username like '" + username + "'";
         SQLiteCommand retrieveSalt = new SQLiteCommand(sqlSalt, m_dbConnection);
         var salt = retrieveSalt.ExecuteScalar();
-        string passSalt = salt.ToString();
+        string passSalt = "";
 
+        if (salt != null)
+            passSalt = salt.ToString();
+        else
+            return false;
 
         string sql = "SELECT COUNT(*) from Login where username like '" + username + "' AND " + "password like '" + HashPassword(password, passSalt) + "'";
         SQLiteCommand checkForUser = new SQLiteCommand(sql, m_dbConnection);
