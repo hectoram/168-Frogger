@@ -290,14 +290,14 @@ public class ClientScript : MonoBehaviour
         // Received data string.
         public StringBuilder sb = new StringBuilder();
         // ManualResetEvent instances signal completion.
-        public ManualResetEvent connectDone =
-            new ManualResetEvent(false);
-
-        public ManualResetEvent receiveDone =
-            new ManualResetEvent(false);
-
-        public ManualResetEvent sendDone =
-            new ManualResetEvent(false);
+		public AutoResetEvent connectDone =
+			new AutoResetEvent(false);
+		
+		public AutoResetEvent receiveDone =
+			new AutoResetEvent(false);
+		
+		public AutoResetEvent sendDone =
+			new AutoResetEvent(false);
 
         // The response from the remote device.
         public String response = String.Empty;

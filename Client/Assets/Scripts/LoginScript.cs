@@ -21,6 +21,7 @@ public class LoginScript : MonoBehaviour {
 	public string port = "11000";
 	public string ipAddress = "127.0.0.1";
 
+	public bool connectionStarted;
 	ClientScript clientManager;
     GameObject networking;
 
@@ -38,6 +39,7 @@ public class LoginScript : MonoBehaviour {
 
         networking = GameObject.FindGameObjectWithTag("Networking");
         clientManager = networking.GetComponent<ClientScript>();
+		connectionStarted = false;
 
 		loginMenu.enabled = true;
 		loginFailedMenu.enabled = false;
@@ -49,9 +51,14 @@ public class LoginScript : MonoBehaviour {
 	public void LogIn()
 	{
 		//clientManager.Send("userLogin," + username.text + "," + password.text + "<EOF>");
-
-        clientManager.StartClient("userLogin", username.text, password.text);
-
+		if (!connectionStarted)
+		{
+			clientManager.StartClient ("userLogin", username.text, password.text);
+			connectionStarted = !connectionStarted;
+		}
+			
+		else
+			clientManager.Send("userLogin," + username.text + "," + password.text + "<EOF>");
 		// Testing ability to connect to the server
 		//Network.Connect (ipAddress, port);
 	}

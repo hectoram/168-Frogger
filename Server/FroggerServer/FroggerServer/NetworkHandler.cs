@@ -93,7 +93,7 @@ namespace FroggerServer
     public class AsynchronousSocketListener
     {
         // Thread signal.
-        public static ManualResetEvent allDone = new ManualResetEvent(false);
+        public static AutoResetEvent allDone = new AutoResetEvent(false);
         public static List<Socket> clients = new List<Socket>();
 
 
