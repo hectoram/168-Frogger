@@ -59,8 +59,6 @@ namespace FroggerServer
 
         if (salt != null)
             passSalt = salt.ToString();
-        else
-            return false;
 
         string sql = "SELECT COUNT(*) from Login where username like '" + username + "' AND " + "password like '" + HashPassword(password, passSalt) + "'";
         SQLiteCommand checkForUser = new SQLiteCommand(sql, m_dbConnection);
