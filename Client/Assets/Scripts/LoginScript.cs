@@ -51,14 +51,15 @@ public class LoginScript : MonoBehaviour {
 	public void LogIn()
 	{
 		//clientManager.Send("userLogin," + username.text + "," + password.text + "<EOF>");
-		if (!connectionStarted)
-		{
+		if (!connectionStarted) {
 			clientManager.StartClient ("userLogin", username.text, password.text);
 			connectionStarted = !connectionStarted;
+		} else
+		{
+			clientManager.resetData();
+			clientManager.Send("userLogin," + username.text + "," + password.text + "<EOF>");
 		}
 			
-		else
-			clientManager.Send("userLogin," + username.text + "," + password.text + "<EOF>");
 		// Testing ability to connect to the server
 		//Network.Connect (ipAddress, port);
 	}

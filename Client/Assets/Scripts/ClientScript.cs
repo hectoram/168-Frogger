@@ -1,4 +1,4 @@
-﻿using System;
+﻿  using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -170,7 +170,7 @@ public class ClientScript : MonoBehaviour
         {
             // Retrieve the state object and the client socket 
             // from the asynchronous state object.
-            StateObject state = (StateObject)ar.AsyncState;
+            StateObject state =  (StateObject)ar.AsyncState;
             Socket client = state.workSocket;
 
             // Read data from the remote device.
@@ -187,7 +187,7 @@ public class ClientScript : MonoBehaviour
 				string[] messageToCheck = content.Split(delimiterChars);
 
                 //Debug.Log("I sent you this back: " + messageToCheck[0] + " " + messageToCheck[1]);
-				Console.WriteLine("I sent you this back~ : {0}", messageToCheck);
+				Debug.Log("I recived this : {0}" + messageToCheck[1]);
 
                 if (messageToCheck[0] == "login")
                 {
@@ -228,9 +228,11 @@ public class ClientScript : MonoBehaviour
                 }
                 else
                 {
+					StateObject newstate = new StateObject();
+					newstate.workSocket = client;
                     // Get the rest of the data.
-                    client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-                        new AsyncCallback(ReceiveCallback), state);
+                    client.BeginReceive(newstate.buffer, 0, StateObject.BufferSize, 0,
+                        new AsyncCallback(ReceiveCallback), newstate);
                 }
             }
             else
