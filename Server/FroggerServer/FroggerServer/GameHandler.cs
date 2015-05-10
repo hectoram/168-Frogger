@@ -21,7 +21,7 @@ namespace FroggerServer
 
         public void checkForMatches()
         { 
-            if (NetworkHandler.Instance.connectedPlayers.Count() >= 2)
+            if (waitingPlayers.Count >= 2)
             {
                 
             }

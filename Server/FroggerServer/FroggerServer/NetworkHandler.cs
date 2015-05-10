@@ -14,7 +14,7 @@ namespace FroggerServer
     class NetworkHandler
     {
 
-        AsynchronousSocketListener listener;
+        AsynchronousSocketListener connectionLinker;
 
         //Key is IP address of the player. 
         public  SortedDictionary<string, Player> connectedPlayers = new SortedDictionary<string, Player>();
@@ -23,12 +23,12 @@ namespace FroggerServer
 
         NetworkHandler()
         {
-            listener = new AsynchronousSocketListener();
+            connectionLinker = new AsynchronousSocketListener();
         }
 
         public bool init()
         {
-            listener.StartListening();
+            connectionLinker.StartListening();
             return true;
         }
 
@@ -38,24 +38,63 @@ namespace FroggerServer
             //Do things here
         }
 
-        public bool sendMessage(string userToSend, string message)
+        public bool sendMessage(string sendToIP, string message)
         {
-            return true;
+            try
+            {
+                connectionLinker.Send(connectedPlayers[sendToIP].connection, message);
+                return true;
+            }
+            catch (Exception e) 
+            {
+                Console.WriteLine(e.ToString());
+                return false;
+            }         
         }
 
-        public void addNewPlayer(string username, string IP, Socket mySocket) 
+        public void addNewPlayer( string IP, Socket mySocket) 
         {
             if (!connectedPlayers.ContainsKey(IP))
             {
-                connectedPlayers.Add(IP, new Player(username, mySocket, IP));
+                connectedPlayers.Add(IP, new Player(mySocket, IP));
                 messagesRecieved.Add(IP, new Queue<string>());
                 Console.WriteLine("I've added my newly connected player to my list!");
             }
         }
 
-        private void parseMessage(string toParse)
+        public void parseMessage(string senderIP, string toParse)
         {
+            char[] delimiterChars = { ' ', ',', '<', '>' };
+            string[] message = toParse.Split(delimiterChars);
 
+            // handle Login
+            if (message[0] == "userLogin") 
+            {
+                if (DataBase.Instance.login(message[1], message[2]))
+                {
+                    Console.WriteLine("Login was successful");
+                    connectionLinker.Send(connectedPlayers[senderIP].connection, "login,true<EOF>");
+                    connectedPlayers[senderIP].setPlayerName(message[1]);
+                }
+                else
+                {
+                    Console.WriteLine("Login was not successful");
+                    connectionLinker.Send(connectedPlayers[senderIP].connection, "login,false<EOF>");
+                }
+            }
+            else if (message[0] == "userCreate")
+            { 
+                // Handles creating new users
+                if (DataBase.Instance.registerUser(message[1], message[2]))
+                    connectionLinker.Send(connectedPlayers[senderIP].connection, "login,new<EOF>");
+                else
+                {
+                    Console.WriteLine("User " + message[1] + " was not created!");
+                    connectionLinker.Send(connectedPlayers[senderIP].connection, "login,newfailed<EOF>");
+                }
+            }
+            else
+                NetworkHandler.Instance.messagesRecieved[senderIP].Enqueue(toParse);
         }
 
         //Handle being a singleton
@@ -90,6 +129,7 @@ namespace FroggerServer
         // Received data string.
         public StringBuilder sb = new StringBuilder();
     }
+
     public class AsynchronousSocketListener
     {
         // Thread signal.
@@ -146,18 +186,16 @@ namespace FroggerServer
             // Get the socket that handles the client request.
             Socket listener = (Socket)ar.AsyncState;
             Socket handler = listener.EndAccept(ar);
+
             // Create the state object.
             StateObject state = new StateObject();
             state.workSocket = handler;
-            // Games have bidirectional communication (as opposed to request/response)
-            // So I need to store all clients sockets so I can send them messages later
-            // TODO: store in meaningful way,such as Dictionary<string,Socket>
+
             String myIP = String.Empty;
             string[] messageIP = handler.RemoteEndPoint.ToString().Split(':');
             myIP = messageIP[0];
 
-            //Fix this by adding new method!
-            //NetworkHandler.Instance.addNewPlayer(myIP, handler);
+            NetworkHandler.Instance.addNewPlayer(myIP, handler);
 
             clients.Add(handler);
             handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
@@ -188,51 +226,10 @@ namespace FroggerServer
                 content = state.sb.ToString();
                 if (content.IndexOf("<EOF>") > -1)
                 {
-                    // All the data has been read from the
-                    // client. Display it on the console.
+                    //Handle the message. 
+                    NetworkHandler.Instance.parseMessage(myIP, content.ToString());
                     
-                    char[] delimiterChars = { ' ', ',', '<', '>' };
-                    string[] message = content.Split(delimiterChars);
-
-
-                    //userLogin, username, password<EOF>
-
-                    if (message[0] == "userLogin") // handle Login
-                    {
-                        if (DataBase.Instance.login(message[1], message[2]))
-                        {
-                            Console.WriteLine("Login was successful");
-                            Send(handler, "login,true<EOF>");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Login was not successful");
-                            Send(handler, "login,false<EOF>");
-                        }
-                    }
-                    else if (message[0] == "userCreate")
-                    { // Handles creating new users
-                        Console.WriteLine("Attempting to create new user......");
-
-                        if (DataBase.Instance.registerUser(message[1], message[2]))
-                        {
-                            Console.WriteLine("User " + message[1] + " was created!");
-                            Send(handler, "login,new<EOF>");
-                        }
-                        else
-                        {
-                            Console.WriteLine("User " + message[1] + " was not created!");
-                            Send(handler, "login,newfailed<EOF>");
-                        }
-                    }
-                    else
-                    {
-                        NetworkHandler.Instance.messagesRecieved[myIP].Enqueue(content.ToString());
-                    }
-
-                    // Echo the data back to the client.
-                    //Send(handler, content);
-                    // Setup a new state object
+                    //Make a new object so you don't append forever. 
                     StateObject newstate = new StateObject();
                     newstate.workSocket = handler;
                     // Call BeginReceive with a new state object
@@ -247,7 +244,7 @@ namespace FroggerServer
                 }
             }
         }
-        private static void Send(Socket handler, String data)
+        public void Send(Socket handler, String data)
         {
             // Convert the string data to byte data using ASCII encoding.
             Console.WriteLine("I'm sending this: " + data);

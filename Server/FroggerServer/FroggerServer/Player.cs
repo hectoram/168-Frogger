@@ -15,7 +15,7 @@ namespace FroggerServer
     {
         private string username;
         private string IP;
-        private Socket connection;
+        public Socket connection;
 
         public Player(string name,Socket myConnection, string myIp) 
         {
@@ -24,9 +24,16 @@ namespace FroggerServer
             IP = myIp;
         }
 
-        public bool send(string toSend)
+        public Player(Socket myConnection, string myIp)
         {
-            return true;
+            username = "";
+            connection = myConnection;
+            IP = myIp;
+        }
+
+        public void setPlayerName(string pName)
+        {
+            username = pName;
         }
 
     }
