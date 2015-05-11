@@ -14,6 +14,9 @@ public class LoginScript : MonoBehaviour {
 	public Canvas loginSuccessMenu;
 	public Canvas loginNewUserMenu;
 	public Canvas loginNewUserFailedMenu; // Ceci
+    public Canvas loggedInMenu;
+    
+    public Text currentUsername;
 
 	public InputField username;
 	public InputField password;
@@ -32,13 +35,17 @@ public class LoginScript : MonoBehaviour {
 		loginFailedMenu = loginFailedMenu.GetComponent<Canvas> ();
 		loginSuccessMenu = loginSuccessMenu.GetComponent<Canvas> ();
 		loginNewUserMenu = loginNewUserMenu.GetComponent<Canvas> ();
-		loginNewUserFailedMenu = loginNewUserFailedMenu.GetComponent<Canvas> (); //Ceci
+        loginNewUserFailedMenu = loginNewUserFailedMenu.GetComponent<Canvas>(); //Ceci
+        loggedInMenu = loggedInMenu.GetComponent<Canvas>();
+
+        currentUsername = currentUsername.GetComponent<Text> ();
+        currentUsername.text = "";
 
 		username = username.GetComponent<InputField> ();
 		password = password.GetComponent<InputField> ();
 
         networking = GameObject.FindGameObjectWithTag("Networking");
-        clientManager = networking.GetComponent<ClientScript>();
+        clientManager = networking.GetComponent<ClientScript> ();
 		connectionStarted = false;
 
 		loginMenu.enabled = true;
@@ -46,13 +53,14 @@ public class LoginScript : MonoBehaviour {
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
 		loginNewUserFailedMenu.enabled = false;
+        loggedInMenu.enabled = false;
 	}
 
 	public void LogIn()
 	{
 		//clientManager.Send("userLogin," + username.text + "," + password.text + "<EOF>");
 		if (!connectionStarted) {
-			clientManager.StartClient ("userLogin", username.text, password.text);
+            clientManager.StartClient("userLogin", username.text, password.text);
 			connectionStarted = !connectionStarted;
 		} else
 		{
@@ -62,6 +70,8 @@ public class LoginScript : MonoBehaviour {
 			
 		// Testing ability to connect to the server
 		//Network.Connect (ipAddress, port);
+
+        //clientManager.StartClient("userLogin", username.text, password.text);
 	}
 
 	public void DisplayLoginMenu()
@@ -71,6 +81,7 @@ public class LoginScript : MonoBehaviour {
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
 		loginNewUserFailedMenu.enabled = false;
+        loggedInMenu.enabled = false;
         Debug.Log("Displaying Login Menu...");
 		clientManager.resetData();
 	}
@@ -82,6 +93,7 @@ public class LoginScript : MonoBehaviour {
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
 		loginNewUserFailedMenu.enabled = false;
+        loggedInMenu.enabled = false;
 		clientManager.resetData();
 	}
 	
@@ -92,6 +104,7 @@ public class LoginScript : MonoBehaviour {
 		loginSuccessMenu.enabled = true;
 		loginNewUserMenu.enabled = false;
 		loginNewUserFailedMenu.enabled = false;
+        loggedInMenu.enabled = false;
 		clientManager.resetData();
 	}
 	
@@ -102,6 +115,7 @@ public class LoginScript : MonoBehaviour {
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = true;
 		loginNewUserFailedMenu.enabled = false;
+        loggedInMenu.enabled = false;
 		clientManager.resetData();
 	}
 
@@ -112,6 +126,7 @@ public class LoginScript : MonoBehaviour {
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
 		loginNewUserFailedMenu.enabled = true;
+        loggedInMenu.enabled = false;
 		clientManager.resetData();
 	}
 
@@ -123,7 +138,15 @@ public class LoginScript : MonoBehaviour {
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
 		loginNewUserFailedMenu.enabled = false;
+        loggedInMenu.enabled = true;
+        currentUsername.text = username.text;
         Debug.Log("Displaying Main Menu...");
 		clientManager.resetData();
 	}
+
+    public void LogoutPressed()
+    {
+        clientManager.Send("userLogout," + currentUsername.text + "<EOF>");
+        DisplayLoginMenu();
+    }
 }
