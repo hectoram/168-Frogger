@@ -7,16 +7,22 @@ using System.Threading.Tasks;
 namespace FroggerServer
 {
     class GameHandler
-    {
+    { 
         List<GameLogic> activeGames = new List<GameLogic>();
         Queue<Player> waitingPlayers = new Queue<Player>();
+
+        public SortedDictionary<string, GameLogic> gameSessions = new SortedDictionary<string, GameLogic>();
+
+        private string genericSession = "default";
 
         private static GameHandler instance = null;
         private static readonly object padlock = new object();
 
+       
+
         GameHandler()
         {
-          
+           
         }
 
         public void checkForMatches()
@@ -37,8 +43,19 @@ namespace FroggerServer
             
         }
 
+        public void creatNewSession(string sessionName)
+        {
+            gameSessions.Add(sessionName, new GameLogic());
+        }
+
+        public void joinSession(string SessionToJoin, Player joiningPlayer)
+        {
+            gameSessions[SessionToJoin].addPlayerToGame(joiningPlayer);
+        }
+
         public void update() 
         {
+            //Change this to cycle the dictionary instead. 
             foreach (var games in activeGames)
             {
                games.update();

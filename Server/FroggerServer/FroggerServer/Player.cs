@@ -14,7 +14,7 @@ namespace FroggerServer
     class Player
     {
         private string username;
-        private string IP;
+        public string IP;
         public Socket connection;
 
         public Player(string name,Socket myConnection, string myIp) 
