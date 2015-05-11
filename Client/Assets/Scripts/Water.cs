@@ -5,11 +5,13 @@ public class Water : MonoBehaviour {
 
 	GameObject menuObject;
 	GameOverScript menu;
+    GameUI gameUI;
 	
 	void Start()
 	{
 		menuObject = GameObject.FindGameObjectWithTag ("Menus");
 		menu = menuObject.GetComponent<GameOverScript> ();
+        gameUI = menuObject.GetComponent<GameUI>();
 	}
 
 	void OnTriggerStay2D(Collider2D coll)
@@ -21,8 +23,11 @@ public class Water : MonoBehaviour {
 				// Check to see if the frog isn't on a platform
 		if (coll.transform.parent == null) {
 			// GAME OVER
-			Destroy (coll.gameObject);
-				menu.ShowLoseMenu();
+			//Destroy (coll.gameObject);
+			//menu.ShowLoseMenu();
+
+            gameUI.addDeathScore();
+            coll.gameObject.transform.position = new Vector3(0, -8, 0);
 		}
 	}
 }
