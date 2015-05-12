@@ -93,6 +93,15 @@ namespace FroggerServer
                     connectionLinker.Send(connectedPlayers[senderIP].connection, "login,newfailed<EOF>");
                 }
             }
+            else if (message[0] == "userLogout")
+            {
+                connectedPlayers.Remove(senderIP);
+                Console.WriteLine("Player: " + message[1] + " has been removed from clients list.");
+            }
+            else if (message[0] == "result")
+            {
+                
+            }
             else
                 NetworkHandler.Instance.messagesRecieved[senderIP].Enqueue(toParse);
         }
