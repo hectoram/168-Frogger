@@ -6,6 +6,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Text;
+using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
 
 public class LoginScript : MonoBehaviour {
 	
