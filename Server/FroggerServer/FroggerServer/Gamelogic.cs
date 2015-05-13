@@ -71,15 +71,21 @@ namespace FroggerServer
 
         public bool playerIsInGame(string IP) 
         {
-            if (first.IP.Equals(IP))
-                return true;
-            else if (second.IP.Equals(IP))
-                return true;
-            else if (third.IP.Equals(IP))
-                return true;
-            else if (fourth.IP.Equals(IP))
-                return true;
-
+            try
+            {
+                if (first.IP.Equals(IP))
+                    return true;
+                else if (second.IP.Equals(IP))
+                    return true;
+                else if (third.IP.Equals(IP))
+                    return true;
+                else if (fourth.IP.Equals(IP))
+                    return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
             return false;
         }
 

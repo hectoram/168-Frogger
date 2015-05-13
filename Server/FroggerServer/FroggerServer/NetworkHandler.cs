@@ -33,7 +33,7 @@ namespace FroggerServer
         }
 
 
-        public void update() 
+        public void update()   
         { 
             //Do things here
             GameHandler.Instance.update();
@@ -98,17 +98,18 @@ namespace FroggerServer
             {
                 if (GameHandler.Instance.gameSessions["default"].getPlayerCount() < 2)
                 {
+                    if(!GameHandler.Instance.gameSessions["default"].playerIsInGame(senderIP))
+                        GameHandler.Instance.joinSession("default", connectedPlayers[senderIP]);
 
-                    GameHandler.Instance.joinSession("default", connectedPlayers[senderIP]);
                     string toSend = "queue,1," + GameHandler.Instance.gameSessions["default"].first.getUserName() + ",2," +
-                    ((GameHandler.Instance.gameSessions["default"].second != null) ? GameHandler.Instance.gameSessions["defualt"].second.getUserName() : "empty") + ",3,null,4,null<EOF>";
+                    ((GameHandler.Instance.gameSessions["default"].second != null) ? GameHandler.Instance.gameSessions["default"].second.getUserName() : "empty") + ",3,null,4,null<EOF>";
 
                     connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
                 }
                 else
                 {
                     string toSend = "queue,1," + GameHandler.Instance.gameSessions["default"].first.getUserName() + ",2," +
-                    ((GameHandler.Instance.gameSessions["default"].second != null) ? GameHandler.Instance.gameSessions["defualt"].second.getUserName() : "empty") + ",3,null,4,null<EOF>";
+                    ((GameHandler.Instance.gameSessions["default"].second != null) ? GameHandler.Instance.gameSessions["default"].second.getUserName() : "empty") + ",3,null,4,null<EOF>";
 
                     connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
                 }
@@ -148,8 +149,8 @@ namespace FroggerServer
 
 
                 string toSend =
-                    "ready,1," + ((GameHandler.Instance.gameSessions["default"].p1Ready) ? GameHandler.Instance.gameSessions["defualt"].second.getUserName() : "empty") +
-                    ",2," + ((GameHandler.Instance.gameSessions["default"].p2Ready) ? GameHandler.Instance.gameSessions["defualt"].second.getUserName() : "empty")
+                    "ready,1," + ((GameHandler.Instance.gameSessions["default"].p1Ready) ? GameHandler.Instance.gameSessions["default"].second.getUserName() : "empty") +
+                    ",2," + ((GameHandler.Instance.gameSessions["default"].p2Ready) ? GameHandler.Instance.gameSessions["default"].second.getUserName() : "empty")
                     +",3,null,4,null<EOF>";
 
                 connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
