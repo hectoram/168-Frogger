@@ -36,6 +36,7 @@ namespace FroggerServer
         public void update() 
         { 
             //Do things here
+            GameHandler.Instance.update();
         }
 
         public bool sendMessage(string sendToIP, string message)
@@ -95,7 +96,15 @@ namespace FroggerServer
             }
             else if (message[0] == "queue")
             {
-                GameHandler.Instance.joinSession("default", connectedPlayers[senderIP]);
+                if(GameHandler.Instance.gameSessions["default"].getPlayerCount() < 2)
+                {
+                    GameHandler.Instance.joinSession("default", connectedPlayers[senderIP]);
+                    string toSend = "queue,1," + GameHandler.Instance.gameSessions["default"].first.getUserName() + ",2," +
+                    ((GameHandler.Instance.gameSessions["default"].second != null) ? GameHandler.Instance.gameSessions["defualt"].second.getUserName() : "empty") + ",3,null,4,null<EOF>";
+
+                    connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
+                };
+                //send back a message of who is in the queue
             }
             else if (message[0] == "gameOver")
             {
@@ -103,35 +112,45 @@ namespace FroggerServer
                 //If I've recieved both players scores
                 if(GameHandler.Instance.gameSessions["default"].bothScoresSet)
                 {
-                    string toSendP1 = "";
-                    string toSendP2 = "";
+                    string toSendP1;
 
                     if (GameHandler.Instance.gameSessions["default"].winner == 1)
                     {
-                        toSendP1 = "gameOver,won," + GameHandler.Instance.gameSessions["default"].playerTwoScore + ",score<EOF>";
-                        toSendP2 = "gameOver,lost," + GameHandler.Instance.gameSessions["default"].playerOneScore + ",score<EOF>";
+                        toSendP1 = "gameOver," + "1," + "won," + GameHandler.Instance.gameSessions["default"].playerOneScore + ",2" + "lost," + GameHandler.Instance.gameSessions["default"].playerTwoScore + "3," + "null,4,null<EOF>";
                     }
                     else if (GameHandler.Instance.gameSessions["default"].winner == 2)
                     {
-                        toSendP1 = "gameOver,lost," + GameHandler.Instance.gameSessions["default"].playerTwoScore + ",score<EOF>";
-                        toSendP2 = "gameOver,won," + GameHandler.Instance.gameSessions["default"].playerOneScore + ",score<EOF>";
+                        toSendP1 = "gameOver," + "1," + "lost," + GameHandler.Instance.gameSessions["default"].playerOneScore + ",2" + "won," + GameHandler.Instance.gameSessions["default"].playerTwoScore + "3," + "null,4,null<EOF>";
                     }
                     else
                     {
-                        toSendP1 = "gameOver,tie," + GameHandler.Instance.gameSessions["default"].playerTwoScore + ",score<EOF>";
-                        toSendP2 = "gameOver,tie," + GameHandler.Instance.gameSessions["default"].playerOneScore + ",score<EOF>";
+                        toSendP1 = "gameOver," + "1," + "tie," + GameHandler.Instance.gameSessions["default"].playerOneScore + ",2" + "tie," + GameHandler.Instance.gameSessions["default"].playerTwoScore + "3," + "null,4,null<EOF>";
                     }
                         
                     connectionLinker.Send(GameHandler.Instance.gameSessions["default"].first.connection, toSendP1);
-                    connectionLinker.Send(GameHandler.Instance.gameSessions["default"].second.connection, toSendP2);
+                    connectionLinker.Send(GameHandler.Instance.gameSessions["default"].second.connection, toSendP1);
 
                 }
             }
             else if (message[0] == "ready")
             {
-                int playerCount = GameHandler.Instance.gameSessions["default"].getPlayerCount() + 1;
-                string toSend = "ready," + playerCount + "<EOF>";
+                //"ready,1,username1,2,username2,3,username3,4,username4<EOF>"
+
+                GameHandler.Instance.setReady("default",senderIP);
+
+
+                string toSend =
+                    "ready,1," + ((GameHandler.Instance.gameSessions["default"].p1Ready) ? GameHandler.Instance.gameSessions["defualt"].second.getUserName() : "empty") +
+                    ",2," + ((GameHandler.Instance.gameSessions["default"].p2Ready) ? GameHandler.Instance.gameSessions["defualt"].second.getUserName() : "empty")
+                    +",3,null,4,null<EOF>";
+
                 connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
+
+            }
+            else if (message[0] == "frogPosition")
+            {
+                GameHandler.Instance.gameSessions["debault"].setPlayerPosition(senderIP, int.Parse(message[1]), int.Parse(message[2]));
+                string toSend;
 
             }
             else

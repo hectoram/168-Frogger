@@ -63,6 +63,11 @@ namespace FroggerServer
             gameSessions[session].setPlayerPosition(IP, x, y);
         }
 
+        public void setReady(string session, string IP)
+        {
+            gameSessions[session].setReady(IP);
+        }
+
         public void setScore(string session, string IP, string score)
         {
             gameSessions[session].setScore(IP, score);

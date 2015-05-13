@@ -17,7 +17,9 @@ namespace FroggerServer
         int[] positions = new int[8];
 
         private bool fourPlayer;
+
         private bool gameHasStarted;
+        private bool gameIsOver;
 
         private int playerCount = 0;
 
@@ -30,11 +32,19 @@ namespace FroggerServer
         bool firstScore = false;
         bool secondScore = false;
         public bool bothScoresSet;
+
+        public bool p1Ready = false;
+        public bool p2Ready = false;
         
 
         public GameLogic() 
         {
             gameHasStarted = false;
+            positions[0] = 4;
+            positions[1] = 13;
+
+            positions[2] = 10;
+            positions[3] = 13;
         }
 
         public GameLogic(Player one, Player two, Player three, Player four) 
@@ -94,6 +104,20 @@ namespace FroggerServer
 
         }
 
+        public string getPlayerPositions(int pos)
+        {
+            if (pos== 1)
+                return positions[0] + "," +positions[1];
+            else if (pos == 2)
+                return positions[2] + "," + positions[3];
+            else if (pos == 3)
+                return positions[4] + "," + positions[5];
+            else if (pos == 4)
+                return positions[6] + "," + positions[7];
+
+            return "";
+        }
+
         public void setScore(string IP, string myScore)
         {
             if (first.IP.Equals(IP))
@@ -110,6 +134,8 @@ namespace FroggerServer
             if (!winnerSet && firstScore && secondScore) 
             {
                 winnerSet = !winnerSet;
+                bothScoresSet = true;
+
                 if (playerOneScore > playerTwoScore)
                     winner = 1;
                 else if (playerTwoScore > playerOneScore)
@@ -121,6 +147,14 @@ namespace FroggerServer
                 
            // else if (fourth.IP.Equals(IP))
                 
+        }
+
+        public void setReady(string IP) 
+        {
+            if (first.IP.Equals(IP))
+                p1Ready = true;
+            else if (second.IP.Equals(IP))
+                p2Ready = true;
         }
 
         public Player getPlayer(int playerNumber)

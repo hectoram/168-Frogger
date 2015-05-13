@@ -31,6 +31,11 @@ namespace FroggerServer
             IP = myIp;
         }
 
+        public string getUserName() 
+        {
+            return username;
+        }
+
         public void setPlayerName(string pName)
         {
             username = pName;
