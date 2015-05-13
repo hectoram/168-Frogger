@@ -97,7 +97,7 @@ namespace FroggerServer
             {
                 GameHandler.Instance.joinSession("default", connectedPlayers[senderIP]);
             }
-            else if (message[0] == "gameOver" )
+            else if (message[0] == "gameOver")
             {
                 
             }

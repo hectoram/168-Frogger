@@ -20,6 +20,8 @@ namespace FroggerServer
 
         public string playerOneScore;
         public string playerTwoScore;
+
+        public bool bothScoresSet;
         
 
         public GameLogic() 
@@ -55,6 +57,19 @@ namespace FroggerServer
                 return true;
 
             return false;
+        }
+
+        public void setScore(string IP, string myScore)
+        {
+            if (first.IP.Equals(IP))
+                playerOneScore = myScore;
+            else if (second.IP.Equals(IP))
+                playerTwoScore = myScore;
+
+            //else if (third.IP.Equals(IP))
+                
+           // else if (fourth.IP.Equals(IP))
+                
         }
 
         public bool addPlayerToGame(Player toAdd) 
