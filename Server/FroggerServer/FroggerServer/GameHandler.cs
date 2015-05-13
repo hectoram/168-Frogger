@@ -53,11 +53,6 @@ namespace FroggerServer
             gameSessions[SessionToJoin].addPlayerToGame(joiningPlayer);
         }
 
-        public Player getPlayer(string session, int number) 
-        {
-            return gameSessions[session].getPlayer(number);
-        }
-
         public void setPlayerPosition(string session, string IP, int x, int y)
         {
             gameSessions[session].setPlayerPosition(IP, x, y);
@@ -73,10 +68,6 @@ namespace FroggerServer
             gameSessions[session].setScore(IP, score);
         }
 
-        public int getPlayerNumber(string session, string IP)
-        {
-            return gameSessions[session].getPlayerNumber(IP);
-        }
 
         public void update() 
         {

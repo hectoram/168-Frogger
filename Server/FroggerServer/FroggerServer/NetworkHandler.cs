@@ -96,14 +96,22 @@ namespace FroggerServer
             }
             else if (message[0] == "queue")
             {
-                if(GameHandler.Instance.gameSessions["default"].getPlayerCount() < 2)
+                if (GameHandler.Instance.gameSessions["default"].getPlayerCount() < 2)
                 {
+
                     GameHandler.Instance.joinSession("default", connectedPlayers[senderIP]);
                     string toSend = "queue,1," + GameHandler.Instance.gameSessions["default"].first.getUserName() + ",2," +
                     ((GameHandler.Instance.gameSessions["default"].second != null) ? GameHandler.Instance.gameSessions["defualt"].second.getUserName() : "empty") + ",3,null,4,null<EOF>";
 
                     connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
-                };
+                }
+                else
+                {
+                    string toSend = "queue,1," + GameHandler.Instance.gameSessions["default"].first.getUserName() + ",2," +
+                    ((GameHandler.Instance.gameSessions["default"].second != null) ? GameHandler.Instance.gameSessions["defualt"].second.getUserName() : "empty") + ",3,null,4,null<EOF>";
+
+                    connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
+                }
                 //send back a message of who is in the queue
             }
             else if (message[0] == "gameOver")

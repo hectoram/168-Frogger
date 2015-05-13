@@ -149,8 +149,7 @@ namespace FroggerServer
                 else
                     winner = 3;
             }
-            //else if (third.IP.Equals(IP))
-                
+            //else if (third.IP.Equals(IP)) 
            // else if (fourth.IP.Equals(IP))
                 
         }
@@ -161,16 +160,6 @@ namespace FroggerServer
                 p1Ready = true;
             else if (second.IP.Equals(IP))
                 p2Ready = true;
-        }
-
-        public Player getPlayer(int playerNumber)
-        {
-            if (playerNumber == 1)
-                return first;
-            else if (playerNumber == 2)
-                return second;
-
-            return null;
         }
 
         public bool addPlayerToGame(Player toAdd) 
@@ -222,11 +211,6 @@ namespace FroggerServer
                 gameHasStarted = true;
                 Console.WriteLine("We have two players and the game has started.");
             }
-        }
-
-        public void addMessage(string username)
-        { 
-            
         }
     }
 }
