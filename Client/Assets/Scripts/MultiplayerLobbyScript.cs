@@ -35,6 +35,11 @@ public class MultiplayerLobbyScript : MonoBehaviour {
 
     float updateTime = 10;
 
+    public int getPlayerNumber()
+    {
+        return playerNumber;
+    }
+
 	// Use this for initialization
 	void Start () {
 
@@ -131,6 +136,7 @@ public class MultiplayerLobbyScript : MonoBehaviour {
 
         if (isReady)
         {
+            clientManager.setPlayerNumber(playerNumber);
             Debug.Log("Sending request to update ready check...");
             clientManager.SendMSG("ready<EOF>", 3000);
             clientManager.ReceiveMSG(3000);
