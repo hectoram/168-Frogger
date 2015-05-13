@@ -45,6 +45,12 @@ namespace FroggerServer
 
             positions[2] = 10;
             positions[3] = 13;
+
+            positions[4] = 0;
+            positions[5] = 0;
+
+            positions[6] = 0;
+            positions[7] = 0;
         }
 
         public GameLogic(Player one, Player two, Player three, Player four) 

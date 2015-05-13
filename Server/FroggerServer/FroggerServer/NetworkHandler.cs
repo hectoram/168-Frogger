@@ -150,8 +150,9 @@ namespace FroggerServer
             else if (message[0] == "frogPosition")
             {
                 GameHandler.Instance.gameSessions["debault"].setPlayerPosition(senderIP, int.Parse(message[1]), int.Parse(message[2]));
-                string toSend;
+                string toSend = "frogPosition," + GameHandler.Instance.gameSessions["default"].getPlayerPositions(1) + ",2," + GameHandler.Instance.gameSessions["default"].getPlayerPositions(2) + ",3,null,null,4,null,null<EOF>";
 
+                connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
             }
             else
                 NetworkHandler.Instance.messagesRecieved[senderIP].Enqueue(toParse);
