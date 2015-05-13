@@ -1,4 +1,4 @@
-﻿  using System;
+﻿using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -26,7 +26,12 @@ public class ClientScript : MonoBehaviour
     StateObject recv_so;
 
     LoginScript loginInfo;
+    MultiplayerLobbyScript lobbyInfo;
+
     GameObject loginMenu;
+    GameObject gameMenu;
+
+    bool isGameInProgress;
 
     static string data = "";
 
@@ -41,6 +46,10 @@ public class ClientScript : MonoBehaviour
 
     public void Start()
     {
+        DontDestroyOnLoad(this);
+
+        isGameInProgress = false;
+
         Debug.Log("In Start()");
 
         // Establish the remote endpoint for the socket.
@@ -64,11 +73,19 @@ public class ClientScript : MonoBehaviour
         loginMenu = GameObject.FindGameObjectWithTag("Login Menu");
         loginInfo = loginMenu.GetComponent<LoginScript>();
 
+        gameMenu = GameObject.FindGameObjectWithTag("Menus");
+        lobbyInfo = loginMenu.GetComponent<MultiplayerLobbyScript>();
+
         //StartClient();
     }
 
     public void Update()
     {
+        if (isGameInProgress)
+        {
+            //Send("position," + )
+        }
+
         if (data == "true")
         {
             loginInfo.DisplayLoginSuccessMenu();
@@ -85,6 +102,23 @@ public class ClientScript : MonoBehaviour
 		{
 			loginInfo.DisplayLoginNewUserFailedMenu();
 		}
+    }
+
+    public void SendMSG(string data, int time)
+    {
+        Debug.Log("Sending message...");
+        // Send test data to the remote device.
+        //Send("This is a test message.<EOF>");
+        Send(data);
+        send_so.sendDone.WaitOne(time);
+    }
+
+    public void ReceiveMSG(int time)
+    {
+        Debug.Log("Waiting for response...");
+        // Receive the response from the remote device.
+        Receive(recv_so);
+        recv_so.receiveDone.WaitOne(time);
     }
 
 	//public void StartClient (string username, string password)
@@ -212,9 +246,13 @@ public class ClientScript : MonoBehaviour
 					else if (messageToCheck[1] == "newfailed")
 					{
 						//loginInfo.DisplayLoginNewUserMenu();
-						Debug.Log("Failed to create new uer!");
+						Debug.Log("Failed to create new user!");
 						setData(messageToCheck[1]);
 					}
+                }
+                else if (messageToCheck[0] == "queue")
+                {
+
                 }
 
                 if (messageToCheck.Length == 2)
