@@ -119,7 +119,7 @@ namespace FroggerServer
         public string getPlayerPositions(int pos)
         {
             if (pos== 1)
-                return positions[0] + "," +positions[1];
+                return positions[0] + "," + positions[1];
             else if (pos == 2)
                 return positions[2] + "," + positions[3];
             else if (pos == 3)
@@ -162,10 +162,17 @@ namespace FroggerServer
 
         public void setReady(string IP) 
         {
-            if (first.IP.Equals(IP))
-                p1Ready = true;
-            else if (second.IP.Equals(IP))
-                p2Ready = true;
+            try
+            {
+                if (first.IP.Equals(IP))
+                    p1Ready = true;
+                else if (second.IP.Equals(IP))
+                    p2Ready = true;
+            }
+            catch (Exception e)
+            { 
+                //Do nothing. Second player probably isn't connected. 
+            }
         }
 
         public bool addPlayerToGame(Player toAdd) 

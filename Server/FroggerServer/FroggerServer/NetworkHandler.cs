@@ -162,8 +162,13 @@ namespace FroggerServer
                         ",2," +  "empty"
                         + ",3,null,4,null<EOF>";
                 }
-                
 
+                if (GameHandler.Instance.gameSessions["default"].p1Ready && GameHandler.Instance.gameSessions["default"].p2Ready)
+                {
+                    string startGame = "start-game,<EOF>";
+                    connectionLinker.Send(connectedPlayers[senderIP].connection, startGame);
+                }
+                else 
                 connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
 
             }
