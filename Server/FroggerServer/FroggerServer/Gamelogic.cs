@@ -14,19 +14,27 @@ namespace FroggerServer
         Player third;
         Player fourth;
 
+        int[] positions = new int[8];
+
         private bool fourPlayer;
-        private bool gameHasStarted = false;
+        private bool gameHasStarted;
+
         private int playerCount = 0;
 
-        public string playerOneScore;
-        public string playerTwoScore;
+        public int playerOneScore;
+        public int playerTwoScore;
 
+        private bool winnerSet = false;
+        public int winner = 0;
+
+        bool firstScore = false;
+        bool secondScore = false;
         public bool bothScoresSet;
         
 
         public GameLogic() 
-        { 
-            
+        {
+            gameHasStarted = false;
         }
 
         public GameLogic(Player one, Player two, Player three, Player four) 
@@ -59,17 +67,70 @@ namespace FroggerServer
             return false;
         }
 
+        public void setPlayerPosition(string IP, int x, int y)
+        {
+            int position = getPlayerNumber(IP);
+
+            if(position == 1)
+            {
+                positions[0] = x;
+                positions[1] = y;
+            }
+            else if (position == 2)
+            {
+                positions[2] = x;
+                positions[3] = y;
+            }
+            else if (position == 3)
+            {
+                positions[4] = x;
+                positions[5] = y;
+            }
+            else if (position == 4)
+            {
+                positions[6] = x;
+                positions[7] = y;
+            }
+
+        }
+
         public void setScore(string IP, string myScore)
         {
             if (first.IP.Equals(IP))
-                playerOneScore = myScore;
+            {
+                playerOneScore = int.Parse(myScore);
+                firstScore = true;
+            }
             else if (second.IP.Equals(IP))
-                playerTwoScore = myScore;
+            {
+                playerTwoScore = int.Parse(myScore);
+                secondScore = true;
+            }
 
+            if (!winnerSet && firstScore && secondScore) 
+            {
+                winnerSet = !winnerSet;
+                if (playerOneScore > playerTwoScore)
+                    winner = 1;
+                else if (playerTwoScore > playerOneScore)
+                    winner = 2;
+                else
+                    winner = 3;
+            }
             //else if (third.IP.Equals(IP))
                 
            // else if (fourth.IP.Equals(IP))
                 
+        }
+
+        public Player getPlayer(int playerNumber)
+        {
+            if (playerNumber == 1)
+                return first;
+            else if (playerNumber == 2)
+                return second;
+
+            return null;
         }
 
         public bool addPlayerToGame(Player toAdd) 
@@ -93,6 +154,20 @@ namespace FroggerServer
             else
                 return false;
 
+        }
+
+        public int getPlayerNumber(string IP)
+        {
+            if (first.IP.Equals(IP))
+                return 1;
+            else if (second.IP.Equals(IP))
+                return 2;
+            else if (third.IP.Equals(IP))
+                return 3;
+            else if (fourth.IP.Equals(IP))
+                return 4;
+
+            return 0;
         }
 
         public int getPlayerCount()
