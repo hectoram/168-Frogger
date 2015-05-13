@@ -50,7 +50,7 @@ namespace FroggerServer
 
         public void joinSession(string SessionToJoin, Player joiningPlayer)
         {
-            gameSessions[SessionToJoin].addPlayerToGame(joiningPlayer);
+           gameSessions[SessionToJoin].addPlayerToGame(joiningPlayer);
         }
 
         public void setPlayerPosition(string session, string IP, int x, int y)

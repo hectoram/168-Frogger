@@ -146,12 +146,23 @@ namespace FroggerServer
                 //"ready,1,username1,2,username2,3,username3,4,username4<EOF>"
 
                 GameHandler.Instance.setReady("default",senderIP);
+                string toSend;
 
-
-                string toSend =
-                    "ready,1," + ((GameHandler.Instance.gameSessions["default"].p1Ready) ? GameHandler.Instance.gameSessions["default"].second.getUserName() : "empty") +
-                    ",2," + ((GameHandler.Instance.gameSessions["default"].p2Ready) ? GameHandler.Instance.gameSessions["default"].second.getUserName() : "empty")
-                    +",3,null,4,null<EOF>";
+                try
+                {
+                        toSend =
+                        "ready,1," + ((GameHandler.Instance.gameSessions["default"].p1Ready) ? GameHandler.Instance.gameSessions["default"].first.getUserName() : "empty") +
+                        ",2," + ((GameHandler.Instance.gameSessions["default"].p2Ready) ? GameHandler.Instance.gameSessions["default"].second.getUserName() : "empty")
+                        + ",3,null,4,null<EOF>";
+                }
+                catch (Exception e)
+                {
+                    toSend =
+                        "ready,1," + ((GameHandler.Instance.gameSessions["default"].p1Ready) ? GameHandler.Instance.gameSessions["default"].first.getUserName() : "empty") +
+                        ",2," +  "empty"
+                        + ",3,null,4,null<EOF>";
+                }
+                
 
                 connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
 
