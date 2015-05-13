@@ -14,8 +14,9 @@ public class ClientScript : MonoBehaviour
     static string[] stringSeparators = new string[] { "<EOF>" };
 
     IPHostEntry ipHostInfo;
-    IPAddress ipAddress;
+    //IPAddress ipAddress;
     IPEndPoint remoteEP;
+    IPAddress ipAddress = IPAddress.Parse("98.164.225.129");
 
     Socket client;
 
@@ -74,7 +75,8 @@ public class ClientScript : MonoBehaviour
         // The name of the 
         // remote device is "host.contoso.com".
         ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-        ipAddress = ipHostInfo.AddressList[0];
+        //ipAddress = ipHostInfo.AddressList[0];
+
         remoteEP = new IPEndPoint(ipAddress, port);
 
         Debug.Log("Creating TCP/IP socket...");
