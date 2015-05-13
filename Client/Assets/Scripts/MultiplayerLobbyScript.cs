@@ -33,6 +33,8 @@ public class MultiplayerLobbyScript : MonoBehaviour {
     bool isReady;
     int playerNumber = 0;
 
+    float updateTime = 10;
+
 	// Use this for initialization
 	void Start () {
 
@@ -79,6 +81,15 @@ public class MultiplayerLobbyScript : MonoBehaviour {
 
         if (lobbyMenu.enabled)
         {
+            if (updateTime > 0)
+            {
+                updateTime -= Time.deltaTime;
+            }
+            else
+            {
+                UpdateQueue();
+                updateTime = 10;
+            }
             //InvokeRepeating("UpdateQueue", 5, 5);
             loginInfo.loggedInMenu.enabled = false;
             loginInfo.loginSuccessMenu.enabled = false;
@@ -124,12 +135,13 @@ public class MultiplayerLobbyScript : MonoBehaviour {
             clientManager.SendMSG("ready<EOF>", 3000);
             clientManager.ReceiveMSG(3000);
 
+            Debug.Log("QUEUE CHECK: Player 1: " + readyPlayers[0] + " Player 2: " + readyPlayers[1]);
 
-            Debug.Log("READY CHECK:" +
+            /*Debug.Log("READY CHECK:" +
                 "\nPlayer 1: " + readyPlayers[0] +
                 "\nPlayer 2: " + readyPlayers[1] +
                 "\nPlayer 3: " + readyPlayers[2] +
-                "\nPlayer 4: " + readyPlayers[3]);
+                "\nPlayer 4: " + readyPlayers[3]);*/
 
             if (readyPlayers[0] != "null" && readyPlayers[0] != "empty")
             {

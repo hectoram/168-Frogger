@@ -22,7 +22,7 @@ public class GameUI : MonoBehaviour {
         menu = menuObject.GetComponent<GameOverScript>();
 
         score = 0;
-        time = 60; // 5 minutes = 300 or 1 minute = 60
+        time = 30; // 5 minutes = 300 or 1 minute = 60
 
         isGameOver = false;
 	}

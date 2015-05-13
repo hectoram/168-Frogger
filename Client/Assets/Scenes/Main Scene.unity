@@ -304,7 +304,7 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 80, y: 114}
+  m_AnchoredPosition: {x: 94, y: 137}
   m_SizeDelta: {x: 251, y: 40}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &115399670
@@ -462,7 +462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 185498, guid: fb4ab9b90ef2b0b4ea038e24010dfc5d, type: 2}
-  interval: 3
+  interval: 4
   velocity: {x: -2, y: 0}
 --- !u!4 &166709228
 Transform:
@@ -784,7 +784,7 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 10, y: 114}
+  m_AnchoredPosition: {x: 24, y: 137}
   m_SizeDelta: {x: 251, y: 40}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &590923305
@@ -847,7 +847,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 173030, guid: 1417a64b20e57c94394d031e6e1cd210, type: 2}
-  interval: 2
+  interval: 3
   velocity: {x: -2, y: 0}
 --- !u!4 &594879481
 Transform:
@@ -889,7 +889,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 173030, guid: 1417a64b20e57c94394d031e6e1cd210, type: 2}
-  interval: 1.5
+  interval: 2.5
   velocity: {x: 3, y: 0}
 --- !u!4 &667351601
 Transform:
@@ -1801,7 +1801,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 47, y: 114}
+  m_AnchoredPosition: {x: 35, y: 137}
   m_SizeDelta: {x: 251, y: 40}
   m_Pivot: {x: .5, y: .5}
 --- !u!1 &1195813872
@@ -2616,7 +2616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 185498, guid: fb4ab9b90ef2b0b4ea038e24010dfc5d, type: 2}
-  interval: 1.70000005
+  interval: 2.70000005
   velocity: {x: -4, y: 0}
 --- !u!4 &1511242110
 Transform:
@@ -3451,7 +3451,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -112, y: 114}
+  m_AnchoredPosition: {x: -124, y: 137}
   m_SizeDelta: {x: 251, y: 40}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1924393146

@@ -288,6 +288,10 @@ public class ClientScript : MonoBehaviour
                 {
                     setReady(messageToCheck[2], messageToCheck[4], messageToCheck[6], messageToCheck[8]);
                 }
+                else if (messageToCheck[0] == "start-game")
+                {
+                    Application.LoadLevel("Multiplayer Scene");
+                }
                 
                 if (messageToCheck.Length == 2)
                 {
