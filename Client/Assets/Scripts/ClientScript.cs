@@ -34,6 +34,8 @@ public class ClientScript : MonoBehaviour
     bool isGameInProgress;
 
     static string data = "";
+    static string[] playerQueue = { "null", "null", "null", "null" };
+    static string[] playerReady = { "null", "null", "null", "null" };
 
     public void resetData(){
 		data = "";
@@ -42,6 +44,22 @@ public class ClientScript : MonoBehaviour
 	public static void setData(string newData)
     {
         data = newData;
+    }
+
+    public static void setQueue(string p1, string p2, string p3, string p4)
+    {
+        playerQueue[0] = p1;
+        playerQueue[1] = p2;
+        playerQueue[2] = p3;
+        playerQueue[3] = p4;
+    }
+
+    public static void setReady(string p1, string p2, string p3, string p4)
+    {
+        playerReady[0] = p1;
+        playerReady[1] = p2;
+        playerReady[2] = p3;
+        playerReady[3] = p4;
     }
 
     public void Start()
@@ -74,7 +92,7 @@ public class ClientScript : MonoBehaviour
         loginInfo = loginMenu.GetComponent<LoginScript>();
 
         gameMenu = GameObject.FindGameObjectWithTag("Menus");
-        lobbyInfo = loginMenu.GetComponent<MultiplayerLobbyScript>();
+        lobbyInfo = gameMenu.GetComponent<MultiplayerLobbyScript>();
 
         //StartClient();
     }
@@ -84,6 +102,18 @@ public class ClientScript : MonoBehaviour
         if (isGameInProgress)
         {
             //Send("position," + )
+        }
+        else if (lobbyInfo.lobbyMenu.enabled)
+        {
+            lobbyInfo.queuedPlayers[0] = playerQueue[0];
+            lobbyInfo.queuedPlayers[1] = playerQueue[1];
+            lobbyInfo.queuedPlayers[2] = playerQueue[2];
+            lobbyInfo.queuedPlayers[3] = playerQueue[3];
+
+            lobbyInfo.readyPlayers[0] = playerReady[0];
+            lobbyInfo.readyPlayers[1] = playerReady[1];
+            lobbyInfo.readyPlayers[2] = playerReady[2];
+            lobbyInfo.readyPlayers[3] = playerReady[3];
         }
 
         if (data == "true")
@@ -252,9 +282,13 @@ public class ClientScript : MonoBehaviour
                 }
                 else if (messageToCheck[0] == "queue")
                 {
-
+                    setQueue(messageToCheck[2], messageToCheck[4], messageToCheck[6], messageToCheck[8]);
                 }
-
+                else if (messageToCheck[0] == "ready")
+                {
+                    setReady(messageToCheck[2], messageToCheck[4], messageToCheck[6], messageToCheck[8]);
+                }
+                
                 if (messageToCheck.Length == 2)
                 {
                     state.receiveDone.Set();

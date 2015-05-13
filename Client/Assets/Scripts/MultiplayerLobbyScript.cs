@@ -21,10 +21,13 @@ public class MultiplayerLobbyScript : MonoBehaviour {
     public Text ready3;
     public Text ready4;
 
-    string[] queuedPlayers = {"null", "null", "null", "null"};
+    public string[] queuedPlayers = {"null", "null", "null", "null"};
+    public string[] readyPlayers = { "null", "null", "null", "null" };
 
     ClientScript clientManager;
     GameObject networking;
+
+    bool isReady;
 
 	// Use this for initialization
 	void Start () {
@@ -60,6 +63,8 @@ public class MultiplayerLobbyScript : MonoBehaviour {
         //ready2.color = Color.red;
         //ready3.color = Color.red;
         //ready4.color = Color.red;
+
+        isReady = false;
 	}
 	
 	// Update is called once per frame
@@ -67,7 +72,7 @@ public class MultiplayerLobbyScript : MonoBehaviour {
 
         if (lobbyMenu.enabled)
         {
-            InvokeRepeating("UpdateQueue", 3, 3);
+            InvokeRepeating("UpdateQueue", 5, 0);
         }
 	}
 
@@ -85,29 +90,37 @@ public class MultiplayerLobbyScript : MonoBehaviour {
         if (queuedPlayers[3] != "null")
             username4.text = queuedPlayers[3];
 
-        clientManager.SendMSG("ready<EOF>", 3000);
-        clientManager.ReceiveMSG(3000);
+        if (isReady)
+        {
+            clientManager.SendMSG("ready<EOF>", 3000);
+            clientManager.ReceiveMSG(3000);
 
-        if (queuedPlayers[0] != "null")
-        {
-            ready1.text = "READY";
-            ready1.color = Color.green;
+            if (readyPlayers[0] != "null")
+            {
+                ready1.text = "READY";
+                ready1.color = Color.green;
+            }
+            if (readyPlayers[1] != "null")
+            {
+                ready2.text = "READY";
+                ready2.color = Color.green;
+            }
+            if (readyPlayers[2] != "null")
+            {
+                ready3.text = "READY";
+                ready3.color = Color.green;
+            }
+            if (readyPlayers[3] != "null")
+            {
+                ready4.text = "READY";
+                ready4.color = Color.green;
+            }
         }
-        if (queuedPlayers[1] != "null")
-        {
-            ready2.text = "READY";
-            ready2.color = Color.green;
-        }
-        if (queuedPlayers[2] != "null")
-        {
-            ready2.text = "READY";
-            ready2.color = Color.green;
-        }
-        if (queuedPlayers[3] != "null")
-        {
-            ready2.text = "READY";
-            ready2.color = Color.green;
-        }
+    }
+
+    public void PlayerReady()
+    {
+        isReady = true;
     }
 
     public void DisplayLobbyMenu()
@@ -118,5 +131,6 @@ public class MultiplayerLobbyScript : MonoBehaviour {
     public void DismissLobbyMenu()
     {
         lobbyMenu.enabled = false;
+        isReady = false;
     }
 }

@@ -566,8 +566,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 177951068}
-        m_MethodName: NoPressed
+      - m_Target: {fileID: 751333073}
+        m_MethodName: PlayerReady
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2659,6 +2659,16 @@ MonoBehaviour:
   ready2: {fileID: 1458053336}
   ready3: {fileID: 1009745875}
   ready4: {fileID: 35171409}
+  queuedPlayers:
+  - null
+  - null
+  - null
+  - null
+  readyPlayers:
+  - null
+  - null
+  - null
+  - null
 --- !u!4 &751333074
 Transform:
   m_ObjectHideFlags: 0
@@ -5692,7 +5702,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 751333073}
         m_MethodName: DisplayLobbyMenu
         m_Mode: 1
         m_Arguments:
