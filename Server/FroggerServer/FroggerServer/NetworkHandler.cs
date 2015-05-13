@@ -278,8 +278,8 @@ namespace FroggerServer
             state.workSocket = handler;
 
             String myIP = String.Empty;
-            string[] messageIP = handler.RemoteEndPoint.ToString().Split(':');
-            myIP = messageIP[0];
+            string messageIP = handler.RemoteEndPoint.ToString();
+            myIP = messageIP;
 
             NetworkHandler.Instance.addNewPlayer(myIP, handler);
 
@@ -304,8 +304,8 @@ namespace FroggerServer
                 // Check for end-of-file tag. If it is not there, read
                 // more data.
                 String myIP = String.Empty;
-                string[] messageIP = handler.RemoteEndPoint.ToString().Split(':');
-                myIP = messageIP[0];
+                string messageIP = handler.RemoteEndPoint.ToString();
+                myIP = messageIP;
 
                 Console.WriteLine("The following IP is sending me a message: " + myIP);
 
