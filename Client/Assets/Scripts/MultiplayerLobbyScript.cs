@@ -27,7 +27,11 @@ public class MultiplayerLobbyScript : MonoBehaviour {
     ClientScript clientManager;
     GameObject networking;
 
+    LoginScript loginInfo;
+    GameObject loginMenu;
+
     bool isReady;
+    int playerNumber = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -39,15 +43,18 @@ public class MultiplayerLobbyScript : MonoBehaviour {
         networking = GameObject.FindGameObjectWithTag("Networking");
         clientManager = networking.GetComponent<ClientScript>();
 
+        loginMenu = GameObject.FindGameObjectWithTag("Login Menu");
+        loginInfo = loginMenu.GetComponent<LoginScript>();
+
         username1 = username1.GetComponent<Text>();
         username2 = username2.GetComponent<Text>();
         username3 = username3.GetComponent<Text>();
         username4 = username4.GetComponent<Text>();
 
-        username1.text = "EMPTY SLOT";
-        username2.text = "EMPTY SLOT";
-        username3.text = "EMPTY SLOT";
-        username4.text = "EMPTY SLOT";
+        username1.text = "EMPTY";
+        username2.text = "EMPTY";
+        username3.text = "EMPTY";
+        username4.text = "EMPTY";
 
         ready1 = ready1.GetComponent<Text>();
         ready2 = ready2.GetComponent<Text>();
@@ -72,45 +79,74 @@ public class MultiplayerLobbyScript : MonoBehaviour {
 
         if (lobbyMenu.enabled)
         {
-            InvokeRepeating("UpdateQueue", 5, 0);
+            //InvokeRepeating("UpdateQueue", 5, 5);
+            loginInfo.loggedInMenu.enabled = false;
+            loginInfo.loginSuccessMenu.enabled = false;
+            loginInfo.loginNewUserMenu.enabled = false;
         }
 	}
 
     void UpdateQueue()
     {
+        Debug.Log("Sending request to update queue...");
         clientManager.SendMSG("queue<EOF>", 3000);
         clientManager.ReceiveMSG(3000);
 
-        if (queuedPlayers[0] != "null")
+        /*Debug.Log("QUEUE CHECK:" +
+                "\nPlayer 1: " + queuedPlayers[0] +
+                "\nPlayer 2: " + queuedPlayers[1] +
+                "\nPlayer 3: " + queuedPlayers[2] +
+                "\nPlayer 4: " + queuedPlayers[3]);*/
+
+        Debug.Log("QUEUE CHECK: Player 1: " + queuedPlayers[0] + " Player 2: " + queuedPlayers[1]);
+
+        if (queuedPlayers[0] != "null" && queuedPlayers[0] != "empty")
             username1.text = queuedPlayers[0];
-        if (queuedPlayers[1] != "null")
+        if (queuedPlayers[1] != "null" && queuedPlayers[1] != "empty")
             username2.text = queuedPlayers[1];
-        if (queuedPlayers[2] != "null")
+        if (queuedPlayers[2] != "null" && queuedPlayers[2] != "empty")
             username3.text = queuedPlayers[2];
-        if (queuedPlayers[3] != "null")
+        if (queuedPlayers[3] != "null" && queuedPlayers[3] != "empty")
             username4.text = queuedPlayers[3];
+
+        if (username1.text == loginInfo.username.text)
+            playerNumber = 1;
+        else if (username1.text == loginInfo.username.text)
+            playerNumber = 2;
+        else if (username1.text == loginInfo.username.text)
+            playerNumber = 3;
+        else if (username1.text == loginInfo.username.text)
+            playerNumber = 4;
 
         if (isReady)
         {
+            Debug.Log("Sending request to update ready check...");
             clientManager.SendMSG("ready<EOF>", 3000);
             clientManager.ReceiveMSG(3000);
 
-            if (readyPlayers[0] != "null")
+
+            Debug.Log("READY CHECK:" +
+                "\nPlayer 1: " + readyPlayers[0] +
+                "\nPlayer 2: " + readyPlayers[1] +
+                "\nPlayer 3: " + readyPlayers[2] +
+                "\nPlayer 4: " + readyPlayers[3]);
+
+            if (readyPlayers[0] != "null" && readyPlayers[0] != "empty")
             {
                 ready1.text = "READY";
                 ready1.color = Color.green;
             }
-            if (readyPlayers[1] != "null")
+            if (readyPlayers[1] != "null" && readyPlayers[1] != "empty")
             {
                 ready2.text = "READY";
                 ready2.color = Color.green;
             }
-            if (readyPlayers[2] != "null")
+            if (readyPlayers[2] != "null" && readyPlayers[2] != "empty")
             {
                 ready3.text = "READY";
                 ready3.color = Color.green;
             }
-            if (readyPlayers[3] != "null")
+            if (readyPlayers[3] != "null" && readyPlayers[3] != "empty")
             {
                 ready4.text = "READY";
                 ready4.color = Color.green;
@@ -120,16 +156,21 @@ public class MultiplayerLobbyScript : MonoBehaviour {
 
     public void PlayerReady()
     {
+        Debug.Log("You have clicked on ready!");
         isReady = true;
+        UpdateQueue();
     }
 
     public void DisplayLobbyMenu()
     {
+        Debug.Log("You have entered the lobby.");
         lobbyMenu.enabled = true;
+        UpdateQueue();
     }
 
     public void DismissLobbyMenu()
     {
+        Debug.Log("You have left the lobby.");
         lobbyMenu.enabled = false;
         isReady = false;
     }

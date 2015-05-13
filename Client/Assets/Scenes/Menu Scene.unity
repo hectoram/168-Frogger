@@ -960,6 +960,7 @@ MonoBehaviour:
   playButton: {fileID: 1442651394}
   creditsButton: {fileID: 1318944061}
   quitButton: {fileID: 991355076}
+  multiplayerButton: {fileID: 1564665270}
   buttonClickSFX: {fileID: 8300000, guid: d0e438da8618e5c41a88316bfaf21233, type: 3}
   buttonHoverSFX: {fileID: 8300000, guid: 271b5e5d2354ad647a4bbd8d9d59fddd, type: 3}
 --- !u!82 &177951069

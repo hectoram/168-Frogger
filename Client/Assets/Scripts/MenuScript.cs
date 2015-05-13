@@ -9,6 +9,7 @@ public class MenuScript : MonoBehaviour {
 	public Button playButton;
 	public Button creditsButton;
 	public Button quitButton;
+    public Button multiplayerButton;
 
 	public AudioClip buttonClickSFX;
 	public AudioClip buttonHoverSFX;
@@ -20,6 +21,8 @@ public class MenuScript : MonoBehaviour {
 		playButton = playButton.GetComponent<Button> ();
 		creditsButton = creditsButton.GetComponent<Button> ();
 		quitButton = quitButton.GetComponent<Button> ();
+        multiplayerButton = multiplayerButton.GetComponent<Button>();
+
 		quitMenu.enabled = false;
 		creditsMenu.enabled = false;
 	}
@@ -30,6 +33,7 @@ public class MenuScript : MonoBehaviour {
 		playButton.enabled = false;
 		creditsButton.enabled = false;
 		quitButton.enabled = false;
+        multiplayerButton.enabled = false;
 
 		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 	}
@@ -40,6 +44,7 @@ public class MenuScript : MonoBehaviour {
 		playButton.enabled = false;
 		creditsButton.enabled = false;
 		quitButton.enabled = false;
+        multiplayerButton.enabled = false;
 
 		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 	}
@@ -50,6 +55,7 @@ public class MenuScript : MonoBehaviour {
 		playButton.enabled = true;
 		creditsButton.enabled = true;
 		quitButton.enabled = true;
+        multiplayerButton.enabled = true;
 
 		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 	}
@@ -60,6 +66,7 @@ public class MenuScript : MonoBehaviour {
 		playButton.enabled = true;
 		creditsButton.enabled = true;
 		quitButton.enabled = true;
+        multiplayerButton.enabled = true;
 
 		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 	}
@@ -82,4 +89,11 @@ public class MenuScript : MonoBehaviour {
 	{
 		GetComponent<AudioSource>().PlayOneShot(buttonHoverSFX);
 	}
+
+    public void StartMultiplayerGame()
+    {
+        GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
+
+        Application.LoadLevel("Multiplayer Scene");
+    }
 }
