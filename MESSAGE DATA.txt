@@ -3,6 +3,7 @@ We are using strings separated by commas to pass information.
 ===== CLIENT MESSAGES =====
 
 "userLogin,username,password<EOF>" = sent by the player to login to their account
+"queueGame<EOF>" = put me in the queue for a game (change this if you'd like.)
 "frogPosition,x,y<EOF>" = sending the server my position
 "gameOver,score<EOF>" = my final score
 

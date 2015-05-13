@@ -9,14 +9,18 @@ namespace FroggerServer
     class GameLogic
     {
         //Add some type of datastructure to hold messages of the players. Map maybe?
-        Player first;
-        Player second;
+        public Player first;
+        public Player second;
         Player third;
         Player fourth;
 
         private bool fourPlayer;
         private bool gameHasStarted = false;
         private int playerCount = 0;
+
+        public string playerOneScore;
+        public string playerTwoScore;
+        
 
         public GameLogic() 
         { 
@@ -66,7 +70,8 @@ namespace FroggerServer
                 else if (playerCount == 3)
                     fourth = toAdd;
 
-                playerCount++;
+                if (playerCount < 3)
+                    playerCount++;
                 
                 return true;
             }
@@ -75,9 +80,18 @@ namespace FroggerServer
 
         }
 
+        public int getPlayerCount()
+        {
+            return playerCount;
+        }
+
         public void update() 
-        { 
-            
+        {
+            if (playerCount == 2)
+            {
+                gameHasStarted = true;
+                Console.WriteLine("We have two players and the game has started.");
+            }
         }
 
         public void addMessage(string username)

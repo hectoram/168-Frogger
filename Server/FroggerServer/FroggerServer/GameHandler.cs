@@ -22,7 +22,7 @@ namespace FroggerServer
 
         GameHandler()
         {
-           
+            gameSessions.Add(genericSession, new GameLogic());
         }
 
         public void checkForMatches()
@@ -55,11 +55,13 @@ namespace FroggerServer
 
         public void update() 
         {
+
+            gameSessions[genericSession].update();
             //Change this to cycle the dictionary instead. 
-            foreach (var games in activeGames)
-            {
-               games.update();
-            }
+           // foreach (var games in activeGames)
+            //{
+              // games.update();
+           // }
         }
 
         public static GameHandler Instance

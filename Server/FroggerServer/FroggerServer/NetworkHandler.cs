@@ -93,6 +93,14 @@ namespace FroggerServer
                     connectionLinker.Send(connectedPlayers[senderIP].connection, "login,newfailed<EOF>");
                 }
             }
+            else if (message[0] == "queueGame")
+            {
+                GameHandler.Instance.joinSession("default", connectedPlayers[senderIP]);
+            }
+            else if (message[0] == "gameOver" )
+            {
+                
+            }
             else
                 NetworkHandler.Instance.messagesRecieved[senderIP].Enqueue(toParse);
         }
