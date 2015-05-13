@@ -77,20 +77,36 @@ public class LoginScript : MonoBehaviour {
         //clientManager.StartClient("userLogin", username.text, password.text);
 	}
 
+    public void CreateUser()
+    {
+        if (!connectionStarted)
+        {
+            clientManager.StartClient("userCreate", username.text, password.text);
+            connectionStarted = !connectionStarted;
+        }
+        else
+        {
+            clientManager.resetData();
+            clientManager.Send("userCreate," + username.text + "," + password.text + "<EOF>");
+        }
+        //clientManager.StartClient("userCreate", username.text, password.text);
+    }
+
 	public void DisplayLoginMenu()
 	{
+        Debug.Log("Displaying Login Menu...");
 		loginMenu.enabled = true;
 		loginFailedMenu.enabled = false;
 		loginSuccessMenu.enabled = false;
 		loginNewUserMenu.enabled = false;
 		loginNewUserFailedMenu.enabled = false;
         loggedInMenu.enabled = false;
-        Debug.Log("Displaying Login Menu...");
 		clientManager.resetData();
 	}
 	
 	public void DisplayLoginFailedMenu()
 	{
+        Debug.Log("Displaying Login Failed Menu...");
 		loginMenu.enabled = false;
 		loginFailedMenu.enabled = true;
 		loginSuccessMenu.enabled = false;
@@ -102,6 +118,7 @@ public class LoginScript : MonoBehaviour {
 	
 	public void DisplayLoginSuccessMenu()
 	{
+        Debug.Log("Displaying Login Success Menu...");
 		loginMenu.enabled = false;
 		loginFailedMenu.enabled = false;
 		loginSuccessMenu.enabled = true;
@@ -113,6 +130,7 @@ public class LoginScript : MonoBehaviour {
 	
 	public void DisplayLoginNewUserMenu()
 	{
+        Debug.Log("Displaying New User Menu...");
 		loginMenu.enabled = false;
 		loginFailedMenu.enabled = false;
 		loginSuccessMenu.enabled = false;
@@ -124,6 +142,7 @@ public class LoginScript : MonoBehaviour {
 
 	public void DisplayLoginNewUserFailedMenu()
 	{
+        Debug.Log("Displaying New User Failed Menu...");
 		loginMenu.enabled = false;
 		loginFailedMenu.enabled = false;
 		loginSuccessMenu.enabled = false;
@@ -136,6 +155,7 @@ public class LoginScript : MonoBehaviour {
 
 	public void DisplayMainMenu()
 	{
+        Debug.Log("Displaying Main Menu...");
 		loginMenu.enabled = false;
 		loginFailedMenu.enabled = false;
 		loginSuccessMenu.enabled = false;
@@ -143,12 +163,12 @@ public class LoginScript : MonoBehaviour {
 		loginNewUserFailedMenu.enabled = false;
         loggedInMenu.enabled = true;
         currentUsername.text = username.text;
-        Debug.Log("Displaying Main Menu...");
 		clientManager.resetData();
 	}
 
     public void LogoutPressed()
     {
+        Debug.Log("Logging out...");
         clientManager.Send("userLogout," + currentUsername.text + "<EOF>");
         DisplayLoginMenu();
     }
