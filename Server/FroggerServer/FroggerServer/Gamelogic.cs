@@ -40,17 +40,17 @@ namespace FroggerServer
         public GameLogic() 
         {
             gameHasStarted = false;
-            positions[0] = 4;
-            positions[1] = 13;
+            positions[0] = 4-7;
+            positions[1] = 13-7;
 
-            positions[2] = 10;
-            positions[3] = 13;
+            positions[2] = 10-7;
+            positions[3] = -(13)-5;
 
-            positions[4] = 0;
-            positions[5] = 0;
+            positions[4] = 0-7;
+            positions[5] = -(0)-5;
 
-            positions[6] = 0;
-            positions[7] = 0;
+            positions[6] = 0-7;
+            positions[7] = -(0)-5;
         }
 
         public GameLogic(Player one, Player two, Player three, Player four) 
@@ -91,27 +91,29 @@ namespace FroggerServer
 
         public void setPlayerPosition(string IP, int x, int y)
         {
+            //Sub -7 from x to get translated x
+            //Negate and sub 5 for y
             int position = getPlayerNumber(IP);
 
             if(position == 1)
             {
-                positions[0] = x;
-                positions[1] = y;
+                positions[0] = x-7;
+                positions[1] = -y-5;
             }
             else if (position == 2)
             {
-                positions[2] = x;
-                positions[3] = y;
+                positions[2] = x-7;
+                positions[3] = -y-5;
             }
             else if (position == 3)
             {
-                positions[4] = x;
-                positions[5] = y;
+                positions[4] = x-7;
+                positions[5] = -y-5;
             }
             else if (position == 4)
             {
-                positions[6] = x;
-                positions[7] = y;
+                positions[6] = x-7;
+                positions[7] = -y-5;
             }
 
         }
