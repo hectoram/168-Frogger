@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpSFX: {fileID: 8300000, guid: 5de00406642c5644581b5e582bf7a781, type: 3}
+  enabled: 1
   speed: .100000001
 --- !u!50 &245701
 Rigidbody2D:
@@ -1104,6 +1105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpSFX: {fileID: 8300000, guid: 5de00406642c5644581b5e582bf7a781, type: 3}
+  enabled: 0
   speed: .100000001
 --- !u!82 &869761268
 AudioSource:
@@ -2200,6 +2202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpSFX: {fileID: 8300000, guid: 5de00406642c5644581b5e582bf7a781, type: 3}
+  enabled: 1
   speed: .100000001
 --- !u!50 &1213473956
 Rigidbody2D:

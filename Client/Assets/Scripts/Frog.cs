@@ -10,6 +10,7 @@ public class Frog : MonoBehaviour
 	GameObject menuObject;
 	GameOverScript menu;
     GameUI gameUI;
+	public bool enabled = true;
 
 	void Start()
 	{
@@ -44,48 +45,47 @@ public class Frog : MonoBehaviour
 	void FixedUpdate () 
 	{
 		// Is the frog currently jumping?
-		if (isJumping ()) 
-		{
-			if (isJumping())
-			{
-				// Remember current position
-				Vector2 currentPosition = transform.position;
+		if (enabled) {
 
-				// Jump a bit futher
-				transform.position = Vector2.MoveTowards(currentPosition, currentPosition + jump, speed);
+			if (isJumping ()) {
+				if (isJumping ()) {
+					// Remember current position
+					Vector2 currentPosition = transform.position;
 
-				// Subtract stepsize from jump vector
-				jump -= (Vector2)transform.position - currentPosition;
+					// Jump a bit futher
+					transform.position = Vector2.MoveTowards (currentPosition, currentPosition + jump, speed);
+
+					// Subtract stepsize from jump vector
+					jump -= (Vector2)transform.position - currentPosition;
+				}
 			}
-		}
 		// Otherwise allow for next jump
-		else 
-		{
-			// Detects arrow key presses
-			// UP ARROW OR W KEY
-			if (Input.GetKey (KeyCode.UpArrow) || Input.GetKey (KeyCode.W))
-			{
-				jump = Vector2.up;
-				GetComponent<AudioSource>().PlayOneShot(jumpSFX);
-			}
+		else {
+				// Detects arrow key presses
+				// UP ARROW OR W KEY
+				if (Input.GetKey (KeyCode.UpArrow) || Input.GetKey (KeyCode.W)) {
+					jump = Vector2.up;
+					GetComponent<AudioSource> ().PlayOneShot (jumpSFX);
+				}
 			// RIGHT ARROW OR D KEY
-			else if (Input.GetKey (KeyCode.RightArrow) || Input.GetKey (KeyCode.D))
-			{
-				jump = Vector2.right;
-				GetComponent<AudioSource>().PlayOneShot(jumpSFX);
-			}
+			else if (Input.GetKey (KeyCode.RightArrow) || Input.GetKey (KeyCode.D)) {
+					jump = Vector2.right;
+					GetComponent<AudioSource> ().PlayOneShot (jumpSFX);
+				}
 			// DOWN ARROW OR S KEY
-			else if (Input.GetKey (KeyCode.DownArrow) || Input.GetKey (KeyCode.S))
-			{
-				jump = -Vector2.up; // -up means down
-				GetComponent<AudioSource>().PlayOneShot(jumpSFX);
-			}
+			else if (Input.GetKey (KeyCode.DownArrow) || Input.GetKey (KeyCode.S)) {
+					jump = -Vector2.up; // -up means down
+					GetComponent<AudioSource> ().PlayOneShot (jumpSFX);
+				}
 			// LEFT ARROW OR A KEY
-			else if (Input.GetKey (KeyCode.LeftArrow) || Input.GetKey (KeyCode.A))
-			{
-				jump = -Vector2.right; // -right means left
-				GetComponent<AudioSource>().PlayOneShot(jumpSFX);
+			else if (Input.GetKey (KeyCode.LeftArrow) || Input.GetKey (KeyCode.A)) {
+					jump = -Vector2.right; // -right means left
+					GetComponent<AudioSource> ().PlayOneShot (jumpSFX);
+				}
 			}
+		} else 
+		{
+			//Use the network to update me instead. 
 		}
 
 		// Setting up animation parameters
