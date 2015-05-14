@@ -77,4 +77,9 @@ public class GameOverScript : MonoBehaviour {
 	{
 		GetComponent<AudioSource>().PlayOneShot(buttonHoverSFX);
 	}
+
+    public void LoadMultiplayerLevel()
+    {
+        Application.LoadLevel("Multiplayer Level");
+    }
 }
