@@ -39,10 +39,16 @@ public class ClientScript : MonoBehaviour
     GameObject gameMenu;
 
     bool isGameInProgress;
+    int myPlayerNumber = 0; // Starts at zero, if it's zero, that means that the player has not been assigned a number yet
 
     static string data = "";
     static string[] playerQueue = { "null", "null", "null", "null" };
     static string[] playerReady = { "null", "null", "null", "null" };
+
+    public void setPlayerNumber(int number)
+    {
+        myPlayerNumber = number;
+    }
 
     public void resetData(){
 		data = "";
