@@ -13,6 +13,9 @@ public class ClientScript : MonoBehaviour
     private const int port = 11000;
     static string[] stringSeparators = new string[] { "<EOF>" };
 
+	public static MenuScript myMenue;
+	public GameObject menue;
+
     IPHostEntry ipHostInfo;
     IPAddress ipAddress;
     IPEndPoint remoteEP;
@@ -71,6 +74,8 @@ public class ClientScript : MonoBehaviour
         DontDestroyOnLoad(this);
 
         isGameInProgress = false;
+
+		myMenue = menue.GetComponent<MenuScript>();
 
         Debug.Log("In Start()");
 
@@ -294,7 +299,7 @@ public class ClientScript : MonoBehaviour
                 }
                 else if (messageToCheck[0] == "start-game")
                 {
-                    Application.LoadLevel("Multiplayer Scene");
+					myMenue.StartMultiplayerGame();
                 }
                 
                 if (messageToCheck.Length == 2)
