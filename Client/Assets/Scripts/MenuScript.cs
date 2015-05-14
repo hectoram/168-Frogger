@@ -92,8 +92,6 @@ public class MenuScript : MonoBehaviour {
 
     public void StartMultiplayerGame()
     {
-        GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
-
-        Application.LoadLevel("Multiplayer Scene");
+        Application.LoadLevelAsync("Multiplayer Scene");
     }
 }

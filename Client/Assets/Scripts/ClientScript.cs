@@ -44,6 +44,11 @@ public class ClientScript : MonoBehaviour
 
     static bool startGame = false;
 
+    public static MenuScript myMenu;
+    public GameObject menu;
+
+    static AsyncOperation async;
+
     public void setPlayerNumber(int number)
     {
         myPlayerNumber = number;
@@ -111,6 +116,12 @@ public class ClientScript : MonoBehaviour
         gameMenu = GameObject.FindGameObjectWithTag("Menus");
         lobbyInfo = gameMenu.GetComponent<MultiplayerLobbyScript>();
 
+        myMenu = menu.GetComponent<MenuScript>();
+
+        async = Application.LoadLevelAsync("Multiplayer Scene");
+        // Set this false to wait changing the scene
+        async.allowSceneActivation = false;
+
         //StartClient();
     }
 
@@ -132,9 +143,14 @@ public class ClientScript : MonoBehaviour
             lobbyInfo.readyPlayers[2] = playerReady[2];
             lobbyInfo.readyPlayers[3] = playerReady[3];
         }
-        else if (startGame)
+
+        if (startGame)
         {
-            StartMultiplayerGame();
+            //StartCoroutine(LoadMultiplayerLevel());
+            //StartMultiplayerGame();
+            // Set this false to wait changing the scene
+            async.allowSceneActivation = true;
+            startGame = false;
         }
 
         if (data == "true")
@@ -255,6 +271,12 @@ public class ClientScript : MonoBehaviour
         Application.LoadLevel("Multiplayer Scene");
     }
 
+    IEnumerator LoadMultiplayerLevel()
+    {
+        Application.LoadLevel("Multiplayer Scene");
+        return null;
+    }
+
     public static void ReceiveCallback(IAsyncResult ar)
     {
         try
@@ -313,6 +335,8 @@ public class ClientScript : MonoBehaviour
                 }
                 else if (messageToCheck[0] == "start-game")
                 {
+                    //async.allowSceneActivation = true;
+                    //myMenu.StartMultiplayerGame();
                     setStartGame(true);  // Created this function to be able start the Multiplayer Scene from inside ReceiveCallback
                     //Application.LoadLevel("Multiplayer Scene");  // Was getting an error trying to call this from here
                 }
