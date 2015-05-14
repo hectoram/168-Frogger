@@ -12,11 +12,17 @@ public class Frog : MonoBehaviour
     GameUI gameUI;
 	public bool enabled = true;
 
+    GameObject networking;
+    ClientScript clientManager;
+
 	void Start()
 	{
 		menuObject = GameObject.FindGameObjectWithTag ("Menus");
 		menu = menuObject.GetComponent<GameOverScript> ();
         gameUI = menuObject.GetComponent<GameUI>();
+
+        networking = GameObject.FindGameObjectWithTag("Networking");
+        clientManager = networking.GetComponent<ClientScript>();
 	}
 
 	// Jump Speed - how fast the frog will jump
@@ -51,6 +57,9 @@ public class Frog : MonoBehaviour
 				if (isJumping ()) {
 					// Remember current position
 					Vector2 currentPosition = transform.position;
+
+                    // Adding message to send to the server
+                    clientManager.SendMSG("position," + currentPosition.x + "," + currentPosition.y + "<EOF>", 1000);
 
 					// Jump a bit futher
 					transform.position = Vector2.MoveTowards (currentPosition, currentPosition + jump, speed);

@@ -44,9 +44,6 @@ public class ClientScript : MonoBehaviour
 
     static bool startGame = false;
 
-    public static MenuScript myMenu;
-    public GameObject menu;
-
     static AsyncOperation async;
 
     public void setPlayerNumber(int number)
@@ -116,8 +113,6 @@ public class ClientScript : MonoBehaviour
         gameMenu = GameObject.FindGameObjectWithTag("Menus");
         lobbyInfo = gameMenu.GetComponent<MultiplayerLobbyScript>();
 
-        myMenu = menu.GetComponent<MenuScript>();
-
         async = Application.LoadLevelAsync("Multiplayer Scene");
         // Set this false to wait changing the scene
         async.allowSceneActivation = false;
@@ -131,7 +126,7 @@ public class ClientScript : MonoBehaviour
         {
             //Send("position," + )
         }
-        else if (lobbyInfo.lobbyMenu.enabled)
+        else if (!isGameInProgress && lobbyInfo.lobbyMenu.enabled)
         {
             lobbyInfo.queuedPlayers[0] = playerQueue[0];
             lobbyInfo.queuedPlayers[1] = playerQueue[1];
@@ -151,6 +146,7 @@ public class ClientScript : MonoBehaviour
             // Set this false to wait changing the scene
             async.allowSceneActivation = true;
             startGame = false;
+            isGameInProgress = true;
         }
 
         if (data == "true")
