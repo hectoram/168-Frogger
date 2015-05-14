@@ -42,6 +42,8 @@ public class ClientScript : MonoBehaviour
     static string[] playerQueue = { "null", "null", "null", "null" };
     static string[] playerReady = { "null", "null", "null", "null" };
 
+    static bool startGame = false;
+
     public void setPlayerNumber(int number)
     {
         myPlayerNumber = number;
@@ -50,6 +52,11 @@ public class ClientScript : MonoBehaviour
     public void resetData(){
 		data = "";
 	}
+
+    static void setStartGame(bool value)
+    {
+        startGame = value;
+    }
 
 	public static void setData(string newData)
     {
@@ -124,6 +131,10 @@ public class ClientScript : MonoBehaviour
             lobbyInfo.readyPlayers[1] = playerReady[1];
             lobbyInfo.readyPlayers[2] = playerReady[2];
             lobbyInfo.readyPlayers[3] = playerReady[3];
+        }
+        else if (startGame)
+        {
+            StartMultiplayerGame();
         }
 
         if (data == "true")
@@ -237,6 +248,12 @@ public class ClientScript : MonoBehaviour
             Console.WriteLine(e.ToString());
         }
     }
+    
+    void StartMultiplayerGame()
+    {
+        startGame = false;
+        Application.LoadLevel("Multiplayer Scene");
+    }
 
     public static void ReceiveCallback(IAsyncResult ar)
     {
@@ -261,31 +278,27 @@ public class ClientScript : MonoBehaviour
 				string[] messageToCheck = content.Split(delimiterChars);
 
                 //Debug.Log("I sent you this back: " + messageToCheck[0] + " " + messageToCheck[1]);
-				Debug.Log("I recived this : {0}" + messageToCheck[1]);
+				Debug.Log("I recived this : " + messageToCheck[1]);
 
                 if (messageToCheck[0] == "login")
                 {
                     if (messageToCheck[1] == "true")
                     {
-                        //loginInfo.DisplayMainMenu();
                         Debug.Log("Login successful!");
                         setData(messageToCheck[1]);
                     }
                     else if (messageToCheck[1] == "false")
                     {
-                        //loginInfo.DisplayLoginFailedMenu();
                         Debug.Log("Login failed!");
                         setData(messageToCheck[1]);
                     }
                     else if (messageToCheck[1] == "new")
                     {
-                        //loginInfo.DisplayLoginNewUserMenu();
                         Debug.Log("A new user has been created!");
                         setData(messageToCheck[1]);
                     }
 					else if (messageToCheck[1] == "newfailed")
 					{
-						//loginInfo.DisplayLoginNewUserMenu();
 						Debug.Log("Failed to create new user!");
 						setData(messageToCheck[1]);
 					}
@@ -300,7 +313,8 @@ public class ClientScript : MonoBehaviour
                 }
                 else if (messageToCheck[0] == "start-game")
                 {
-                    Application.LoadLevel("Multiplayer Scene");
+                    setStartGame(true);  // Created this function to be able start the Multiplayer Scene from inside ReceiveCallback
+                    //Application.LoadLevel("Multiplayer Scene");  // Was getting an error trying to call this from here
                 }
                 
                 if (messageToCheck.Length == 2)
