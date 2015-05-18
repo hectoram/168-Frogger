@@ -8,12 +8,12 @@ namespace FroggerServer
 {
     class GameHandler
     { 
-        List<GameLogic> activeGames = new List<GameLogic>();
-        Queue<Player> waitingPlayers = new Queue<Player>();
-
         public SortedDictionary<string, GameLogic> gameSessions = new SortedDictionary<string, GameLogic>();
 
-        private string genericSession = "default";
+        //Maps IP to the game session name
+        public SortedDictionary<string, string> playerSessionNames = new SortedDictionary<string, string>();
+
+        private string genericSession = "default"; 
 
         private static GameHandler instance = null;
         private static readonly object padlock = new object();
@@ -23,19 +23,6 @@ namespace FroggerServer
         GameHandler()
         {
             gameSessions.Add(genericSession, new GameLogic());
-        }
-
-        public void checkForMatches()
-        { 
-            if (waitingPlayers.Count >= 2)
-            {
-                
-            }
-        }
-
-        public void addNewGame(Player one, Player two)
-        {
-            activeGames.Add(new GameLogic(one, two));
         }
 
         public void addNewGame(Player one, Player two, Player three, Player four)
@@ -50,7 +37,14 @@ namespace FroggerServer
 
         public void joinSession(string SessionToJoin, Player joiningPlayer)
         {
-           gameSessions[SessionToJoin].addPlayerToGame(joiningPlayer);
+            gameSessions[SessionToJoin].addPlayerToGame(joiningPlayer);
+            playerSessionNames.Add(joiningPlayer.IP, SessionToJoin);
+        }
+
+        public string getSessionName(string IP)
+        {
+            //returns the value that IP maps to.
+            return playerSessionNames[IP];
         }
 
         public void setPlayerPosition(string session, string IP, int x, int y)
@@ -68,7 +62,7 @@ namespace FroggerServer
             gameSessions[session].setScore(IP, score);
         }
 
-        public void messageHandle(string session,string message ,string IP)
+        public void chatMessageHandle(string session,string message ,string IP)
         {
             int myPosition = gameSessions[session].getPlayerNumber(IP);
             string toSend = "chat-message," + gameSessions[session].getPlayer(myPosition).getUserName() + "," + message + "<EOF>";
@@ -109,6 +103,11 @@ namespace FroggerServer
             {
 
             }
+        }
+
+        public int getCurrentTime(string session)
+        {
+            return gameSessions[session].getCurrentTime();
         }
 
         public void update() 

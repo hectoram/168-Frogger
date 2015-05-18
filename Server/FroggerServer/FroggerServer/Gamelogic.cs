@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
+using System.Diagnostics;
 
 namespace FroggerServer
 {
@@ -23,19 +25,21 @@ namespace FroggerServer
 
         private int playerCount = 0;
 
+        //Scores being set
         public int playerOneScore;
         public int playerTwoScore;
-
         private bool winnerSet = false;
         public int winner = 0;
-
         bool firstScore = false;
         bool secondScore = false;
         public bool bothScoresSet;
 
+        //In Lobby ready
         public bool p1Ready = false;
         public bool p2Ready = false;
         
+        //Timer
+        Stopwatch stopWatch = new Stopwatch();
 
         public GameLogic() 
         {
@@ -53,6 +57,10 @@ namespace FroggerServer
             third = three;
             fourth = four;
             fourPlayer = true;
+            setDefaultPosition(1);
+            setDefaultPosition(2);
+            setDefaultPosition(3);
+            setDefaultPosition(4);
         }
 
         public GameLogic(Player one, Player two)
@@ -60,6 +68,24 @@ namespace FroggerServer
             first = one;
             second = two;
             fourPlayer = false;
+            setDefaultPosition(1);
+            setDefaultPosition(2);
+            setDefaultPosition(3);
+            setDefaultPosition(4);
+        }
+
+        private void setTimer()
+        {
+            stopWatch.Reset();
+            stopWatch.Start();
+            //Reading elapsed time:
+            //TimeSpan ts = stopWatch.Elapsed;
+        }
+
+        public int getCurrentTime()
+        {
+            TimeSpan time = stopWatch.Elapsed;
+            return time.Seconds;
         }
 
         public bool playerIsInGame(string IP) 

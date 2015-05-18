@@ -180,7 +180,13 @@ namespace FroggerServer
                 connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
             }else if(message[0] == "chat-message")
             {
-                GameHandler.Instance.messageHandle("default", message [1] ,senderIP);
+                GameHandler.Instance.chatMessageHandle("default",message [1] ,senderIP);
+            }else if(message[0] == "timer")
+            {
+                connectionLinker.Send(connectedPlayers[senderIP].connection, "timer," + GameHandler.Instance.getCurrentTime("default") + "<EOF>");
+            }else if(message[0] == "player-ready")
+            {
+                
             }
             else
                 NetworkHandler.Instance.messagesRecieved[senderIP].Enqueue(toParse);
