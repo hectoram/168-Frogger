@@ -7,6 +7,8 @@ We are using strings separated by commas to pass information.
 "frogPosition,x,y<EOF>" = sending the server my position
 "gameOver,score<EOF>" = my final score
 "chat-message,message<EOF>" = message to send to the rest of the lobby
+"player-ready<EOF>" = Client has finished loading up
+"timer<EOF>" = Request for current in game time
 
 ===== SERVER MESSAGES =====
 
@@ -16,3 +18,7 @@ We are using strings separated by commas to pass information.
 "frogPosition,x,y<EOF>" = receiving opponent's position
 "gameOver,result,score<EOF>" = my win/lose condition ("won" or "lost") and my opponent's score
 "chat-message,username,message<EOF>" = message to display from the given user
+"start-message,playerCount<EOF>" = start game followed by the number of in game players. 2,3,4
+"start-timer<EOF>" = sent after all players have sent the server a player-ready message
+"timer,currentTime<EOF>" = send the current in game time for player game 
+
