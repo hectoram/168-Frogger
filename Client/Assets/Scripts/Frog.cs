@@ -10,10 +10,12 @@ public class Frog : MonoBehaviour
 	GameObject menuObject;
 	GameOverScript menu;
     GameUI gameUI;
-	public bool enabled = true;
 
     GameObject networking;
     ClientScript clientManager;
+
+    GameObject spawner;
+    PlayerSpawner playerSpawner;
 
 	void Start()
 	{
@@ -23,6 +25,9 @@ public class Frog : MonoBehaviour
 
         networking = GameObject.FindGameObjectWithTag("Networking");
         clientManager = networking.GetComponent<ClientScript>();
+
+        spawner = GameObject.FindGameObjectWithTag("Spawner");
+        playerSpawner = spawner.GetComponent<PlayerSpawner>();
 	}
 
 	// Jump Speed - how fast the frog will jump
@@ -47,59 +52,59 @@ public class Frog : MonoBehaviour
         transform.position = new Vector3(0, -8, 0);
 	}
 
-	// FixedUpdate is called in a fixed time interval
-	void FixedUpdate () 
-	{
-		// Is the frog currently jumping?
-		if (enabled) {
+    // FixedUpdate is called in a fixed time interval
+    void FixedUpdate()
+    {
+        // Is the frog currently jumping?
+        if (isJumping())
+        {
+            if (isJumping())
+            {
+                // Remember current position
+                Vector2 currentPosition = transform.position;
 
-			if (isJumping ()) {
-				if (isJumping ()) {
-					// Remember current position
-					Vector2 currentPosition = transform.position;
+                // Adding message to send to the server
+                clientManager.SendMSG("position," + currentPosition.x + "," + currentPosition.y + "<EOF>", 1000);
 
-                    // Adding message to send to the server
-                    clientManager.SendMSG("position," + currentPosition.x + "," + currentPosition.y + "<EOF>", 1000);
+                // Jump a bit futher
+                transform.position = Vector2.MoveTowards(currentPosition, currentPosition + jump, speed);
 
-					// Jump a bit futher
-					transform.position = Vector2.MoveTowards (currentPosition, currentPosition + jump, speed);
+                // Subtract stepsize from jump vector
+                jump -= (Vector2)transform.position - currentPosition;
+            }
+        }
+        // Otherwise allow for next jump
+        else
+        {
+            bool result;
 
-					// Subtract stepsize from jump vector
-					jump -= (Vector2)transform.position - currentPosition;
-				}
-			}
-		// Otherwise allow for next jump
-		else {
-				// Detects arrow key presses
-				// UP ARROW OR W KEY
-				if (Input.GetKey (KeyCode.UpArrow) || Input.GetKey (KeyCode.W)) {
-					jump = Vector2.up;
-					GetComponent<AudioSource> ().PlayOneShot (jumpSFX);
-				}
-			// RIGHT ARROW OR D KEY
-			else if (Input.GetKey (KeyCode.RightArrow) || Input.GetKey (KeyCode.D)) {
-					jump = Vector2.right;
-					GetComponent<AudioSource> ().PlayOneShot (jumpSFX);
-				}
-			// DOWN ARROW OR S KEY
-			else if (Input.GetKey (KeyCode.DownArrow) || Input.GetKey (KeyCode.S)) {
-					jump = -Vector2.up; // -up means down
-					GetComponent<AudioSource> ().PlayOneShot (jumpSFX);
-				}
-			// LEFT ARROW OR A KEY
-			else if (Input.GetKey (KeyCode.LeftArrow) || Input.GetKey (KeyCode.A)) {
-					jump = -Vector2.right; // -right means left
-					GetComponent<AudioSource> ().PlayOneShot (jumpSFX);
-				}
-			}
-		} else 
-		{
-			//Use the network to update me instead. 
-		}
+            if (playerSpawner.getThisPlayer() == this.gameObject)
+                result = true;
+            else result = false;
 
-		// Setting up animation parameters
-		GetComponent<Animator> ().SetFloat ("X", jump.x);
-		GetComponent<Animator> ().SetFloat ("Y", jump.y);
-		GetComponent<Animator> ().speed = Convert.ToSingle (isJumping ());
-	}
+            //Debug.Log("Result: " + result);
+
+            if (playerSpawner.getThisPlayer() == this.gameObject)
+            {
+                // Detects arrow key presses
+                // UP ARROW OR W KEY
+                if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+                    jump = Vector2.up;
+                // RIGHT ARROW OR D KEY
+                else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+                    jump = Vector2.right;
+                // DOWN ARROW OR S KEY
+                else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+                    jump = -Vector2.up; // -up means down
+                // LEFT ARROW OR A KEY
+                else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+                    jump = -Vector2.right; // -right means left
+            }
+        }
+
+        // Setting up animation parameters
+        GetComponent<Animator>().SetFloat("X", jump.x);
+        GetComponent<Animator>().SetFloat("Y", jump.y);
+        GetComponent<Animator>().speed = Convert.ToSingle(isJumping());
+    }
 }

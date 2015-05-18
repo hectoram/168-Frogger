@@ -35,13 +35,28 @@ public class MultiplayerLobbyScript : MonoBehaviour {
 
     float updateTime = 10;
 
+    bool isInLobby = false;
+
     public int getPlayerNumber()
     {
         return playerNumber;
     }
 
+    public bool getIsInLobby()
+    {
+        return isInLobby;
+    }
+
+    public void setIsInLobby(bool value)
+    {
+        isInLobby = value;
+    }
+
 	// Use this for initialization
 	void Start () {
+
+        //DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(lobbyMenu);
 
         lobbyMenu = lobbyMenu.GetComponent<Canvas>();
 
@@ -85,21 +100,29 @@ public class MultiplayerLobbyScript : MonoBehaviour {
 	void Update () {
 
         if (lobbyMenu.enabled)
+            isInLobby = true;
+        else
+            isInLobby = false;
+
+        if(!clientManager.getIsGameInProgress())
         {
-            if (updateTime > 0)
+            if (lobbyMenu.enabled)
             {
-                updateTime -= Time.deltaTime;
+                if (updateTime > 0)
+                {
+                    updateTime -= Time.deltaTime;
+                }
+                else
+                {
+                    UpdateQueue();
+                    updateTime = 10;
+                }
+                //InvokeRepeating("UpdateQueue", 5, 5);
+                loginInfo.loggedInMenu.enabled = false;
+                loginInfo.loginSuccessMenu.enabled = false;
+                loginInfo.loginNewUserMenu.enabled = false;
             }
-            else
-            {
-                UpdateQueue();
-                updateTime = 10;
-            }
-            //InvokeRepeating("UpdateQueue", 5, 5);
-            loginInfo.loggedInMenu.enabled = false;
-            loginInfo.loginSuccessMenu.enabled = false;
-            loginInfo.loginNewUserMenu.enabled = false;
-        }
+        } 
 	}
 
     void UpdateQueue()
@@ -177,12 +200,15 @@ public class MultiplayerLobbyScript : MonoBehaviour {
         Debug.Log("You have clicked on ready!");
         isReady = true;
         UpdateQueue();
+
+        //clientManager.StartMultiplayerGame();
     }
 
     public void DisplayLobbyMenu()
     {
         Debug.Log("You have entered the lobby.");
         lobbyMenu.enabled = true;
+        clientManager.setIsPlayerInLobby(true);
         UpdateQueue();
     }
 
@@ -190,6 +216,7 @@ public class MultiplayerLobbyScript : MonoBehaviour {
     {
         Debug.Log("You have left the lobby.");
         lobbyMenu.enabled = false;
+        clientManager.setIsPlayerInLobby(false);
         isReady = false;
     }
 }

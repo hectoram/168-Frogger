@@ -20,6 +20,7 @@ public class LoginScript : MonoBehaviour {
     public Canvas loggedInMenu;
     
     public Text currentUsername;
+    public static string myUsername;
 
 	public InputField username;
 	public InputField password;
@@ -31,9 +32,16 @@ public class LoginScript : MonoBehaviour {
 	ClientScript clientManager;
     GameObject networking;
 
+    public static string getUsername()
+    {
+        return myUsername;
+    }
+
 	// Use this for initialization
 	public void Start ()
     {
+        DontDestroyOnLoad(this);
+
 		loginMenu = loginMenu.GetComponent<Canvas> ();
 		loginFailedMenu = loginFailedMenu.GetComponent<Canvas> ();
 		loginSuccessMenu = loginSuccessMenu.GetComponent<Canvas> ();
@@ -75,6 +83,7 @@ public class LoginScript : MonoBehaviour {
 		//Network.Connect (ipAddress, port);
 
         //clientManager.StartClient("userLogin", username.text, password.text);
+        myUsername = username.text;
 	}
 
     public void CreateUser()
@@ -90,6 +99,7 @@ public class LoginScript : MonoBehaviour {
             clientManager.Send("userCreate," + username.text + "," + password.text + "<EOF>");
         }
         //clientManager.StartClient("userCreate", username.text, password.text);
+        myUsername = username.text;
     }
 
 	public void DisplayLoginMenu()

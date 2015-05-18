@@ -99,8 +99,8 @@ GameObject:
   - 95: {fileID: 245703}
   - 61: {fileID: 245702}
   - 50: {fileID: 245701}
-  - 114: {fileID: 245700}
   - 82: {fileID: 245706}
+  - 114: {fileID: 245700}
   m_Layer: 0
   m_Name: Frog
   m_TagString: Player
@@ -116,7 +116,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 245699}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac79580803cdf444ebdf33fe3d1a6d45, type: 3}
+  m_Script: {fileID: 11500000, guid: 6aff8d02d02998447b776584678d3b86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   jumpSFX: {fileID: 8300000, guid: 5de00406642c5644581b5e582bf7a781, type: 3}

@@ -36,7 +36,9 @@ public class ClientScript : MonoBehaviour
     GameObject gameMenu;
 
     bool isGameInProgress;
-    int myPlayerNumber = 0; // Starts at zero, if it's zero, that means that the player has not been assigned a number yet
+    static int myPlayerNumber = 0; // Starts at zero, if it's zero, that means that the player has not been assigned a number yet
+    static int numberOfPlayers = 0;
+    static string myUsername = "not set";
 
     static string data = "";
     static string[] playerQueue = { "null", "null", "null", "null" };
@@ -44,7 +46,34 @@ public class ClientScript : MonoBehaviour
 
     static bool startGame = false;
 
+    bool isPlayerInLobby = false;
+
     static AsyncOperation async;
+
+    public void closeLobbyMenu()
+    {
+        lobbyInfo.enabled = false;
+    }
+
+    public bool getIsGameInProgress()
+    {
+        return isGameInProgress;
+    }
+
+    public int getPlayerNumber()
+    {
+        return myPlayerNumber;
+    }
+
+    public int getNumberOfPlayers()
+    {
+        return numberOfPlayers;
+    }
+
+    public string getUsername()
+    {
+        return myUsername;
+    }
 
     public void setPlayerNumber(int number)
     {
@@ -67,18 +96,50 @@ public class ClientScript : MonoBehaviour
 
     public static void setQueue(string p1, string p2, string p3, string p4)
     {
+        myUsername = LoginScript.getUsername();
+
         playerQueue[0] = p1;
         playerQueue[1] = p2;
         playerQueue[2] = p3;
         playerQueue[3] = p4;
+
+        if (p1 == myUsername)
+            myPlayerNumber = 1;
+        else if (p2 == myUsername)
+            myPlayerNumber = 2;
+        else if (p3 == myUsername)
+            myPlayerNumber = 3;
+        else if (p4 == myUsername)
+            myPlayerNumber = 4;
     }
 
     public static void setReady(string p1, string p2, string p3, string p4)
     {
+        numberOfPlayers = 0;
+
         playerReady[0] = p1;
         playerReady[1] = p2;
         playerReady[2] = p3;
         playerReady[3] = p4;
+
+        if (p1 != "null" && p1 != "empty")
+            numberOfPlayers++;
+        else if (p2 != "null" && p2 != "empty")
+            numberOfPlayers++;
+        else if (p3 != "null" && p3 != "empty")
+            numberOfPlayers++;
+        else if (p4 != "null" && p4 != "empty")
+            numberOfPlayers++;
+    }
+
+    public bool getIsPlayerInLobby()
+    {
+        return isPlayerInLobby;
+    }
+
+    public void setIsPlayerInLobby(bool value)
+    {
+        isPlayerInLobby = value;
     }
 
     public void Start()
@@ -86,6 +147,7 @@ public class ClientScript : MonoBehaviour
         DontDestroyOnLoad(this);
 
         isGameInProgress = false;
+        isPlayerInLobby = false;
 
         Debug.Log("In Start()");
 
@@ -126,7 +188,7 @@ public class ClientScript : MonoBehaviour
         {
             //Send("position," + )
         }
-        else if (!isGameInProgress && lobbyInfo.lobbyMenu.enabled)
+        else if (isPlayerInLobby)
         {
             lobbyInfo.queuedPlayers[0] = playerQueue[0];
             lobbyInfo.queuedPlayers[1] = playerQueue[1];
@@ -261,7 +323,7 @@ public class ClientScript : MonoBehaviour
         }
     }
     
-    void StartMultiplayerGame()
+    public void StartMultiplayerGame()
     {
         startGame = false;
         Application.LoadLevel("Multiplayer Scene");
