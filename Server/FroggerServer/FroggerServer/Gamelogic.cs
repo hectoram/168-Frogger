@@ -138,6 +138,20 @@ namespace FroggerServer
             }
         }
 
+        public Player getPlayer(int player)
+        {
+            if (player == 1)
+                return first;
+            else if (player == 2)
+                return second;
+            else if (player == 3)
+                return third;
+            else if (player == 4)
+                return fourth;
+
+            return null;
+        }
+
         public string getPlayerPositions(int pos)
         {
             if (pos== 1)

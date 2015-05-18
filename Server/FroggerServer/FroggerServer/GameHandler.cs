@@ -68,6 +68,48 @@ namespace FroggerServer
             gameSessions[session].setScore(IP, score);
         }
 
+        public void messageHandle(string session,string message ,string IP)
+        {
+            int myPosition = gameSessions[session].getPlayerNumber(IP);
+            string toSend = "chat-message," + gameSessions[session].getPlayer(myPosition).getUserName() + "," + message + "<EOF>";
+            //Try to send the message and if they return null then you do nothing. 
+            try
+            {
+                if (myPosition != 1)
+                    NetworkHandler.Instance.sendMessage(gameSessions[session].getPlayer(1).IP, toSend);
+            }
+            catch (Exception e)
+            { 
+                
+            }
+            try
+            {
+                if (myPosition != 2)
+                    NetworkHandler.Instance.sendMessage(gameSessions[session].getPlayer(2).IP, toSend);
+            }
+            catch (Exception e)
+            {
+
+            }
+            try
+            {
+                if (myPosition != 3)
+                    NetworkHandler.Instance.sendMessage(gameSessions[session].getPlayer(3).IP, toSend);
+            }
+            catch (Exception e)
+            {
+
+            }
+            try
+            {
+                if (myPosition != 4)
+                    NetworkHandler.Instance.sendMessage(gameSessions[session].getPlayer(4).IP, toSend);
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
 
         public void update() 
         {

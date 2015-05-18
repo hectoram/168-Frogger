@@ -171,8 +171,6 @@ namespace FroggerServer
                     string startGame = "start-game,<EOF>";
                     connectionLinker.Send(connectedPlayers[senderIP].connection, startGame);
                 }
-                
-
             }
             else if (message[0] == "frogPosition")
             {
@@ -180,6 +178,9 @@ namespace FroggerServer
                 string toSend = "frogPosition," + GameHandler.Instance.gameSessions["default"].getPlayerPositions(1) + ",2," + GameHandler.Instance.gameSessions["default"].getPlayerPositions(2) + ",3,null,null,4,null,null<EOF>";
 
                 connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
+            }else if(message[0] == "chat-message")
+            {
+                GameHandler.Instance.messageHandle("default", message [1] ,senderIP);
             }
             else
                 NetworkHandler.Instance.messagesRecieved[senderIP].Enqueue(toParse);
