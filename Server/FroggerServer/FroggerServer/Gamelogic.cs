@@ -38,6 +38,10 @@ namespace FroggerServer
         public bool p1Ready = false;
         public bool p2Ready = false;
         
+        //In game loaded ready
+        public bool p1Loaded = false;
+        public bool p2Loaded = false;
+
         //Timer
         Stopwatch stopWatch = new Stopwatch();
 
@@ -74,7 +78,7 @@ namespace FroggerServer
             setDefaultPosition(4);
         }
 
-        private void setTimer()
+        public void setTimer()
         {
             stopWatch.Reset();
             stopWatch.Start();
@@ -235,6 +239,26 @@ namespace FroggerServer
             { 
                 //Do nothing. Second player probably isn't connected. 
             }
+        }
+
+        public void setLoadReady(string IP)
+        {
+            try
+            {
+                if (first.IP.Equals(IP))
+                    p1Loaded = true;
+                else if (second.IP.Equals(IP))
+                    p2Loaded = true;
+            }
+            catch (Exception e)
+            {
+                //Do nothing. Second player probably isn't connected. 
+            }
+        }
+
+        public bool allPlayersLoaded()
+        {
+            return p2Loaded && p1Loaded;
         }
 
         public bool addPlayerToGame(Player toAdd) 
