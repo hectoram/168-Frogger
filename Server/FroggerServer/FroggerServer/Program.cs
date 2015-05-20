@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
+
 namespace FroggerServer
 {
     class Program
@@ -15,7 +16,9 @@ namespace FroggerServer
         
             public static int Main(String[] args)
             {
-                NetworkHandler.Instance.init();
+
+                Thread listenerThread = new Thread(NetworkHandler.Instance.init);
+                listenerThread.Start();
                 //Since the server is always running do this
                 while(true)
                 {

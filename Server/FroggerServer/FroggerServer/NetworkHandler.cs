@@ -26,10 +26,9 @@ namespace FroggerServer
             connectionLinker = new AsynchronousSocketListener();
         }
 
-        public bool init()
+        public void init()
         {
             connectionLinker.StartListening();
-            return true;
         }
 
 
