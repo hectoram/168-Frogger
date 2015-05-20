@@ -64,7 +64,7 @@ public class Frog : MonoBehaviour
                 Vector2 currentPosition = transform.position;
 
                 // Adding message to send to the server
-                clientManager.SendMSG("position," + currentPosition.x + "," + currentPosition.y + "<EOF>", 1000);
+                clientManager.SendMSG("frogPosition," + currentPosition.x + "," + currentPosition.y + "<EOF>", 1000);
 
                 // Jump a bit futher
                 transform.position = Vector2.MoveTowards(currentPosition, currentPosition + jump, speed);

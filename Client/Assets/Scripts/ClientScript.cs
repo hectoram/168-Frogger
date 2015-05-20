@@ -35,6 +35,9 @@ public class ClientScript : MonoBehaviour
     GameObject spawner;
     PlayerSpawner playerSpawner;
 
+    GameObject gameUI;
+    GameUI gameplay;
+
     GameObject loginMenu;
     GameObject gameMenu;
 
@@ -114,7 +117,7 @@ public class ClientScript : MonoBehaviour
 
     public static void setQueue(string p1, string p2, string p3, string p4)
     {
-        myUsername = LoginScript.getUsername();
+        //myUsername = LoginScript.getUsername();
 
         playerQueue[0] = p1;
         playerQueue[1] = p2;
@@ -206,6 +209,9 @@ public class ClientScript : MonoBehaviour
         spawner = GameObject.FindGameObjectWithTag("Spawner");
         playerSpawner = spawner.GetComponent<PlayerSpawner>();
 
+        gameUI = GameObject.FindGameObjectWithTag("Menus");
+        gameplay = gameUI.GetComponent<GameUI>();
+
         //StartClient();
     }
 
@@ -258,6 +264,11 @@ public class ClientScript : MonoBehaviour
 			loginInfo.DisplayLoginNewUserFailedMenu();
             loggedIn = false;
 		}
+        /*else if (data == "start-timer")
+        {
+            gameplay.resetGame();
+            resetData();
+        }*/
 
         if (!doneSpawning)
         {
@@ -406,6 +417,7 @@ public class ClientScript : MonoBehaviour
                     {
                         Debug.Log("Login successful!");
                         setData(messageToCheck[1]);
+                        myUsername = LoginScript.getUsername();
                     }
                     else if (messageToCheck[1] == "false")
                     {
@@ -416,6 +428,7 @@ public class ClientScript : MonoBehaviour
                     {
                         Debug.Log("A new user has been created!");
                         setData(messageToCheck[1]);
+                        myUsername = LoginScript.getUsername();
                     }
 					else if (messageToCheck[1] == "newfailed")
 					{
@@ -444,6 +457,11 @@ public class ClientScript : MonoBehaviour
                 else if (messageToCheck[0] == "start-timer")
                 {
                     setDoneSpawning(false);
+                    GameUI.restartGame();
+                }
+                else if (messageToCheck[0] == "timer")
+                {
+                    GameUI.setTimer(float.Parse(messageToCheck[1]));
                 }
                 
                 if (messageToCheck.Length == 2)

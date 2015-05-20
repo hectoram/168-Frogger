@@ -6,7 +6,7 @@ public class PlayerSpawner : MonoBehaviour {
     public GameObject player1;
     public GameObject player2;
 
-    GameObject thisPlayer;
+    public GameObject thisPlayer;
 
     ClientScript clientManager;
     GameObject networking;
@@ -20,6 +20,8 @@ public class PlayerSpawner : MonoBehaviour {
     Vector3 twoPlayerP1Position;
     Vector3 twoPlayerP2Position;
 
+    public static bool updatePositions = false;
+
     /*Vector3 threePlayerP1Position;
     Vector3 threePlayerP2Position;
     Vector3 threePlayerP3Position;
@@ -29,6 +31,11 @@ public class PlayerSpawner : MonoBehaviour {
     Vector3 fourPlayerP3Position;
     Vector3 fourPlayerP4Position;*/
 
+    public int getPlayerNumber()
+    {
+        return playerNumber;
+    }
+
     public GameObject getThisPlayer()
     {
         return thisPlayer;
@@ -36,7 +43,7 @@ public class PlayerSpawner : MonoBehaviour {
 
     public void spawnPlayers()
     {
-        numberOfPlayers = clientManager.getNumberOfPlayers();
+        //numberOfPlayers = clientManager.getNumberOfPlayers();  //being set in ClientScript when "start-game" is received
         playerNumber = clientManager.getPlayerNumber();
         username = clientManager.getUsername();
 
@@ -99,6 +106,8 @@ public class PlayerSpawner : MonoBehaviour {
         Debug.Log("Number of players: " + numberOfPlayers);
         Debug.Log("You are player number: " + playerNumber);
         Debug.Log("Your username is: " + username);
+
+        updatePositions = true;
     }
 
 	// Use this for initialization
@@ -127,7 +136,20 @@ public class PlayerSpawner : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        //if (clientManager.getIsGameInProgress())
-            //clientManager.closeLobbyMenu();
+        if (updatePositions)
+        {
+            if (numberOfPlayers == 2)
+            {
+
+            }
+            /*else if (numberOfPlayers == 3)
+            {
+
+            }
+            else if (numberOfPlayers == 4)
+            {
+
+            }*/
+        }
 	}
 }

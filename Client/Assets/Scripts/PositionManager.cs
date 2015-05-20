@@ -15,6 +15,11 @@ public class PositionManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (playerSpawner.getPlayerNumber() == 1)
+        {
+
+        }
 	
 	}
 }

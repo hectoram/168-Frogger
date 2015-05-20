@@ -10,19 +10,25 @@ public class GameUI : MonoBehaviour {
     GameObject menuObject;
     GameOverScript menu;
 
-    int score;
-    float time;
+    static int score;
+    static float time;
 
-    bool isGameOver;
-    bool startTimer;
+    static bool isGameOver;
+    static bool startTimer;
 
-    public void restartGame()
+    public static void restartGame()
     {
         score = 0;
         time = 30; // 5 minutes = 300 or 1 minute = 60
 
         isGameOver = false;
         startTimer = true;
+        PlayerSpawner.updatePositions = true;
+    }
+
+    public static void setTimer(float newTime)
+    {
+        time = newTime;
     }
 
 	// Use this for initialization
@@ -47,6 +53,7 @@ public class GameUI : MonoBehaviour {
             {
                 isGameOver = true;
                 startTimer = false;
+                PlayerSpawner.updatePositions = false;
                 scoreText.text = score.ToString();
                 menu.finalScoreText.text = "SCORE: " + score.ToString();
                 menu.ShowScoreMenu();
@@ -62,12 +69,12 @@ public class GameUI : MonoBehaviour {
         scoreText.text = score.ToString();
 	}
 
-    public void resetGame()
+    /*public void resetGame()
     {
         score = 0;
         time = 300;
         isGameOver = false;
-    }
+    }*/
 
     public void addFinishLineScore()
     {
