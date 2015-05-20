@@ -22,6 +22,7 @@ namespace FroggerServer
 
         private bool gameHasStarted;
         private bool gameIsOver;
+        private bool timerStarted;
 
         private int playerCount = 0;
 
@@ -48,6 +49,8 @@ namespace FroggerServer
         public GameLogic() 
         {
             gameHasStarted = false;
+            gameIsOver = false;
+            timerStarted = false;
             setDefaultPosition(1);
             setDefaultPosition(2);
             setDefaultPosition(3);
@@ -65,6 +68,9 @@ namespace FroggerServer
             setDefaultPosition(2);
             setDefaultPosition(3);
             setDefaultPosition(4);
+            gameHasStarted = false;
+            gameIsOver = false;
+            timerStarted = false;
         }
 
         public GameLogic(Player one, Player two)
@@ -76,6 +82,9 @@ namespace FroggerServer
             setDefaultPosition(2);
             setDefaultPosition(3);
             setDefaultPosition(4);
+            gameHasStarted = false;
+            gameIsOver = false;
+            timerStarted = false;
         }
 
         public void setTimer()
@@ -298,6 +307,34 @@ namespace FroggerServer
             return 0;
         }
 
+        public void sendGameOver()
+        {
+            try
+            {
+                if (first != null)
+                    NetworkHandler.Instance.sendMessage(first.IP, "messageGoesHere");
+
+                if (second != null)
+                    NetworkHandler.Instance.sendMessage(second.IP, "messageGoesHere");
+
+                if (third != null)
+                    NetworkHandler.Instance.sendMessage(third.IP, "messageGoesHere");
+
+                if (fourth != null)
+                    NetworkHandler.Instance.sendMessage(first.IP, "messageGoesHere");
+            }
+            catch(Exception e)
+            { 
+                //Do nothing because what can you do
+            }
+
+        }
+
+        public bool isGameOver()
+        {
+            return gameIsOver;
+        }
+
         public int getPlayerCount()
         {
             return playerCount;
@@ -305,11 +342,27 @@ namespace FroggerServer
 
         public void update() 
         {
-            if (playerCount == 2)
+            if (gameHasStarted)
             {
-                gameHasStarted = true;
-                Console.WriteLine("We have two players and the game has started.");
+                if (!timerStarted)
+                {
+                    setTimer();
+                    timerStarted = !timerStarted;
+                }
+                else
+                { 
+                    long totalMilliseconds = stopWatch.ElapsedMilliseconds;
+                    if (totalMilliseconds >= 60000)
+                    {
+                        gameIsOver = true;
+                        gameHasStarted = !gameHasStarted;
+                        sendGameOver();
+                        timerStarted = !timerStarted;
+                    }
+                }
+                    
             }
         }
+
     }
 }
