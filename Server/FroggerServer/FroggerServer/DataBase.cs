@@ -16,7 +16,6 @@ namespace FroggerServer
     class DataBase
     {
 
-
     private static DataBase instance = null;
     private static readonly object padlock = new object();
     private string dbname = "MyDatabase.sqlite";
@@ -88,7 +87,7 @@ namespace FroggerServer
             string salt = GenerateSaltValue();
 
             string sql = "insert into Login (username, password, salt) values ";
-            string temp = "('" + username + "', " + "'" + HashPassword(password, salt) + "', " + "'" + salt + "')";
+            string temp = "('" + username + "'," + "'" + HashPassword(password, salt) + "'," + "'" + salt + "')";
             sql += temp;
             SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
@@ -97,7 +96,31 @@ namespace FroggerServer
         }
         return false;
     }
-    
+
+    public bool addHighscore(string username, string highscore) 
+    {
+        if (open())
+        {
+            string sql = "insert into Highscores (username, highscore) values ('" + username + "','" + highscore + "')";
+            SQLiteCommand command = new SQLiteCommand(sql,m_dbConnection);
+            command.ExecuteNonQuery();
+            return true;
+        }
+
+        return false;
+    }
+
+    public int getHighscore(string username)
+    {
+        if (!open())
+            return -1;
+
+        string sqlSalt = "SELECT highscore from Highscores where username like '" + username + "'";
+        SQLiteCommand command = new SQLiteCommand(sqlSalt,m_dbConnection);
+        var temp = command.ExecuteScalar();
+
+        return int.Parse(temp.ToString());
+    }
 
         //Ceci's
     private static string GenerateSaltValue()
@@ -174,9 +197,12 @@ namespace FroggerServer
             m_dbConnection = new SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;");
             m_dbConnection.Open();
 
-            string sql = "create table Login (username varchar(20), password varchar(20))";
+            string sql = "create table Login (username varchar(20), password varchar(20), salt varchar(20))";
+            string sql2 = "create table Highscores (username varchar(20), highscore varchar(20))";
             SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
+            SQLiteCommand secondTable = new SQLiteCommand(sql2, m_dbConnection);
             command.ExecuteNonQuery();
+            secondTable.ExecuteNonQuery();
             return true;
         }
         else 
