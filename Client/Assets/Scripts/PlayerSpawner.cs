@@ -34,28 +34,8 @@ public class PlayerSpawner : MonoBehaviour {
         return thisPlayer;
     }
 
-	// Use this for initialization
-	void Start () {
-
-        onePlayerP1Position.Set(0, -8, 0);      // One Player - Player 1 Starting Position
-
-        twoPlayerP1Position.Set(-3, -8, 0);      // Two Player - Player 1 Starting Position
-        twoPlayerP2Position.Set(3, -8, 0);      // Two Player - Player 2 Starting Position
-
-        /*threePlayerP1Position.Set(-4, -8, 0);      // Two Player - Player 1 Starting Position
-        threePlayerP2Position.Set(0, -8, 0);      // Two Player - Player 2 Starting Position
-        threePlayerP3Position.Set(4, -8, 0);      // Two Player - Player 2 Starting Position
-
-        fourPlayerP1Position.Set(-6, -8, 0);      // Two Player - Player 1 Starting Position
-        fourPlayerP2Position.Set(-2, -8, 0);      // Two Player - Player 2 Starting Position
-        fourPlayerP3Position.Set(2, -8, 0);      // Two Player - Player 2 Starting Position
-        fourPlayerP4Position.Set(6, -8, 0);*/      // Two Player - Player 2 Starting Position
-
-        networking = GameObject.FindGameObjectWithTag("Networking");
-        clientManager = networking.GetComponent<ClientScript>();
-
-        clientManager.setIsPlayerInLobby(false);
-
+    public void spawnPlayers()
+    {
         numberOfPlayers = clientManager.getNumberOfPlayers();
         playerNumber = clientManager.getPlayerNumber();
         username = clientManager.getUsername();
@@ -119,6 +99,29 @@ public class PlayerSpawner : MonoBehaviour {
         Debug.Log("Number of players: " + numberOfPlayers);
         Debug.Log("You are player number: " + playerNumber);
         Debug.Log("Your username is: " + username);
+    }
+
+	// Use this for initialization
+	void Start () {
+
+        onePlayerP1Position.Set(0, -8, 0);      // One Player - Player 1 Starting Position
+
+        twoPlayerP1Position.Set(-3, -8, 0);      // Two Player - Player 1 Starting Position
+        twoPlayerP2Position.Set(3, -8, 0);      // Two Player - Player 2 Starting Position
+
+        /*threePlayerP1Position.Set(-4, -8, 0);      // Two Player - Player 1 Starting Position
+        threePlayerP2Position.Set(0, -8, 0);      // Two Player - Player 2 Starting Position
+        threePlayerP3Position.Set(4, -8, 0);      // Two Player - Player 2 Starting Position
+
+        fourPlayerP1Position.Set(-6, -8, 0);      // Two Player - Player 1 Starting Position
+        fourPlayerP2Position.Set(-2, -8, 0);      // Two Player - Player 2 Starting Position
+        fourPlayerP3Position.Set(2, -8, 0);      // Two Player - Player 2 Starting Position
+        fourPlayerP4Position.Set(6, -8, 0);*/      // Two Player - Player 2 Starting Position
+
+        networking = GameObject.FindGameObjectWithTag("Networking");
+        clientManager = networking.GetComponent<ClientScript>();
+
+        clientManager.setIsPlayerInLobby(false);
 	}
 	
 	// Update is called once per frame

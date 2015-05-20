@@ -32,6 +32,9 @@ public class ClientScript : MonoBehaviour
     LoginScript loginInfo;
     MultiplayerLobbyScript lobbyInfo;
 
+    GameObject spawner;
+    PlayerSpawner playerSpawner;
+
     GameObject loginMenu;
     GameObject gameMenu;
 
@@ -49,6 +52,21 @@ public class ClientScript : MonoBehaviour
     bool isPlayerInLobby = false;
 
     static AsyncOperation async;
+
+    static bool spawnPlayers = true;
+    static bool doneSpawning = true;
+
+    bool loggedIn = false;
+
+    public void setLoggedIn(bool value)
+    {
+        loggedIn = value;
+    }
+
+    public bool getLoggedIn()
+    {
+        return loggedIn;
+    }
 
     public void closeLobbyMenu()
     {
@@ -115,21 +133,21 @@ public class ClientScript : MonoBehaviour
 
     public static void setReady(string p1, string p2, string p3, string p4)
     {
-        numberOfPlayers = 0;
+        //numberOfPlayers = 0;
 
         playerReady[0] = p1;
         playerReady[1] = p2;
         playerReady[2] = p3;
         playerReady[3] = p4;
 
-        if (p1 != "null" && p1 != "empty")
+        /*if (p1 != "null" && p1 != "empty")
             numberOfPlayers++;
         else if (p2 != "null" && p2 != "empty")
             numberOfPlayers++;
         else if (p3 != "null" && p3 != "empty")
             numberOfPlayers++;
         else if (p4 != "null" && p4 != "empty")
-            numberOfPlayers++;
+            numberOfPlayers++;*/
     }
 
     public bool getIsPlayerInLobby()
@@ -140,6 +158,12 @@ public class ClientScript : MonoBehaviour
     public void setIsPlayerInLobby(bool value)
     {
         isPlayerInLobby = value;
+    }
+
+    public static void setDoneSpawning(bool value)
+    {
+        doneSpawning = value;
+        spawnPlayers = value;
     }
 
     public void Start()
@@ -179,6 +203,9 @@ public class ClientScript : MonoBehaviour
         // Set this false to wait changing the scene
         async.allowSceneActivation = false;
 
+        spawner = GameObject.FindGameObjectWithTag("Spawner");
+        playerSpawner = spawner.GetComponent<PlayerSpawner>();
+
         //StartClient();
     }
 
@@ -214,19 +241,32 @@ public class ClientScript : MonoBehaviour
         if (data == "true")
         {
             loginInfo.DisplayLoginSuccessMenu();
+            loggedIn = true;
         }
         else if (data == "false")
         {
             loginInfo.DisplayLoginFailedMenu();
+            loggedIn = false;
         }
         else if (data == "new")
         {
             loginInfo.DisplayLoginNewUserMenu();
+            loggedIn = true;
         }
 		else if (data == "newfailed")
 		{
 			loginInfo.DisplayLoginNewUserFailedMenu();
+            loggedIn = false;
 		}
+
+        if (!doneSpawning)
+        {
+            if (!spawnPlayers)
+            {
+                playerSpawner.spawnPlayers();
+                doneSpawning = false;
+            }
+        }
     }
 
     public void SendMSG(string data, int time)
@@ -397,6 +437,13 @@ public class ClientScript : MonoBehaviour
                     //myMenu.StartMultiplayerGame();
                     setStartGame(true);  // Created this function to be able start the Multiplayer Scene from inside ReceiveCallback
                     //Application.LoadLevel("Multiplayer Scene");  // Was getting an error trying to call this from here
+
+                    //Set the number of players here
+                    numberOfPlayers = Int32.Parse(messageToCheck[1]);
+                }
+                else if (messageToCheck[0] == "start-timer")
+                {
+                    setDoneSpawning(false);
                 }
                 
                 if (messageToCheck.Length == 2)

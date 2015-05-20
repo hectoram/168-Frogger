@@ -14,32 +14,43 @@ public class GameUI : MonoBehaviour {
     float time;
 
     bool isGameOver;
+    bool startTimer;
 
-	// Use this for initialization
-	void Start () {
-
-        menuObject = GameObject.FindGameObjectWithTag("Menus");
-        menu = menuObject.GetComponent<GameOverScript>();
-
+    public void restartGame()
+    {
         score = 0;
         time = 30; // 5 minutes = 300 or 1 minute = 60
 
         isGameOver = false;
+        startTimer = true;
+    }
+
+	// Use this for initialization
+	void Start () {
+
+        startTimer = false;
+
+        menuObject = GameObject.FindGameObjectWithTag("Menus");
+        menu = menuObject.GetComponent<GameOverScript>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (time > 0)
+        if (startTimer)
         {
-            time -= Time.deltaTime;
-        }
-        else
-        {
-            isGameOver = true;
-            scoreText.text = score.ToString();
-            menu.finalScoreText.text = "SCORE: " + score.ToString();
-            menu.ShowScoreMenu();
+            if (time > 0)
+            {
+                time -= Time.deltaTime;
+            }
+            else
+            {
+                isGameOver = true;
+                startTimer = false;
+                scoreText.text = score.ToString();
+                menu.finalScoreText.text = "SCORE: " + score.ToString();
+                menu.ShowScoreMenu();
+            }
         }
 
         int minutes = Mathf.FloorToInt(time / 60F);

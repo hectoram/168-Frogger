@@ -59,12 +59,26 @@ public class LoginScript : MonoBehaviour {
         clientManager = networking.GetComponent<ClientScript> ();
 		connectionStarted = false;
 
-		loginMenu.enabled = true;
-		loginFailedMenu.enabled = false;
-		loginSuccessMenu.enabled = false;
-		loginNewUserMenu.enabled = false;
-		loginNewUserFailedMenu.enabled = false;
-        loggedInMenu.enabled = false;
+        if (!clientManager.getLoggedIn())
+        {
+            loginMenu.enabled = true;
+            loginFailedMenu.enabled = false;
+            loginSuccessMenu.enabled = false;
+            loginNewUserMenu.enabled = false;
+            loginNewUserFailedMenu.enabled = false;
+            loggedInMenu.enabled = false;
+        }
+        else
+        {
+            loginMenu.enabled = false;
+            loginFailedMenu.enabled = false;
+            loginSuccessMenu.enabled = false;
+            loginNewUserMenu.enabled = false;
+            loginNewUserFailedMenu.enabled = false;
+            loggedInMenu.enabled = true;
+            currentUsername.text = clientManager.getUsername();
+        }
+		
 	}
 
 	public void LogIn()

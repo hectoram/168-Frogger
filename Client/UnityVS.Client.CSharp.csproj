@@ -59,18 +59,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\FrogSingle.cs" />
-    <Compile Include="Assets\PlayerSpawner.cs" />
     <Compile Include="Assets\Scripts\Border.cs" />
     <Compile Include="Assets\Scripts\ClientScript.cs" />
     <Compile Include="Assets\Scripts\FinishLineScript.cs" />
     <Compile Include="Assets\Scripts\Frog.cs" />
+    <Compile Include="Assets\Scripts\FrogSingle.cs" />
     <Compile Include="Assets\Scripts\GameOverScript.cs" />
     <Compile Include="Assets\Scripts\GameUI.cs" />
     <Compile Include="Assets\Scripts\LoginScript.cs" />
     <Compile Include="Assets\Scripts\MenuScript.cs" />
     <Compile Include="Assets\Scripts\MultiplayerLobbyScript.cs" />
     <Compile Include="Assets\Scripts\Platform.cs" />
+    <Compile Include="Assets\Scripts\PlayerSpawner.cs" />
+    <Compile Include="Assets\Scripts\PositionManager.cs" />
     <Compile Include="Assets\Scripts\Spawn.cs" />
     <Compile Include="Assets\Scripts\Water.cs" />
   </ItemGroup>
