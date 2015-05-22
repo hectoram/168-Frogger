@@ -24,6 +24,10 @@ public class MultiplayerLobbyScript : MonoBehaviour {
     public string[] queuedPlayers = {"null", "null", "null", "null"};
     public string[] readyPlayers = { "null", "null", "null", "null" };
 
+    // Ceci
+    public Canvas chatbox;
+    public InputField chatmessage;
+
     ClientScript clientManager;
     GameObject networking;
 
@@ -94,6 +98,9 @@ public class MultiplayerLobbyScript : MonoBehaviour {
         //ready4.color = Color.red;
 
         isReady = false;
+
+        chatbox = chatbox.GetComponent<Canvas>();
+        chatmessage.GetComponent<InputField>();
 	}
 	
 	// Update is called once per frame
@@ -219,4 +226,16 @@ public class MultiplayerLobbyScript : MonoBehaviour {
         clientManager.setIsPlayerInLobby(false);
         isReady = false;
     }
+
+
+    // Ceci
+    public void SendChatMessage()
+    {
+        chatmessage = chatmessage.GetComponent<InputField>();
+
+        clientManager.resetData();
+		clientManager.Send("chat-message," + chatmessage.text + "<EOF>");
+        Debug.Log("chat-message," + chatmessage.text + "<EOF>");
+    }
+
 }
