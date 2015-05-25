@@ -131,6 +131,8 @@ public class PlayerSpawner : MonoBehaviour {
         clientManager = networking.GetComponent<ClientScript>();
 
         clientManager.setIsPlayerInLobby(false);
+
+        clientManager.SendMSG("player-ready<EOF>", 1000);
 	}
 	
 	// Update is called once per frame
