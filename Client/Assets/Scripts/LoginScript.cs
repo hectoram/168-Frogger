@@ -83,6 +83,7 @@ public class LoginScript : MonoBehaviour {
 
 	public void LogIn()
 	{
+    Debug.Log("CALLING LOGIN!!!!!!!!!!!!!!!!!!!!!!!");
 		//clientManager.Send("userLogin," + username.text + "," + password.text + "<EOF>");
 		if (!connectionStarted) {
             clientManager.StartClient("userLogin", username.text, password.text);
@@ -97,7 +98,8 @@ public class LoginScript : MonoBehaviour {
 		//Network.Connect (ipAddress, port);
 
         //clientManager.StartClient("userLogin", username.text, password.text);
-        myUsername = username.text;
+    myUsername = username.text;
+    clientManager.StartReceivingMessages();
 	}
 
     public void CreateUser()

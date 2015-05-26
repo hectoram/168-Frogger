@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -23,8 +24,38 @@ public class ClientScript : MonoBehaviour
 
     Socket client;
 
-    // Create the state object for sending.
-    StateObject send_so;
+    // THREAD STUFF FOR RECEIVING
+    public struct QueueMessage {
+      public string title;
+      public string playerOneName;
+      public string playerTwoName;
+      public string playerThreeName;
+      public string playerFourName;
+    }
+
+    public struct ReadyMessage {
+      public string playerOneReady;
+      public string playerTwoReady;
+      public string playerThreeReady;
+      public string playerFourReady;
+    }
+
+    public struct LoginMessage {
+      public string title;
+      public string result;
+    }
+
+    Thread t;
+    bool threadStarted = false;
+    bool stopThread = false;
+    static Queue<QueueMessage> messageQueue = new Queue<QueueMessage>();
+    static Queue<ReadyMessage> readyQueue = new Queue<ReadyMessage>();
+    static Queue<LoginMessage> loginQueue = new Queue<LoginMessage>();
+    //
+
+
+  // Create the state object for sending.
+  StateObject send_so;
 
     // Create the state object for receiving.
     StateObject recv_so;
@@ -112,20 +143,20 @@ public class ClientScript : MonoBehaviour
         startGame = value;
     }
 
-	public static void setData(string newData)
+    public static void setData(string newData)
     {
         data = newData;
     }
 
     public static void setQueue(string p1, string p2, string p3, string p4)
     {
-        //myUsername = LoginScript.getUsername();
-
-        playerQueue[0] = p1;
-        playerQueue[1] = p2;
-        playerQueue[2] = p3;
-        playerQueue[3] = p4;
-
+    //myUsername = LoginScript.getUsername();
+        QueueMessage message = new QueueMessage();
+        message.playerOneName = p1;
+        message.playerTwoName = p2;
+        message.playerThreeName = p3;
+        message.playerFourName = p4;
+  
         if (p1 == myUsername)
             myPlayerNumber = 1;
         else if (p2 == myUsername)
@@ -134,11 +165,18 @@ public class ClientScript : MonoBehaviour
             myPlayerNumber = 3;
         else if (p4 == myUsername)
             myPlayerNumber = 4;
+
+        messageQueue.Enqueue(message);
     }
 
     public static void setReady(string p1, string p2, string p3, string p4)
     {
         //numberOfPlayers = 0;
+        ReadyMessage message = new ReadyMessage();
+        message.playerOneReady = p1;
+        message.playerTwoReady = p2;
+        message.playerThreeReady = p3;
+        message.playerFourReady = p4;
 
         playerReady[0] = p1;
         playerReady[1] = p2;
@@ -153,6 +191,8 @@ public class ClientScript : MonoBehaviour
             numberOfPlayers++;
         else if (p4 != "null" && p4 != "empty")
             numberOfPlayers++;*/
+
+        readyQueue.Enqueue(message);
     }
 
     public bool getIsPlayerInLobby()
@@ -286,6 +326,11 @@ public class ClientScript : MonoBehaviour
         }
     }
 
+    public void OnDestroy() {
+      Debug.Log("ending receive thread");
+      StopReceivingMessage();
+    }
+  
     public void SendMSG(string data, int time)
     {
         Debug.Log("Sending message...");
@@ -297,14 +342,14 @@ public class ClientScript : MonoBehaviour
 
     public void ReceiveMSG(int time)
     {
-        Debug.Log("Waiting for response...");
+        //Debug.Log("Waiting for response...");
         // Receive the response from the remote device.
         Receive(recv_so);
         recv_so.receiveDone.WaitOne(time);
     }
 
 	//public void StartClient (string username, string password)
-	public void StartClient(string message, string username, string password) //Ceci: added the first param
+	  public void StartClient(string message, string username, string password) //Ceci: added the first param
     {
         Debug.Log("Starting client...");
         // Connect to a remote device.
@@ -406,16 +451,18 @@ public class ClientScript : MonoBehaviour
 
             if (bytesRead > 0)
             {
-                // Found a 
+        // Found a 
+                state.sb.Length = 0;
+                state.sb.Capacity = 0;
                 state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
                 string content = state.sb.ToString();
+                Debug.Log("Content: " + content);
 
-				char[] delimiterChars = { ' ', ',','<','>'};
+                char[] delimiterChars = { ' ', ',','<','>'};
 
-				string[] messageToCheck = content.Split(delimiterChars);
+                string[] messageToCheck = content.Split(delimiterChars);
 
-                //Debug.Log("I sent you this back: " + messageToCheck[0] + " " + messageToCheck[1]);
-				Debug.Log("I recived this : " + messageToCheck[1]);
+                //Debug.Log("split: " + messageToCheck[1] + " " + messageToCheck[2] + " " + messageToCheck[3] + " " + messageToCheck[4]);
 
                 if (messageToCheck[0] == "login")
                 {
@@ -481,8 +528,8 @@ public class ClientScript : MonoBehaviour
                 }
                 else
                 {
-					StateObject newstate = new StateObject();
-					newstate.workSocket = client;
+                    StateObject newstate = new StateObject();
+                    newstate.workSocket = client;
                     // Get the rest of the data.
                     client.BeginReceive(newstate.buffer, 0, StateObject.BufferSize, 0,
                         new AsyncCallback(ReceiveCallback), newstate);
@@ -531,6 +578,46 @@ public class ClientScript : MonoBehaviour
         {
             Console.WriteLine(e.ToString());
         }
+    }
+
+    public void ThreadReceive() {
+        while (true) {
+          //Debug.Log("In ThreadReceive");
+          ReceiveMSG(0);
+          Thread.Sleep(500);
+          if (stopThread) {
+            break;
+          }
+        }
+    }
+
+    public void StartReceivingMessages() {
+      if (!threadStarted) {
+        t = new Thread(new ThreadStart(ThreadReceive));
+        t.Start();
+      }
+
+      threadStarted = true;
+    }
+
+    public void StopReceivingMessage() {
+      stopThread = true;
+    }
+
+    public bool HasQueueMessage() {
+      return !(messageQueue.Count == 0);
+    }
+
+    public QueueMessage ConsumeQueueMessage() {
+      return messageQueue.Dequeue();
+    }
+
+    public bool HasReadyMessage() {
+      return !(readyQueue.Count == 0);
+    }
+
+    public ReadyMessage ConsumeReadyMessage() {
+      return readyQueue.Dequeue();
     }
 
     // State object for receiving data from remote device.
