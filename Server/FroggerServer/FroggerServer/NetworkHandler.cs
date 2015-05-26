@@ -15,9 +15,10 @@ namespace FroggerServer
     {
 
         AsynchronousSocketListener connectionLinker;
-
+        Timer checkDCTimer;
+        private static bool startDCTimer = true;
         //Key is IP address of the player. 
-        public  SortedDictionary<string, Player> connectedPlayers = new SortedDictionary<string, Player>();
+        public static SortedDictionary<string, Player> connectedPlayers = new SortedDictionary<string, Player>();
         public SortedDictionary<string, Queue<string>> messagesRecieved = new SortedDictionary<string, Queue<string>>();
 
 
@@ -36,6 +37,43 @@ namespace FroggerServer
         { 
             //Do things here
             GameHandler.Instance.update();
+            if (startDCTimer)
+            {
+                checkDCTimer = new Timer(checkForDissconnect, null, 0, 5000);
+                startDCTimer = !startDCTimer;
+            }
+        }
+
+        private static void checkForDissconnect(Object o)
+        {
+            foreach (var entry in connectedPlayers)
+            {
+                if(!isConnected(entry.Value))
+                {
+                    handleDissconnect(entry.Key);
+                }
+            }
+            //Restart the timer
+            startDCTimer = !startDCTimer;
+        }
+
+        private static bool isConnected(Player playerToPoll)
+        {
+            try
+            {
+                return !(playerToPoll.connection.Poll(1, SelectMode.SelectRead) && playerToPoll.connection.Available == 0);
+            }
+            catch (SocketException) 
+            { 
+                return false; 
+            }
+        }
+
+        private static bool handleDissconnect(string IP)
+        {
+            connectedPlayers.Remove(IP);
+            GameHandler.Instance.handleDisconnectedPlayer(IP);
+            return true;
         }
 
         public bool sendMessage(string sendToIP, string message)

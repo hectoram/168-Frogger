@@ -29,19 +29,27 @@ namespace FroggerServer
         //Scores being set
         public int playerOneScore;
         public int playerTwoScore;
+        public int playerThreeScore;
+        public int playerFourScore;
         private bool winnerSet = false;
         public int winner = 0;
         bool firstScore = false;
         bool secondScore = false;
+        bool thirdScore = false;
+        bool fourthScore = false;
         public bool bothScoresSet;
 
         //In Lobby ready
         public bool p1Ready = false;
         public bool p2Ready = false;
+        public bool p3Ready = false;
+        public bool p4Ready = false;
         
         //In game loaded ready
         public bool p1Loaded = false;
         public bool p2Loaded = false;
+        public bool p3Loaded = false;
+        public bool p4Loaded = false;
 
         //Timer
         Stopwatch stopWatch = new Stopwatch();
@@ -91,8 +99,11 @@ namespace FroggerServer
         {
             stopWatch.Reset();
             stopWatch.Start();
-            //Reading elapsed time:
-            //TimeSpan ts = stopWatch.Elapsed;
+        }
+
+        public void handleDissconnectedPlayer(string IP)
+        { 
+            //Do things here
         }
 
         public int getCurrentTime()
@@ -217,6 +228,16 @@ namespace FroggerServer
                 playerTwoScore = int.Parse(myScore);
                 secondScore = true;
             }
+            else if (third.IP.Equals(IP))
+            {
+                playerThreeScore = int.Parse(myScore);
+                thirdScore = true;
+            }
+            else if (fourth.IP.Equals(IP))
+            {
+                playerFourScore = int.Parse(myScore);
+                fourthScore = true;
+            }
 
             if (!winnerSet && firstScore && secondScore) 
             {
@@ -243,6 +264,10 @@ namespace FroggerServer
                     p1Ready = true;
                 else if (second.IP.Equals(IP))
                     p2Ready = true;
+                else if (third.IP.Equals(IP))
+                    p3Ready = true;
+                else if (fourth.IP.Equals(IP))
+                    p4Ready = true;
             }
             catch (Exception e)
             { 
@@ -258,6 +283,10 @@ namespace FroggerServer
                     p1Loaded = true;
                 else if (second.IP.Equals(IP))
                     p2Loaded = true;
+                else if (second.IP.Equals(IP))
+                    p3Loaded = true;
+                else if (second.IP.Equals(IP))
+                    p4Loaded = true;
             }
             catch (Exception e)
             {

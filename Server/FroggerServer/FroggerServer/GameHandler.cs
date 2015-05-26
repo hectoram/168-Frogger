@@ -30,6 +30,18 @@ namespace FroggerServer
             
         }
 
+        public void handleDisconnectedPlayer(string IP)
+        {
+            foreach (var entry in gameSessions)
+            {
+                if (entry.Value.playerIsInGame(IP))
+                {
+                    entry.Value.handleDissconnectedPlayer(IP);
+                }
+
+            }
+        }
+
         public void creatNewSession(string sessionName)
         {
             gameSessions.Add(sessionName, new GameLogic());
@@ -112,13 +124,10 @@ namespace FroggerServer
 
         public void update() 
         {
-
-            gameSessions[genericSession].update();
-            //Change this to cycle the dictionary instead. 
-           // foreach (var games in activeGames)
-            //{
-              // games.update();
-           // }
+            foreach (var games in gameSessions)
+            {
+               games.Value.update();
+           }
         }
 
         public static GameHandler Instance
