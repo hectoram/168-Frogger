@@ -76,6 +76,7 @@ public class MenuScript : MonoBehaviour {
 		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 
 		Application.LoadLevel ("Main Scene");
+        ClientScript.currentScene = "Main Scene";
 	}
 
 	public void QuitGame()

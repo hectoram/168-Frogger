@@ -61,6 +61,8 @@ public class ClientScript : MonoBehaviour
 
     bool loggedIn = false;
 
+    public static string currentScene = "Menu Scene";
+
     public void setLoggedIn(bool value)
     {
         loggedIn = value;
@@ -242,33 +244,37 @@ public class ClientScript : MonoBehaviour
             async.allowSceneActivation = true;
             startGame = false;
             isGameInProgress = true;
+            currentScene = "Multiplayer Scene";
         }
 
-        if (data == "true")
+        if (currentScene != "Multiplayer Scene")
         {
-            loginInfo.DisplayLoginSuccessMenu();
-            loggedIn = true;
+            if (data == "true")
+            {
+                loginInfo.DisplayLoginSuccessMenu();
+                loggedIn = true;
+            }
+            else if (data == "false")
+            {
+                loginInfo.DisplayLoginFailedMenu();
+                loggedIn = false;
+            }
+            else if (data == "new")
+            {
+                loginInfo.DisplayLoginNewUserMenu();
+                loggedIn = true;
+            }
+            else if (data == "newfailed")
+            {
+                loginInfo.DisplayLoginNewUserFailedMenu();
+                loggedIn = false;
+            }
+            /*else if (data == "start-timer")
+            {
+                gameplay.resetGame();
+                resetData();
+            }*/
         }
-        else if (data == "false")
-        {
-            loginInfo.DisplayLoginFailedMenu();
-            loggedIn = false;
-        }
-        else if (data == "new")
-        {
-            loginInfo.DisplayLoginNewUserMenu();
-            loggedIn = true;
-        }
-		else if (data == "newfailed")
-		{
-			loginInfo.DisplayLoginNewUserFailedMenu();
-            loggedIn = false;
-		}
-        /*else if (data == "start-timer")
-        {
-            gameplay.resetGame();
-            resetData();
-        }*/
 
         if (!doneSpawning)
         {
