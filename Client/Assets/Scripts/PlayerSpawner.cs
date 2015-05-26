@@ -43,7 +43,7 @@ public class PlayerSpawner : MonoBehaviour {
 
     public void spawnPlayers()
     {
-        //numberOfPlayers = clientManager.getNumberOfPlayers();  //being set in ClientScript when "start-game" is received
+        numberOfPlayers = clientManager.getNumberOfPlayers();  //being set in ClientScript when "start-game" is received
         playerNumber = clientManager.getPlayerNumber();
         username = clientManager.getUsername();
 
@@ -133,6 +133,7 @@ public class PlayerSpawner : MonoBehaviour {
         clientManager.setIsPlayerInLobby(false);
 
         clientManager.SendMSG("player-ready<EOF>", 1000);
+        spawnPlayers();
 	}
 	
 	// Update is called once per frame

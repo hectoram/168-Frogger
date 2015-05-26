@@ -20,7 +20,7 @@ public class ClientScript : MonoBehaviour
     //IPAddress ipAddress = IPAddress.Parse("98.164.225.129");
     //IPAddress ipAddress = IPAddress.Parse("72.211.207.66");
     //IPAddress ipAddress = IPAddress.Parse("192.168.1.24");
-    //IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+    //IPAddress ipAddress = IPAddress.Parse("192.168.1.20");
 
     Socket client;
 
@@ -62,9 +62,6 @@ public class ClientScript : MonoBehaviour
 
     LoginScript loginInfo;
     MultiplayerLobbyScript lobbyInfo;
-
-    GameObject spawner;
-    PlayerSpawner playerSpawner;
 
     GameObject gameUI;
     GameUI gameplay;
@@ -248,8 +245,7 @@ public class ClientScript : MonoBehaviour
         // Set this false to wait changing the scene
         async.allowSceneActivation = false;
 
-        spawner = GameObject.FindGameObjectWithTag("Spawner");
-        playerSpawner = spawner.GetComponent<PlayerSpawner>();
+        
 
         gameUI = GameObject.FindGameObjectWithTag("Menus");
         gameplay = gameUI.GetComponent<GameUI>();
@@ -314,15 +310,6 @@ public class ClientScript : MonoBehaviour
                 gameplay.resetGame();
                 resetData();
             }*/
-        }
-
-        if (!doneSpawning)
-        {
-            if (!spawnPlayers)
-            {
-                playerSpawner.spawnPlayers();
-                doneSpawning = false;
-            }
         }
     }
 
@@ -509,7 +496,6 @@ public class ClientScript : MonoBehaviour
                 }
                 else if (messageToCheck[0] == "start-timer")
                 {
-                    setDoneSpawning(false);
                     GameUI.restartGame();
                 }
                 else if (messageToCheck[0] == "timer")
