@@ -239,7 +239,7 @@ namespace FroggerServer
             }
             else if (message[0] == "frogPosition")
             {
-                GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].setPlayerPosition(senderIP, int.Parse(message[1]), int.Parse(message[2]));
+                GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].setPlayerPosition(senderIP, float.Parse(message[1]), float.Parse(message[2]));
                 string toSend = "frogPosition," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerPositions(1) + ",2," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerPositions(2) + ",3,null,null,4,null,null<EOF>";
                 connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
                 //Timer info

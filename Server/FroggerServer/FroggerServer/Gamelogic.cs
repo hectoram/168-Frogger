@@ -16,7 +16,7 @@ namespace FroggerServer
         Player third;
         Player fourth;
 
-        int[] positions = new int[8];
+        float[] positions = new float[8];
 
         private bool fourPlayer;
 
@@ -132,7 +132,7 @@ namespace FroggerServer
             return false;
         }
 
-        public void setPlayerPosition(string IP, int x, int y)
+        public void setPlayerPosition(string IP, float x, float y)
         {
             int position = getPlayerNumber(IP);
             if (x <= 7 && x >= -7 && y >= -8 && y <= 5)
