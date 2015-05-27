@@ -42,6 +42,11 @@ namespace FroggerServer
             }
         }
 
+        public bool playerInSession(string IP)
+        {
+            return playerSessionNames.ContainsKey(IP);
+        }
+
         public void creatNewSession(string sessionName)
         {
             gameSessions.Add(sessionName, new GameLogic());

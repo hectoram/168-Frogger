@@ -178,12 +178,12 @@ namespace FroggerServer
             }
             else if (playerNumber == 3)
             {
-                positions[4] = 0;
+                positions[4] = 2;
                 positions[5] = -8;
             }
             else if (playerNumber == 4)
             {
-                positions[6] = 0;
+                positions[6] = 6;
                 positions[7] = -8;
             }
         }
