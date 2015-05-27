@@ -377,17 +377,18 @@ namespace FroggerServer
         {
             try
             {
+                //gameOver,result,score1,score2,score3,score4<EOF>
                 if (first != null)
-                    NetworkHandler.Instance.sendMessage(first.IP, "gameOver,result," + secondScore + "<EOF>");
+                    NetworkHandler.Instance.sendMessage(first.IP, "gameOver,result," + playerOneScore +"," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>");
 
                 if (second != null)
-                    NetworkHandler.Instance.sendMessage(second.IP, "gameOver,result," + firstScore + "<EOF>");
+                    NetworkHandler.Instance.sendMessage(first.IP, "gameOver,result," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>");
 
                 if (third != null)
-                    NetworkHandler.Instance.sendMessage(third.IP, "messageGoesHere");
+                    NetworkHandler.Instance.sendMessage(first.IP, "gameOver,result," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>");
 
                 if (fourth != null)
-                    NetworkHandler.Instance.sendMessage(first.IP, "messageGoesHere");
+                    NetworkHandler.Instance.sendMessage(first.IP, "gameOver,result," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>");
             }
             catch(Exception e)
             { 
@@ -422,8 +423,13 @@ namespace FroggerServer
                     {
                         gameIsOver = true;
                         gameHasStarted = !gameHasStarted;
-                        sendGameOver();
+                        if(bothScoresSet)
+                          sendGameOver();
                         timerStarted = !timerStarted;
+                    }
+                    else
+                    {
+                        NetworkHandler.Instance.sendMessage(first.IP, "frogPosition," + getPlayerPositions(1) + ",2," + getPlayerPositions(2) + ",3,null,null,4,null,null<EOF>");
                     }
                 }
                     
