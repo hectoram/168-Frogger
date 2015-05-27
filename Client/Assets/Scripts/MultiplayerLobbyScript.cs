@@ -27,7 +27,6 @@ public class MultiplayerLobbyScript : MonoBehaviour {
     // Ceci
     public Canvas chatbox;
     public InputField chatmessage;
-    public Text chatlog;
 
     ClientScript clientManager;
     GameObject networking;
@@ -99,10 +98,6 @@ public class MultiplayerLobbyScript : MonoBehaviour {
         //ready4.color = Color.red;
 
         isReady = false;
-
-        //Ceci
-        chatlog = chatlog.GetComponent<Text>();
-        chatlog.text = "";
 
         chatbox = chatbox.GetComponent<Canvas>();
         chatmessage.GetComponent<InputField>();
@@ -308,8 +303,6 @@ public class MultiplayerLobbyScript : MonoBehaviour {
         clientManager.resetData();
 		clientManager.Send("chat-message," + chatmessage.text + "<EOF>");
         Debug.Log("chat-message," + chatmessage.text + "<EOF>");
-
-        chatlog.text = chatlog.text + clientManager.getUsername() + ": " + chatmessage.text + "\n";
     }
 
 }
