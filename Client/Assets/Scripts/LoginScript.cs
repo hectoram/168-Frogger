@@ -87,11 +87,13 @@ public class LoginScript : MonoBehaviour {
 		//clientManager.Send("userLogin," + username.text + "," + password.text + "<EOF>");
 		if (!connectionStarted) {
             clientManager.StartClient("userLogin", username.text, password.text);
+            ClientScript.myUsername = username.text;
 			connectionStarted = !connectionStarted;
 		} else
 		{
 			clientManager.resetData();
 			clientManager.Send("userLogin," + username.text + "," + password.text + "<EOF>");
+            ClientScript.myUsername = username.text;
 		}
 			
 		// Testing ability to connect to the server
@@ -108,11 +110,13 @@ public class LoginScript : MonoBehaviour {
         {
             clientManager.StartClient("userCreate", username.text, password.text);
             connectionStarted = !connectionStarted;
+            ClientScript.myUsername = username.text;
         }
         else
         {
             clientManager.resetData();
             clientManager.Send("userCreate," + username.text + "," + password.text + "<EOF>");
+            ClientScript.myUsername = username.text;
         }
         //clientManager.StartClient("userCreate", username.text, password.text);
         myUsername = username.text;

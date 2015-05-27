@@ -172,7 +172,7 @@ public class MultiplayerLobbyScript : MonoBehaviour {
         {
             ClientScript.ReadyMessage message = clientManager.ConsumeReadyMessage();
             Debug.Log("READY CHECK:" + "Player 1: " + message.playerOneReady + "  Player 2: " + message.playerTwoReady);
-            clientManager.setPlayerNumber(playerNumber);
+            //clientManager.setPlayerNumber(playerNumber);
             readyPlayers[0] = message.playerOneReady;
             readyPlayers[1] = message.playerTwoReady;
             Debug.Log("QUEUE CHECK: Player 1: " + readyPlayers[0] + " Player 2: " + readyPlayers[1]);
