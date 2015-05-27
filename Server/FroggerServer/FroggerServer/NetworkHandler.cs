@@ -19,9 +19,11 @@ namespace FroggerServer
         private static bool startDCTimer = true;
         //Key is IP address of the player. 
         public static SortedDictionary<string, Player> connectedPlayers = new SortedDictionary<string, Player>();
+        public static List<String> toRemove = new List<string>();
         public SortedDictionary<string, Queue<string>> messagesRecieved = new SortedDictionary<string, Queue<string>>();
 
         private static readonly Mutex mutexLock = new Mutex();
+        private static bool playersToRemove = false;
 
         NetworkHandler()
         {
@@ -43,6 +45,13 @@ namespace FroggerServer
                 checkDCTimer = new Timer(checkForDissconnect, null, 0, 5000);
                 startDCTimer = !startDCTimer;
             }
+
+            if(playersToRemove)
+            {
+                removeUsers();
+                playersToRemove = !playersToRemove;
+            }
+
         }
         //Queue the player to be DC don't do it in the method. 
         private static void checkForDissconnect(Object o)
@@ -79,11 +88,30 @@ namespace FroggerServer
             }
         }
 
-        private static bool handleDissconnect(string IP)
+        private static void removeUsers()
         {
-            connectedPlayers.Remove(IP);
-            GameHandler.Instance.handleDisconnectedPlayer(IP);
-            return true;
+            mutexLock.WaitOne();
+            try
+            {
+                foreach (var value in toRemove)
+                {
+                    connectedPlayers.Remove(value);
+                }
+                //Clear so other problems don't arise later. 
+                toRemove.Clear();
+            }
+            finally
+            {
+                mutexLock.ReleaseMutex();
+            }
+        }
+
+
+        private static void handleDissconnect(string IP)
+        {
+            toRemove.Add(IP);
+            //set equal to true so that the update loop will call the proper functions
+            playersToRemove = !playersToRemove;
         }
 
         public bool sendMessage(string sendToIP, string message)
