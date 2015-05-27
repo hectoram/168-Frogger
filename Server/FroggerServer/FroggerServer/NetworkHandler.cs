@@ -21,6 +21,7 @@ namespace FroggerServer
         public static SortedDictionary<string, Player> connectedPlayers = new SortedDictionary<string, Player>();
         public SortedDictionary<string, Queue<string>> messagesRecieved = new SortedDictionary<string, Queue<string>>();
 
+        private static readonly Mutex mutexLock = new Mutex();
 
         NetworkHandler()
         {
@@ -46,13 +47,22 @@ namespace FroggerServer
 
         private static void checkForDissconnect(Object o)
         {
-            foreach (var entry in connectedPlayers)
+            mutexLock.WaitOne();
+            try
             {
-                if(!isConnected(entry.Value))
+                foreach (var entry in connectedPlayers)
                 {
-                    handleDissconnect(entry.Key);
+                    if (!isConnected(entry.Value))
+                    {
+                        handleDissconnect(entry.Key);
+                    }
                 }
             }
+            finally
+            {
+                mutexLock.ReleaseMutex();
+            }
+            
             //Restart the timer
             startDCTimer = !startDCTimer;
         }
@@ -92,11 +102,19 @@ namespace FroggerServer
 
         public void addNewPlayer( string IP, Socket mySocket) 
         {
-            if (!connectedPlayers.ContainsKey(IP))
+            mutexLock.WaitOne();
+            try
             {
-                connectedPlayers.Add(IP, new Player(mySocket, IP));
-                messagesRecieved.Add(IP, new Queue<string>());
-                Console.WriteLine("I've added my newly connected player to my list!");
+                if (!connectedPlayers.ContainsKey(IP))
+                {
+                    connectedPlayers.Add(IP, new Player(mySocket, IP));
+                    messagesRecieved.Add(IP, new Queue<string>());
+                    Console.WriteLine("I've added my newly connected player to my list!");
+                }
+            }
+            finally
+            { 
+                mutexLock.ReleaseMutex(); 
             }
         }
 
