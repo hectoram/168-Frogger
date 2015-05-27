@@ -255,7 +255,8 @@ namespace FroggerServer
                 GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].setLoadReady(senderIP);
                 if (GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].allPlayersLoaded())
                 {
-                    connectionLinker.Send(connectedPlayers[senderIP].connection, "start-timer<EOF>");
+                    connectionLinker.Send(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.connection, "start-timer<EOF>");
+                    connectionLinker.Send(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.connection, "start-timer<EOF>");
                     GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].setTimer();
                 }
             }
