@@ -312,7 +312,7 @@ namespace FroggerServer
                 else if (playerCount == 3)
                     fourth = toAdd;
 
-                if (playerCount < 3)
+                if (playerCount <= 3)
                     playerCount++;
                 
                 return true;
