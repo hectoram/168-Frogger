@@ -109,7 +109,7 @@ namespace FroggerServer
         public int getCurrentTime()
         {
             TimeSpan time = stopWatch.Elapsed;
-            return time.Seconds;
+            return 60 - time.Seconds;
         }
 
         public bool playerIsInGame(string IP) 
