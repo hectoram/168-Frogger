@@ -382,13 +382,13 @@ namespace FroggerServer
                     NetworkHandler.Instance.sendMessage(first.IP, "gameOver,result," + playerOneScore +"," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>");
 
                 if (second != null)
-                    NetworkHandler.Instance.sendMessage(first.IP, "gameOver,result," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>");
+                    NetworkHandler.Instance.sendMessage(second.IP, "gameOver,result," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>");
 
                 if (third != null)
-                    NetworkHandler.Instance.sendMessage(first.IP, "gameOver,result," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>");
+                    NetworkHandler.Instance.sendMessage(third.IP, "gameOver,result," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>");
 
                 if (fourth != null)
-                    NetworkHandler.Instance.sendMessage(first.IP, "gameOver,result," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>");
+                    NetworkHandler.Instance.sendMessage(fourth.IP, "gameOver,result," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>");
             }
             catch(Exception e)
             { 
@@ -419,13 +419,16 @@ namespace FroggerServer
                 else
                 { 
                     long totalMilliseconds = stopWatch.ElapsedMilliseconds;
-                    if (totalMilliseconds >= 60000)
+
+                    long seconds = (long) (totalMilliseconds / 0.001);
+                    Console.WriteLine("Current gametime is: " + seconds);
+
+                    if (totalMilliseconds >= 600000)
                     {
                         gameIsOver = true;
                         gameHasStarted = !gameHasStarted;
                         if(bothScoresSet)
                           sendGameOver();
-                        timerStarted = !timerStarted;
                     }
                     else
                     {

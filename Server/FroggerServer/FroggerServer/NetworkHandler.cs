@@ -95,6 +95,7 @@ namespace FroggerServer
             {
                 foreach (var value in toRemove)
                 {
+                    Console.WriteLine("I've removed: " + connectedPlayers[value].getUserName());
                     connectedPlayers.Remove(value);
                 }
                 //Clear so other problems don't arise later. 
