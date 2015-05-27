@@ -18,6 +18,10 @@ public class LoginScript : MonoBehaviour {
 	public Canvas loginNewUserMenu;
 	public Canvas loginNewUserFailedMenu; // Ceci
     public Canvas loggedInMenu;
+    public Canvas lobbyMenu;
+    public Canvas sessionFailedMenu;
+
+    public InputField lobbyName;
     
     public Text currentUsername;
     public static string myUsername;
@@ -48,6 +52,10 @@ public class LoginScript : MonoBehaviour {
 		loginNewUserMenu = loginNewUserMenu.GetComponent<Canvas> ();
         loginNewUserFailedMenu = loginNewUserFailedMenu.GetComponent<Canvas>(); //Ceci
         loggedInMenu = loggedInMenu.GetComponent<Canvas>();
+        lobbyMenu = lobbyMenu.GetComponent<Canvas>();
+        sessionFailedMenu = sessionFailedMenu.GetComponent<Canvas>();
+
+        lobbyName = lobbyName.GetComponent<InputField>();
 
         currentUsername = currentUsername.GetComponent<Text> ();
         currentUsername.text = "";
@@ -67,6 +75,8 @@ public class LoginScript : MonoBehaviour {
             loginNewUserMenu.enabled = false;
             loginNewUserFailedMenu.enabled = false;
             loggedInMenu.enabled = false;
+            sessionFailedMenu.enabled = false;
+            lobbyMenu.enabled = false;
         }
         else
         {
@@ -76,6 +86,8 @@ public class LoginScript : MonoBehaviour {
             loginNewUserMenu.enabled = false;
             loginNewUserFailedMenu.enabled = false;
             loggedInMenu.enabled = true;
+            lobbyMenu.enabled = false;
+            sessionFailedMenu.enabled = false;
             currentUsername.text = clientManager.getUsername();
         }
 		
@@ -133,6 +145,35 @@ public class LoginScript : MonoBehaviour {
         loggedInMenu.enabled = false;
 		clientManager.resetData();
 	}
+
+    public void DisplaySessionFailedMenu()
+    {
+        Debug.Log("Displaying Session Failed Menu...");
+        sessionFailedMenu.enabled = true;
+    }
+
+    public void DisplayLobbyMenu()
+    {
+        Debug.Log("Displaying session menu...");
+        lobbyMenu.enabled = true;
+        sessionFailedMenu.enabled = false;
+        loggedInMenu.enabled = false;
+        loginFailedMenu.enabled = false;
+        lobbyName.enabled = true;
+    }
+
+    public void DismissLobbyMenu()
+    {
+        Debug.Log("Dismissing session menu...");
+        lobbyMenu.enabled = false;
+        loggedInMenu.enabled = true;
+    }
+
+    public void ConnectLobby()
+    {
+        Debug.Log("Requesting to join session: " + lobbyName.text);
+        clientManager.Send("join-session," + lobbyName.text + "<EOF>");
+    }
 	
 	public void DisplayLoginFailedMenu()
 	{
@@ -192,6 +233,7 @@ public class LoginScript : MonoBehaviour {
 		loginNewUserMenu.enabled = false;
 		loginNewUserFailedMenu.enabled = false;
         loggedInMenu.enabled = true;
+        lobbyMenu.enabled = false;
         currentUsername.text = username.text;
 		clientManager.resetData();
 	}

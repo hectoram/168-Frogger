@@ -105,7 +105,6 @@ public class MultiplayerLobbyScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
         if (lobbyMenu.enabled)
             isInLobby = true;
         else
@@ -278,7 +277,7 @@ public class MultiplayerLobbyScript : MonoBehaviour {
         //clientManager.StartMultiplayerGame();
     }
 
-    public void DisplayLobbyMenu()
+    public void DisplayLobby()
     {
         Debug.Log("You have entered the lobby.");
         lobbyMenu.enabled = true;
@@ -286,7 +285,7 @@ public class MultiplayerLobbyScript : MonoBehaviour {
         UpdateQueue();
     }
 
-    public void DismissLobbyMenu()
+    public void DismissLobby()
     {
         Debug.Log("You have left the lobby.");
         lobbyMenu.enabled = false;
