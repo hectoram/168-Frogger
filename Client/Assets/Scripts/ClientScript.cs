@@ -303,11 +303,16 @@ public class ClientScript : MonoBehaviour
                 loginInfo.DisplayLoginNewUserFailedMenu();
                 loggedIn = false;
             }
-            /*else if (data == "start-timer")
+            else if (data == "sessionFailed")
             {
-                gameplay.resetGame();
+                loginInfo.DisplaySessionFailedMenu();
                 resetData();
-            }*/
+            }
+            else if (data == "showLobby")
+            {
+                lobbyInfo.DisplayLobby();
+                resetData();
+            }
         }
     }
 
@@ -506,6 +511,13 @@ public class ClientScript : MonoBehaviour
                 else if (messageToCheck[0] == "timer")
                 {
                     GameUI.setTimer(float.Parse(messageToCheck[1]));
+                }
+                else if (messageToCheck[0] == "join-session")
+                {
+                    if (messageToCheck[1] == "true")
+                        setData("showLobby");
+                    else
+                        setData("sessionFailed");
                 }
                 
                 if (messageToCheck.Length == 2)

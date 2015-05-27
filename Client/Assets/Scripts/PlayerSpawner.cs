@@ -43,8 +43,8 @@ public class PlayerSpawner : MonoBehaviour {
 
     public void spawnPlayers()
     {
-        //numberOfPlayers = clientManager.getNumberOfPlayers();  //being set in ClientScript when "start-game" is received
-        numberOfPlayers = "2";
+        numberOfPlayers = clientManager.getNumberOfPlayers();  //being set in ClientScript when "start-game" is received
+        //numberOfPlayers = "2";
         playerNumber = clientManager.getPlayerNumber();
         username = clientManager.getUsername();
 
