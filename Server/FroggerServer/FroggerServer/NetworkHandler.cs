@@ -219,15 +219,15 @@ namespace FroggerServer
 
                     if (GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].winner == 1)
                     {
-                        toSendP1 = "gameOver," + "1," + "won," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerOneScore + ",2" + "lost," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerTwoScore + "3," + "null,4,null<EOF>";
+                        toSendP1 = "gameOver," + "1," + "won," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerOneScore + ",2," + "lost," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerTwoScore + ",3," + "null,4,null<EOF>";
                     }
                     else if (GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].winner == 2)
                     {
-                        toSendP1 = "gameOver," + "1," + "lost," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerOneScore + ",2" + "won," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerTwoScore + "3," + "null,4,null<EOF>";
+                        toSendP1 = "gameOver," + "1," + "lost," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerOneScore + ",2," + "won," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerTwoScore + ",3," + "null,4,null<EOF>";
                     }
                     else
                     {
-                        toSendP1 = "gameOver," + "1," + "tie," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerOneScore + ",2" + "tie," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerTwoScore + "3," + "null,4,null<EOF>";
+                        toSendP1 = "gameOver," + "1," + "tie," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerOneScore + ",2," + "tie," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerTwoScore + ",3," + "null,4,null<EOF>";
                     }
                         
                     connectionLinker.Send(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.connection, toSendP1);
@@ -468,7 +468,7 @@ namespace FroggerServer
                 Socket handler = (Socket)ar.AsyncState;
                 // Complete sending the data to the remote device.
                 int bytesSent = handler.EndSend(ar);
-                Console.WriteLine("Sent {0} bytes to client.", bytesSent);
+                //Console.WriteLine("Sent {0} bytes to client.", bytesSent);
             }
             catch (Exception e)
             {
