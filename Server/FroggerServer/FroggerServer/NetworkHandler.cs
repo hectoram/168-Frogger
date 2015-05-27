@@ -239,10 +239,11 @@ namespace FroggerServer
             }
             else if (message[0] == "frogPosition")
             {
-                GameHandler.Instance.gameSessions["debault"].setPlayerPosition(senderIP, int.Parse(message[1]), int.Parse(message[2]));
+                GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].setPlayerPosition(senderIP, int.Parse(message[1]), int.Parse(message[2]));
                 string toSend = "frogPosition," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerPositions(1) + ",2," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerPositions(2) + ",3,null,null,4,null,null<EOF>";
-
                 connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
+                //Timer info
+                connectionLinker.Send(connectedPlayers[senderIP].connection, "timer," + GameHandler.Instance.getCurrentTime(GameHandler.Instance.getSessionName(senderIP)) + "<EOF>");
             }else if(message[0] == "chat-message")
             {
                 GameHandler.Instance.chatMessageHandle(GameHandler.Instance.getSessionName(senderIP),message [1] ,senderIP);
