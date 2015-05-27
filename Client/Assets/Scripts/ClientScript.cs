@@ -542,12 +542,24 @@ public class ClientScript : MonoBehaviour
                 // "gameOver, result, score1, score2, score3, score4<EOF>"
                 else if (messageToCheck[0] == "gameOver")
                 {
-                    if (messageToCheck[1] == "true")
+                    if (myPlayerNumber == "1")
                     {
-                        GameOverScript.result = "YOU WON!";
+                        if (messageToCheck[2] == "won")
+                            GameOverScript.result = "won";
+                        else if (messageToCheck[2] == "lost")
+                            GameOverScript.result = "lost";
+                        else if (messageToCheck[2] == "tie")
+                            GameOverScript.result = "tie";
                     }
-                    else
-                        GameOverScript.result = "YOU LOST!";
+                    else if (myPlayerNumber == "2")
+                    {
+                        if (messageToCheck[5] == "won")
+                            GameOverScript.result = "won";
+                        else if (messageToCheck[5] == "lost")
+                            GameOverScript.result = "lost";
+                        else if (messageToCheck[5] == "tie")
+                            GameOverScript.result = "tie";
+                    } 
                 }
                 
                 if (messageToCheck.Length == 2)

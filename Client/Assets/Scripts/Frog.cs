@@ -49,13 +49,17 @@ public class Frog : MonoBehaviour
 	}
 
 	// If the frog collides with a vehicle, then it's GAME OVER
-	void OnCollisionEnter2D(Collision2D coll)
+	//void OnCollisionEnter2D(Collision2D coll)
+    void OnTriggerEnter2D(Collider2D coll)
 	{
 		//Destroy (gameObject);
 		//menu.ShowLoseMenu ();
 
-        gameUI.addDeathScore();
-        transform.position = new Vector3(0, -8, 0);
+        if (coll.tag == "Car")
+        {
+            gameUI.addDeathScore();
+            transform.position = new Vector3(0, -8, 0);
+        }
 	}
 
     // FixedUpdate is called in a fixed time interval
