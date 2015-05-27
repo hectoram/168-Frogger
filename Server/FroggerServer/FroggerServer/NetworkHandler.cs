@@ -36,8 +36,8 @@ namespace FroggerServer
         }
 
 
-        public void update()   
-        { 
+        public void update()
+        {
             //Do things here
             GameHandler.Instance.update();
             if (startDCTimer)
@@ -46,7 +46,7 @@ namespace FroggerServer
                 startDCTimer = !startDCTimer;
             }
 
-            if(playersToRemove)
+            if (playersToRemove)
             {
                 removeUsers();
                 playersToRemove = !playersToRemove;
@@ -71,7 +71,7 @@ namespace FroggerServer
             {
                 mutexLock.ReleaseMutex();
             }
-            
+
             //Restart the timer
             startDCTimer = !startDCTimer;
         }
@@ -82,9 +82,9 @@ namespace FroggerServer
             {
                 return !(playerToPoll.connection.Poll(1, SelectMode.SelectRead) && playerToPoll.connection.Available == 0);
             }
-            catch (SocketException) 
-            { 
-                return false; 
+            catch (SocketException)
+            {
+                return false;
             }
         }
 
@@ -122,14 +122,14 @@ namespace FroggerServer
                 connectionLinker.Send(connectedPlayers[sendToIP].connection, message);
                 return true;
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
                 return false;
-            }         
+            }
         }
 
-        public void addNewPlayer( string IP, Socket mySocket) 
+        public void addNewPlayer(string IP, Socket mySocket)
         {
             mutexLock.WaitOne();
             try
@@ -142,8 +142,8 @@ namespace FroggerServer
                 }
             }
             finally
-            { 
-                mutexLock.ReleaseMutex(); 
+            {
+                mutexLock.ReleaseMutex();
             }
         }
 
@@ -153,7 +153,7 @@ namespace FroggerServer
             string[] message = toParse.Split(delimiterChars);
 
             // handle Login
-            if (message[0] == "userLogin") 
+            if (message[0] == "userLogin")
             {
                 if (DataBase.Instance.login(message[1], message[2]))
                 {
@@ -168,7 +168,7 @@ namespace FroggerServer
                 }
             }
             else if (message[0] == "userCreate")
-            { 
+            {
                 // Handles creating new users
                 if (DataBase.Instance.registerUser(message[1], message[2]))
                     connectionLinker.Send(connectedPlayers[senderIP].connection, "login,new<EOF>");
@@ -179,15 +179,15 @@ namespace FroggerServer
                 }
             }
             else if (message[0] == "queue")
-            { 
+            {
 
-                    string toSend = "queue,1," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerName(1) + ",2," +
-                    GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerName(2) + ",3," +
-                    GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerName(3) +
-                    ",4," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerName(4) + "<EOF>";
+                string toSend = "queue,1," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerName(1) + ",2," +
+                GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerName(2) + ",3," +
+                GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerName(3) +
+                ",4," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerName(4) + "<EOF>";
 
-                    connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
-               
+                connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
+
 
                 string toSendReady;
 
@@ -211,9 +211,9 @@ namespace FroggerServer
             }
             else if (message[0] == "gameOver")
             {
-                GameHandler.Instance.setScore(GameHandler.Instance.getSessionName(senderIP),senderIP, message[1]);
+                GameHandler.Instance.setScore(GameHandler.Instance.getSessionName(senderIP), senderIP, message[1]);
                 //If I've recieved both players scores
-                if(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].bothScoresSet)
+                if (GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].bothScoresSet)
                 {
                     string toSendP1;
 
@@ -229,7 +229,7 @@ namespace FroggerServer
                     {
                         toSendP1 = "gameOver," + "1," + "tie," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerOneScore + ",2," + "tie," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerTwoScore + ",3," + "null,4,null<EOF>";
                     }
-                        
+
                     connectionLinker.Send(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.connection, toSendP1);
                     connectionLinker.Send(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.connection, toSendP1);
 
@@ -239,21 +239,21 @@ namespace FroggerServer
             {
                 //"ready,1,username1,2,username2,3,username3,4,username4<EOF>"
 
-                GameHandler.Instance.setReady(GameHandler.Instance.getSessionName(senderIP),senderIP);
+                GameHandler.Instance.setReady(GameHandler.Instance.getSessionName(senderIP), senderIP);
                 string toSend;
 
                 try
                 {
-                        toSend =
-                        "ready,1," + ((GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].p1Ready) ? GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.getUserName() : "empty") +
-                        ",2," + ((GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].p2Ready) ? GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.getUserName() : "empty")
-                        + ",3,null,4,null<EOF>";
+                    toSend =
+                    "ready,1," + ((GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].p1Ready) ? GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.getUserName() : "empty") +
+                    ",2," + ((GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].p2Ready) ? GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.getUserName() : "empty")
+                    + ",3,null,4,null<EOF>";
                 }
                 catch (Exception e)
                 {
                     toSend =
                         "ready,1," + ((GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].p1Ready) ? GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.getUserName() : "empty") +
-                        ",2," +  "empty"
+                        ",2," + "empty"
                         + ",3,null,4,null<EOF>";
                 }
 
@@ -270,16 +270,20 @@ namespace FroggerServer
             {
                 GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].setPlayerPosition(senderIP, float.Parse(message[1]), float.Parse(message[2]));
                 string toSend = "frogPosition," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerPositions(1) + ",2," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerPositions(2) + ",3,null,null,4,null,null<EOF>";
-                connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
+                connectionLinker.Send(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.connection, toSend);
+                connectionLinker.Send(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.connection, toSend);
                 //Timer info
                 connectionLinker.Send(connectedPlayers[senderIP].connection, "timer," + GameHandler.Instance.getCurrentTime(GameHandler.Instance.getSessionName(senderIP)) + "<EOF>");
-            }else if(message[0] == "chat-message")
+            }
+            else if (message[0] == "chat-message")
             {
-                GameHandler.Instance.chatMessageHandle(GameHandler.Instance.getSessionName(senderIP),message [1] ,senderIP);
-            }else if(message[0] == "timer")
+                GameHandler.Instance.chatMessageHandle(GameHandler.Instance.getSessionName(senderIP), message[1], senderIP);
+            }
+            else if (message[0] == "timer")
             {
                 connectionLinker.Send(connectedPlayers[senderIP].connection, "timer," + GameHandler.Instance.getCurrentTime(GameHandler.Instance.getSessionName(senderIP)) + "<EOF>");
-            }else if(message[0] == "player-ready")
+            }
+            else if (message[0] == "player-ready")
             {
                 GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].setLoadReady(senderIP);
                 if (GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].allPlayersLoaded())
@@ -293,12 +297,12 @@ namespace FroggerServer
             {
                 bool temp = GameHandler.Instance.joinSession(message[1], connectedPlayers[senderIP]);
                 string toSend = "";
-                if(temp)
+                if (temp)
                     toSend = "join-session,true<EOF>";
                 else
                     toSend = "join-session,false<EOF>";
 
-                connectionLinker.Send(connectedPlayers[senderIP].connection,toSend);
+                connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
             }
             else
                 NetworkHandler.Instance.messagesRecieved[senderIP].Enqueue(toParse);
@@ -435,7 +439,7 @@ namespace FroggerServer
                 {
                     //Handle the message. 
                     NetworkHandler.Instance.parseMessage(myIP, content.ToString());
-                    
+
                     //Make a new object so you don't append forever. 
                     StateObject newstate = new StateObject();
                     newstate.workSocket = handler;
