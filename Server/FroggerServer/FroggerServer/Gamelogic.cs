@@ -371,15 +371,17 @@ namespace FroggerServer
             return 0;
         }
 
+
+
         public void sendGameOver()
         {
             try
             {
                 if (first != null)
-                    NetworkHandler.Instance.sendMessage(first.IP, "messageGoesHere");
+                    NetworkHandler.Instance.sendMessage(first.IP, "gameOver,result," + secondScore + "<EOF>");
 
                 if (second != null)
-                    NetworkHandler.Instance.sendMessage(second.IP, "messageGoesHere");
+                    NetworkHandler.Instance.sendMessage(second.IP, "gameOver,result," + firstScore + "<EOF>");
 
                 if (third != null)
                     NetworkHandler.Instance.sendMessage(third.IP, "messageGoesHere");
