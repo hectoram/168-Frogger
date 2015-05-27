@@ -56,38 +56,54 @@ namespace FroggerServer
 
         public bool joinSession(string SessionToJoin, Player joiningPlayer)
         {
-            bool toReturn = false;
+            
             mutexLock.WaitOne();
             try
-            {
-                if (gameSessions.ContainsKey(SessionToJoin))
+            {   
+                if(SessionToJoin == "")
+                {
+                    if (gameSessions.ContainsKey(genericSession))
+                    {
+                        if (gameSessions[genericSession].addPlayerToGame(joiningPlayer))
+                        {
+                            playerSessionNames.Add(joiningPlayer.IP, SessionToJoin);
+                            return true;
+                        }
+                        else
+                            return false;
+                    }
+                    else 
+                    {
+                        creatNewSession(genericSession);
+                        gameSessions[genericSession].addPlayerToGame(joiningPlayer);
+                        playerSessionNames.Add(joiningPlayer.IP, genericSession);
+                        return true;
+                    }
+                }
+                else if (gameSessions.ContainsKey(SessionToJoin))
                 {
                     if (gameSessions[SessionToJoin].addPlayerToGame(joiningPlayer))
                     {
                         playerSessionNames.Add(joiningPlayer.IP, SessionToJoin);
-                        toReturn = true;
+                        return true;
                     }
                     else
-                    {
-                        toReturn = false;
-                    }
+                        return false;
                 }
                 else
                 { 
                     creatNewSession(SessionToJoin);
                     gameSessions[SessionToJoin].addPlayerToGame(joiningPlayer);
                     playerSessionNames.Add(joiningPlayer.IP, SessionToJoin);
-                    toReturn = true;
+                    return true;
                 }
+            
 
             }
             finally
             {
                 mutexLock.ReleaseMutex();
             }
-            
-
-            return toReturn;
         }
 
         public string getSessionName(string IP)

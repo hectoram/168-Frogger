@@ -44,7 +44,7 @@ namespace FroggerServer
                 startDCTimer = !startDCTimer;
             }
         }
-
+        //Queue the player to be DC don't do it in the method. 
         private static void checkForDissconnect(Object o)
         {
             mutexLock.WaitOne();
