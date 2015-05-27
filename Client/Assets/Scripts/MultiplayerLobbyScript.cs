@@ -282,6 +282,7 @@ public class MultiplayerLobbyScript : MonoBehaviour {
         Debug.Log("You have entered the lobby.");
         lobbyMenu.enabled = true;
         clientManager.setIsPlayerInLobby(true);
+        loginInfo.lobbyMenu.enabled = false;
         UpdateQueue();
     }
 
