@@ -322,6 +322,41 @@ namespace FroggerServer
 
         }
 
+        public string getPlayerName(int playerNumber)
+        {
+            if (playerNumber == 1)
+            {
+                try
+                {
+                    return first.getUserName();
+                }
+                catch (Exception e) { return "empty"; }
+            }else if(playerNumber == 2)
+            {
+                try
+                {
+                    return second.getUserName();
+                }
+                catch (Exception e) { return "empty"; }
+            }else if(playerNumber == 3)
+            {
+                try
+                {
+                    return third.getUserName();
+                }
+                catch (Exception e) { return "empty"; }
+            }else if(playerNumber == 4)
+            {
+                try
+                {
+                    return fourth.getUserName();
+                }
+                catch (Exception e) { return "empty"; }
+            }
+
+            return "empty";
+        }
+
         public int getPlayerNumber(string IP)
         {
             if (first.IP.Equals(IP))

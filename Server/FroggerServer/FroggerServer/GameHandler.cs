@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace FroggerServer
 {
@@ -17,6 +18,7 @@ namespace FroggerServer
 
         private static GameHandler instance = null;
         private static readonly object padlock = new object();
+        private static readonly Mutex mutexLock = new Mutex();
 
        
 
@@ -52,10 +54,40 @@ namespace FroggerServer
             gameSessions.Add(sessionName, new GameLogic());
         }
 
-        public void joinSession(string SessionToJoin, Player joiningPlayer)
+        public bool joinSession(string SessionToJoin, Player joiningPlayer)
         {
-            gameSessions[SessionToJoin].addPlayerToGame(joiningPlayer);
-            playerSessionNames.Add(joiningPlayer.IP, SessionToJoin);
+            bool toReturn = false;
+            mutexLock.WaitOne();
+            try
+            {
+                if (gameSessions.ContainsKey(SessionToJoin))
+                {
+                    if (gameSessions[SessionToJoin].addPlayerToGame(joiningPlayer))
+                    {
+                        playerSessionNames.Add(joiningPlayer.IP, SessionToJoin);
+                        toReturn = true;
+                    }
+                    else
+                    {
+                        toReturn = false;
+                    }
+                }
+                else
+                { 
+                    creatNewSession(SessionToJoin);
+                    gameSessions[SessionToJoin].addPlayerToGame(joiningPlayer);
+                    playerSessionNames.Add(joiningPlayer.IP, SessionToJoin);
+                    toReturn = true;
+                }
+
+            }
+            finally
+            {
+                mutexLock.ReleaseMutex();
+            }
+            
+
+            return toReturn;
         }
 
         public string getSessionName(string IP)
@@ -129,10 +161,18 @@ namespace FroggerServer
 
         public void update() 
         {
-            foreach (var games in gameSessions)
+            mutexLock.WaitOne();
+            try
             {
-               games.Value.update();
-           }
+                foreach (var games in gameSessions)
+                {
+                    games.Value.update();
+                }
+            }
+            finally
+            {
+                mutexLock.ReleaseMutex();
+            } 
         }
 
         public static GameHandler Instance

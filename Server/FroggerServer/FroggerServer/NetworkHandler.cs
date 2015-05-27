@@ -150,24 +150,15 @@ namespace FroggerServer
                 }
             }
             else if (message[0] == "queue")
-            {
-                if (GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerCount() < 4)
-                {
-                    if(!GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsInGame(senderIP))
-                        GameHandler.Instance.joinSession(GameHandler.Instance.getSessionName(senderIP), connectedPlayers[senderIP]);
+            { 
 
-                    string toSend = "queue,1," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.getUserName() + ",2," +
-                    ((GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second != null) ? GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.getUserName() : "empty") + ",3,null,4,null<EOF>";
+                    string toSend = "queue,1," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerName(1) + ",2," +
+                    GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerName(2) + ",3," +
+                    GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerName(3) +
+                    ",4," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerName(4) + "<EOF>";
 
                     connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
-                }
-                else
-                {
-                    string toSend = "queue,1," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.getUserName() + ",2," +
-                    ((GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second != null) ? GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.getUserName() : "empty") + ",3,null,4,null<EOF>";
-
-                    connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
-                }
+               
 
                 string toSendReady;
 
@@ -269,7 +260,13 @@ namespace FroggerServer
             }
             else if (message[0] == "join-session")
             {
-                string toSend = "join-session," + GameHandler.Instance.joinSession(message[1], connectedPlayers[senderIP]) + "<EOF>";
+                bool temp = GameHandler.Instance.joinSession(message[1], connectedPlayers[senderIP]);
+                string toSend = "";
+                if(temp)
+                    toSend = "join-session,true<EOF>";
+                else
+                    toSend = "join-session,false<EOF>";
+
                 connectionLinker.Send(connectedPlayers[senderIP].connection,toSend);
             }
             else
