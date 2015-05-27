@@ -9,6 +9,11 @@ public class GameOverScript : MonoBehaviour {
 	public Canvas loseMenu;
     public Canvas scoreMenu;
     public Text finalScoreText;
+    public Text resultText;
+
+    public static string result = "";
+
+    //public Canvas multiScoreMenu;
 
 	public Button yesWinButton;
 	public Button noWinButton;
@@ -27,6 +32,7 @@ public class GameOverScript : MonoBehaviour {
 		loseMenu = loseMenu.GetComponent<Canvas> ();
         scoreMenu = scoreMenu.GetComponent<Canvas>();
         finalScoreText = finalScoreText.GetComponent<Text>();
+        resultText = resultText.GetComponent<Text>();
 
 		yesWinButton = yesWinButton.GetComponent<Button> ();
 		noWinButton = noWinButton.GetComponent<Button> ();
@@ -68,6 +74,17 @@ public class GameOverScript : MonoBehaviour {
     {
         if (!scoreMenu.enabled)
         {
+            if (result == "YOU WON!")
+            {
+                resultText.color = Color.green;
+                resultText.text = "YOU WON!";
+            }
+            else if (result == "YOU LOST!")
+            {
+                resultText.color = Color.red;
+                resultText.text = "YOU LOST!";
+            }
+
             scoreMenu.enabled = true;
             GetComponent<AudioSource>().PlayOneShot(winnerSFX);
         }

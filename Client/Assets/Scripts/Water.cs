@@ -17,7 +17,7 @@ public class Water : MonoBehaviour {
 	void OnTriggerStay2D(Collider2D coll)
 	{
 		// Check to see if the object is a frog
-		if (coll.name == "Frog")
+		if (coll.name == "Player 1" || coll.name == "Player 2")
 			// Check to see if the frog isn't jumping
 		if (!coll.GetComponent<Frog> ().isJumping ())
 				// Check to see if the frog isn't on a platform

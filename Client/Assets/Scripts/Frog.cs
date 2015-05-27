@@ -17,6 +17,10 @@ public class Frog : MonoBehaviour
     GameObject spawner;
     PlayerSpawner playerSpawner;
 
+    Vector2 currentPosition;
+
+    public static bool restrictMovement = true;
+
 	void Start()
 	{
 		menuObject = GameObject.FindGameObjectWithTag ("Menus");
@@ -28,6 +32,8 @@ public class Frog : MonoBehaviour
 
         spawner = GameObject.FindGameObjectWithTag("Spawner");
         playerSpawner = spawner.GetComponent<PlayerSpawner>();
+
+        currentPosition = transform.position;
 	}
 
 	// Jump Speed - how fast the frog will jump
@@ -61,10 +67,7 @@ public class Frog : MonoBehaviour
             if (isJumping())
             {
                 // Remember current position
-                Vector2 currentPosition = transform.position;
-
-                // Adding message to send to the server
-                clientManager.Send("frogPosition," + currentPosition.x + "," + currentPosition.y + "<EOF>");
+                currentPosition = transform.position;
 
                 // Jump a bit futher
                 transform.position = Vector2.MoveTowards(currentPosition, currentPosition + jump, speed);
@@ -84,21 +87,40 @@ public class Frog : MonoBehaviour
 
             //Debug.Log("Result: " + result);
 
-            if (playerSpawner.getThisPlayer() == this.gameObject)
+            if (!restrictMovement)
             {
-                // Detects arrow key presses
-                // UP ARROW OR W KEY
-                if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-                    jump = Vector2.up;
-                // RIGHT ARROW OR D KEY
-                else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-                    jump = Vector2.right;
-                // DOWN ARROW OR S KEY
-                else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
-                    jump = -Vector2.up; // -up means down
-                // LEFT ARROW OR A KEY
-                else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-                    jump = -Vector2.right; // -right means left
+                if (playerSpawner.getThisPlayer() == this.gameObject)
+                {
+                    // Detects arrow key presses
+                    // UP ARROW OR W KEY
+                    if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+                    {
+                        jump = Vector2.up;
+                        // Adding message to send to the server
+                        clientManager.Send("frogPosition," + currentPosition.x + "," + currentPosition.y + "<EOF>");
+                    }  
+                    // RIGHT ARROW OR D KEY
+                    else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+                    {
+                        jump = Vector2.right;
+                        // Adding message to send to the server
+                        clientManager.Send("frogPosition," + currentPosition.x + "," + currentPosition.y + "<EOF>");
+                    }  
+                    // DOWN ARROW OR S KEY
+                    else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+                    {
+                        jump = -Vector2.up; // -up means down
+                        // Adding message to send to the server
+                        clientManager.Send("frogPosition," + currentPosition.x + "," + currentPosition.y + "<EOF>");
+                    }   
+                    // LEFT ARROW OR A KEY
+                    else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+                    {
+                        jump = -Vector2.right; // -right means left
+                        // Adding message to send to the server
+                        clientManager.Send("frogPosition," + currentPosition.x + "," + currentPosition.y + "<EOF>");
+                    }  
+                }
             }
         }
 

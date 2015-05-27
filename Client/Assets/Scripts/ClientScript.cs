@@ -84,8 +84,7 @@ public class ClientScript : MonoBehaviour
 
     static AsyncOperation async;
 
-    static bool spawnPlayers = true;
-    static bool doneSpawning = true;
+    public static bool spawnObstacles = false;
 
     bool loggedIn = false;
 
@@ -198,12 +197,6 @@ public class ClientScript : MonoBehaviour
     public void setIsPlayerInLobby(bool value)
     {
         isPlayerInLobby = value;
-    }
-
-    public static void setDoneSpawning(bool value)
-    {
-        doneSpawning = value;
-        spawnPlayers = value;
     }
 
     public void Start()
@@ -506,11 +499,38 @@ public class ClientScript : MonoBehaviour
                 else if (messageToCheck[0] == "start-timer")
                 {
                     Debug.Log("Getting \"start-timer\" message...");
+
+                    // Spawn obstacles
+                    spawnObstacles = true;
+
+                    // Start the timer
                     GameUI.restartGame();
+
+                    // Unrestrict player movement
+                    Frog.restrictMovement = false;
                 }
                 else if (messageToCheck[0] == "timer")
                 {
+                    Debug.Log("Current Timer: " + messageToCheck[1]);
                     GameUI.setTimer(float.Parse(messageToCheck[1]));
+                }
+                // "frogPosition, 1, x1, y1, 2, x2, y2, 3, x3, y3, 4, x4, y4<EOF>"
+                else if (messageToCheck[0] == "frogPosition")
+                {
+                    Vector2 newPosition1;
+                    Vector2 newPosition2;
+
+                    Debug.Log("Frog positions: " + messageToCheck[1] + " " + messageToCheck[2] + " " + messageToCheck[3] + " " + messageToCheck[4] + " " + messageToCheck[5] + " " + messageToCheck[6]);
+                    if (numberOfPlayers == "2")
+                    {
+                        newPosition1.x = float.Parse(messageToCheck[1]);
+                        newPosition1.y = float.Parse(messageToCheck[2]);
+
+                        newPosition2.x = float.Parse(messageToCheck[4]);
+                        newPosition2.y = float.Parse(messageToCheck[5]);
+
+                        PlayerSpawner.setPlayerPositions(newPosition1, newPosition2);
+                    }
                 }
                 else if (messageToCheck[0] == "join-session")
                 {
@@ -518,6 +538,16 @@ public class ClientScript : MonoBehaviour
                         setData("showLobby");
                     else
                         setData("sessionFailed");
+                }
+                // "gameOver, result, score1, score2, score3, score4<EOF>"
+                else if (messageToCheck[0] == "gameOver")
+                {
+                    if (messageToCheck[1] == "true")
+                    {
+                        GameOverScript.result = "YOU WON!";
+                    }
+                    else
+                        GameOverScript.result = "YOU LOST!";
                 }
                 
                 if (messageToCheck.Length == 2)

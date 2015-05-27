@@ -2998,6 +2998,7 @@ MonoBehaviour:
   loseMenu: {fileID: 325245281}
   scoreMenu: {fileID: 160349046}
   finalScoreText: {fileID: 1633386866}
+  resultText: {fileID: 1906511737}
   yesWinButton: {fileID: 965556323}
   noWinButton: {fileID: 964246714}
   yesLoseButton: {fileID: 1321967005}
@@ -3663,6 +3664,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1: {fileID: 181150, guid: fdfad93dbdd15c242921378f059f3233, type: 2}
   player2: {fileID: 175126, guid: d0083361713308149b4955bdeb628e3a, type: 2}
+  thisPlayer: {fileID: 0}
 --- !u!4 &2068865898
 Transform:
   m_ObjectHideFlags: 0

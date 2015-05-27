@@ -6,14 +6,20 @@ public class PlayerSpawner : MonoBehaviour {
     public GameObject player1;
     public GameObject player2;
 
+    public static GameObject p1;
+    public static GameObject p2;
+
+    static Vector2 p1Pos;
+    static Vector2 p2Pos;
+
     public GameObject thisPlayer;
 
     ClientScript clientManager;
     GameObject networking;
 
-    string numberOfPlayers;
-    string playerNumber;
-    string username;
+    static string numberOfPlayers;
+    static string playerNumber;
+    static string username;
 
     Vector3 onePlayerP1Position;
 
@@ -41,6 +47,14 @@ public class PlayerSpawner : MonoBehaviour {
         return thisPlayer;
     }
 
+    public static void setPlayerPositions(Vector2 newPos1, Vector2 newPos2)
+    {
+        if (playerNumber == "1")
+            p2Pos = newPos2;
+        else if (playerNumber == "2")
+            p1Pos = newPos1;
+    }
+
     public void spawnPlayers()
     {
         numberOfPlayers = clientManager.getNumberOfPlayers();  //being set in ClientScript when "start-game" is received
@@ -51,15 +65,15 @@ public class PlayerSpawner : MonoBehaviour {
         if (numberOfPlayers == "1")
         {
             Debug.Log("Spawning Player 1");
-            GameObject p1 = (GameObject)Instantiate(player1, onePlayerP1Position, Quaternion.identity);
+            p1 = (GameObject)Instantiate(player1, onePlayerP1Position, Quaternion.identity);
             thisPlayer = p1;
         }
         else if (numberOfPlayers == "2")
         {
             Debug.Log("Spawning Player 1");
-            GameObject p1 = (GameObject)Instantiate(player1, twoPlayerP1Position, Quaternion.identity);
+            p1 = (GameObject)Instantiate(player1, twoPlayerP1Position, Quaternion.identity);
             Debug.Log("Spawning Player 2");
-            GameObject p2 = (GameObject)Instantiate(player2, twoPlayerP2Position, Quaternion.identity);
+            p2 = (GameObject)Instantiate(player2, twoPlayerP2Position, Quaternion.identity);
 
             if (playerNumber == "1")
                 thisPlayer = p1;
@@ -144,7 +158,11 @@ public class PlayerSpawner : MonoBehaviour {
         {
             if (numberOfPlayers == "2")
             {
-
+                Debug.Log("Updating player positions...");
+                if (playerNumber == "1")
+                    p2.transform.position = p2Pos;
+                else if (playerNumber == "2")
+                    p1.transform.position = p1Pos;
             }
             /*else if (numberOfPlayers == 3)
             {

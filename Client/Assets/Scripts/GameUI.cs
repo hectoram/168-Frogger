@@ -10,6 +10,9 @@ public class GameUI : MonoBehaviour {
     GameObject menuObject;
     GameOverScript menu;
 
+    GameObject networking;
+    ClientScript clientManager;
+
     static int score;
     static float time;
 
@@ -38,6 +41,9 @@ public class GameUI : MonoBehaviour {
 
         menuObject = GameObject.FindGameObjectWithTag("Menus");
         menu = menuObject.GetComponent<GameOverScript>();
+
+        networking = GameObject.FindGameObjectWithTag("Networking");
+        clientManager = networking.GetComponent<ClientScript>();
 	}
 	
 	// Update is called once per frame
@@ -57,6 +63,8 @@ public class GameUI : MonoBehaviour {
                 scoreText.text = score.ToString();
                 menu.finalScoreText.text = "SCORE: " + score.ToString();
                 menu.ShowScoreMenu();
+
+                clientManager.Send("gameOver," + score.ToString() + "<EOF>");
             }
         }
 
