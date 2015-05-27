@@ -303,6 +303,15 @@ namespace FroggerServer
                     toSend = "join-session,false<EOF>";
 
                 connectionLinker.Send(connectedPlayers[senderIP].connection, toSend);
+            }else if(message[0] == "score")
+            {
+                GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].setScore(senderIP, message[1]);
+                //score, score1, score2, score3, score4<EOF>
+                string toSend = "score," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerOneScore + "," +
+                    GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerTwoScore + "," + "null,null<EOF>";
+
+                connectionLinker.Send(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.connection, toSend);
+                connectionLinker.Send(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.connection, toSend);
             }
             else
                 NetworkHandler.Instance.messagesRecieved[senderIP].Enqueue(toParse);
