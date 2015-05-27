@@ -11,8 +11,8 @@ public class PlayerSpawner : MonoBehaviour {
     ClientScript clientManager;
     GameObject networking;
 
-    int numberOfPlayers;
-    int playerNumber;
+    string numberOfPlayers;
+    string playerNumber;
     string username;
 
     Vector3 onePlayerP1Position;
@@ -31,7 +31,7 @@ public class PlayerSpawner : MonoBehaviour {
     Vector3 fourPlayerP3Position;
     Vector3 fourPlayerP4Position;*/
 
-    public int getPlayerNumber()
+    public string getPlayerNumber()
     {
         return playerNumber;
     }
@@ -43,26 +43,27 @@ public class PlayerSpawner : MonoBehaviour {
 
     public void spawnPlayers()
     {
-        numberOfPlayers = clientManager.getNumberOfPlayers();  //being set in ClientScript when "start-game" is received
+        //numberOfPlayers = clientManager.getNumberOfPlayers();  //being set in ClientScript when "start-game" is received
+        numberOfPlayers = "2";
         playerNumber = clientManager.getPlayerNumber();
         username = clientManager.getUsername();
 
-        if (numberOfPlayers == 1)
+        if (numberOfPlayers == "1")
         {
             Debug.Log("Spawning Player 1");
             GameObject p1 = (GameObject)Instantiate(player1, onePlayerP1Position, Quaternion.identity);
             thisPlayer = p1;
         }
-        else if (numberOfPlayers == 2)
+        else if (numberOfPlayers == "2")
         {
             Debug.Log("Spawning Player 1");
             GameObject p1 = (GameObject)Instantiate(player1, twoPlayerP1Position, Quaternion.identity);
             Debug.Log("Spawning Player 2");
             GameObject p2 = (GameObject)Instantiate(player2, twoPlayerP2Position, Quaternion.identity);
 
-            if (playerNumber == 1)
+            if (playerNumber == "1")
                 thisPlayer = p1;
-            else if (playerNumber == 2)
+            else if (playerNumber == "2")
                 thisPlayer = p2;
         }
         /*else if (numberOfPlayers == 3)
@@ -141,7 +142,7 @@ public class PlayerSpawner : MonoBehaviour {
 
         if (updatePositions)
         {
-            if (numberOfPlayers == 2)
+            if (numberOfPlayers == "2")
             {
 
             }

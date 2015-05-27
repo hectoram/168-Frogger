@@ -70,9 +70,9 @@ public class ClientScript : MonoBehaviour
     GameObject gameMenu;
 
     bool isGameInProgress;
-    static int myPlayerNumber = 0; // Starts at zero, if it's zero, that means that the player has not been assigned a number yet
-    static int numberOfPlayers = 0;
-    static string myUsername = "not set";
+    public static string myPlayerNumber = "0"; // Starts at zero, if it's zero, that means that the player has not been assigned a number yet
+    public static string numberOfPlayers = "0";
+    public static string myUsername = "not set";
 
     static string data = "";
     static string[] playerQueue = { "null", "null", "null", "null" };
@@ -111,12 +111,12 @@ public class ClientScript : MonoBehaviour
         return isGameInProgress;
     }
 
-    public int getPlayerNumber()
+    public string getPlayerNumber()
     {
         return myPlayerNumber;
     }
 
-    public int getNumberOfPlayers()
+    public string getNumberOfPlayers()
     {
         return numberOfPlayers;
     }
@@ -126,7 +126,7 @@ public class ClientScript : MonoBehaviour
         return myUsername;
     }
 
-    public void setPlayerNumber(int number)
+    public void setPlayerNumber(string number)
     {
         myPlayerNumber = number;
     }
@@ -147,47 +147,45 @@ public class ClientScript : MonoBehaviour
 
     public static void setQueue(string p1, string p2, string p3, string p4)
     {
-    //myUsername = LoginScript.getUsername();
         QueueMessage message = new QueueMessage();
         message.playerOneName = p1;
         message.playerTwoName = p2;
         message.playerThreeName = p3;
         message.playerFourName = p4;
-  
+
+        // Set info to display usernames in MultiplayerLobbyScript
+        playerQueue[0] = p1;
+        playerQueue[1] = p2;
+        playerQueue[2] = p3;
+        playerQueue[3] = p4;
+
+        Debug.Log("Does Player 1 == my username? " + p1 + " == " + myUsername + "?");
+        Debug.Log("Does Player 1 == my username? " + p2 + " == " + myUsername + "?");
         if (p1 == myUsername)
-            myPlayerNumber = 1;
+            myPlayerNumber = "1";
         else if (p2 == myUsername)
-            myPlayerNumber = 2;
+            myPlayerNumber = "2";
         else if (p3 == myUsername)
-            myPlayerNumber = 3;
+            myPlayerNumber = "3";
         else if (p4 == myUsername)
-            myPlayerNumber = 4;
+            myPlayerNumber = "4";
 
         messageQueue.Enqueue(message);
     }
 
     public static void setReady(string p1, string p2, string p3, string p4)
     {
-        //numberOfPlayers = 0;
         ReadyMessage message = new ReadyMessage();
         message.playerOneReady = p1;
         message.playerTwoReady = p2;
         message.playerThreeReady = p3;
         message.playerFourReady = p4;
 
+        // Set info the display "READY" messages in MultiplayerLobbyScript
         playerReady[0] = p1;
         playerReady[1] = p2;
         playerReady[2] = p3;
         playerReady[3] = p4;
-
-        /*if (p1 != "null" && p1 != "empty")
-            numberOfPlayers++;
-        else if (p2 != "null" && p2 != "empty")
-            numberOfPlayers++;
-        else if (p3 != "null" && p3 != "empty")
-            numberOfPlayers++;
-        else if (p4 != "null" && p4 != "empty")
-            numberOfPlayers++;*/
 
         readyQueue.Enqueue(message);
     }
@@ -339,6 +337,7 @@ public class ClientScript : MonoBehaviour
 	  public void StartClient(string message, string username, string password) //Ceci: added the first param
     {
         Debug.Log("Starting client...");
+        
         // Connect to a remote device.
         try
         {
@@ -353,6 +352,7 @@ public class ClientScript : MonoBehaviour
             // Send test data to the remote device.
             //Send("This is a test message.<EOF>");
             Send(message + "," + username + "," + password + "<EOF>");
+            myUsername = username;
 
             send_so.sendDone.WaitOne(5000);
 
@@ -486,16 +486,21 @@ public class ClientScript : MonoBehaviour
                 }
                 else if (messageToCheck[0] == "start-game")
                 {
+                    //Set the number of players here
+                    Debug.Log("Getting \"start-game\" message...  " + messageToCheck[0] + "   " + messageToCheck[1]);
+
+                    numberOfPlayers = messageToCheck[1];
+
+                    Debug.Log("Sending the number of players: " + numberOfPlayers);
+
                     //async.allowSceneActivation = true;
                     //myMenu.StartMultiplayerGame();
                     setStartGame(true);  // Created this function to be able start the Multiplayer Scene from inside ReceiveCallback
                     //Application.LoadLevel("Multiplayer Scene");  // Was getting an error trying to call this from here
-
-                    //Set the number of players here
-                    numberOfPlayers = Int32.Parse(messageToCheck[1]);
                 }
                 else if (messageToCheck[0] == "start-timer")
                 {
+                    Debug.Log("Getting \"start-timer\" message...");
                     GameUI.restartGame();
                 }
                 else if (messageToCheck[0] == "timer")
