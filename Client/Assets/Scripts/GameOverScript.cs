@@ -74,15 +74,20 @@ public class GameOverScript : MonoBehaviour {
     {
         if (!scoreMenu.enabled)
         {
-            if (result == "YOU WON!")
+            if (result == "won")
             {
                 resultText.color = Color.green;
                 resultText.text = "YOU WON!";
             }
-            else if (result == "YOU LOST!")
+            else if (result == "lost")
             {
                 resultText.color = Color.red;
                 resultText.text = "YOU LOST!";
+            }
+            else if (result == "tie")
+            {
+                resultText.color = Color.yellow;
+                resultText.text = "IT'S A TIE!";
             }
 
             scoreMenu.enabled = true;
