@@ -539,6 +539,11 @@ public class ClientScript : MonoBehaviour
                     else
                         setData("sessionFailed");
                 }
+                else if (messageToCheck[0] == "score")
+                {
+                    GameUI.score1 = messageToCheck[1];
+                    GameUI.score2 = messageToCheck[2];
+                }
                 // "gameOver, result, score1, score2, score3, score4<EOF>"
                 else if (messageToCheck[0] == "gameOver")
                 {

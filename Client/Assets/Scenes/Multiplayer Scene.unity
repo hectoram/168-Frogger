@@ -1659,7 +1659,7 @@ GameObject:
   - 222: {fileID: 1165149735}
   - 114: {fileID: 1165149734}
   m_Layer: 5
-  m_Name: Score Text
+  m_Name: Score Text 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1685,7 +1685,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 3
+    m_Alignment: 4
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
@@ -1711,7 +1711,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 14, y: 159}
+  m_AnchoredPosition: {x: -94, y: 159}
   m_SizeDelta: {x: 251, y: 40}
   m_Pivot: {x: .5, y: .5}
 --- !u!1 &1195813872
@@ -2019,7 +2019,7 @@ GameObject:
   - 222: {fileID: 1235784884}
   - 114: {fileID: 1235784883}
   m_Layer: 5
-  m_Name: Score Text 1
+  m_Name: Score Text 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2039,7 +2039,7 @@ RectTransform:
   m_RootOrder: 4
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 207, y: 159}
+  m_AnchoredPosition: {x: 97, y: 159}
   m_SizeDelta: {x: 251, y: 40}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1235784883
@@ -2062,7 +2062,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 3
+    m_Alignment: 4
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
@@ -3099,7 +3099,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27c0f17cfaf82bb48afdb437fc8256fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 1165149734}
+  scoreText1: {fileID: 1165149734}
+  scoreText2: {fileID: 1235784883}
   timeText: {fileID: 590923305}
 --- !u!1 &1757900405
 GameObject:

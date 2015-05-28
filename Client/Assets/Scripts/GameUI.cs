@@ -4,8 +4,12 @@ using System.Collections;
 
 public class GameUI : MonoBehaviour {
 
-    public Text scoreText;
+    public Text scoreText1;
+    public Text scoreText2;
     public Text timeText;
+
+    public static string score1 = "000";
+    public static string score2 = "000";
 
     GameObject menuObject;
     GameOverScript menu;
@@ -60,7 +64,8 @@ public class GameUI : MonoBehaviour {
                 isGameOver = true;
                 startTimer = false;
                 PlayerSpawner.updatePositions = false;
-                scoreText.text = score.ToString();
+                scoreText1.text = score1.ToString();
+                scoreText2.text = score2.ToString();
                 menu.finalScoreText.text = "SCORE: " + score.ToString();
                 menu.ShowScoreMenu();
 
@@ -74,7 +79,14 @@ public class GameUI : MonoBehaviour {
         string niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
 
         timeText.text = niceTime;
-        scoreText.text = score.ToString();
+
+        /*if (ClientScript.myPlayerNumber == "1")
+        {
+            scoreText1.text = score.ToString();
+        }*/
+
+        scoreText1.text = score1.ToString();
+        scoreText2.text = score2.ToString();
 	}
 
     /*public void resetGame()
@@ -87,6 +99,7 @@ public class GameUI : MonoBehaviour {
     public void addFinishLineScore()
     {
         score += 100;
+        clientManager.Send("score," + score + "<EOF>");
     }
 
     public void addDeathScore()
@@ -95,5 +108,7 @@ public class GameUI : MonoBehaviour {
             score -= 25;
         else
             score = 0;
+
+        clientManager.Send("score," + score + "<EOF>");
     }
 }
