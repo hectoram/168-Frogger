@@ -98,12 +98,14 @@ public class GameUI : MonoBehaviour {
 
     public void addFinishLineScore()
     {
+        Debug.Log("Adding FINISH LINE score!");
         score += 100;
         clientManager.Send("score," + score + "<EOF>");
     }
 
     public void addDeathScore()
     {
+        Debug.Log("Adding DEATH score!");
         if (score > 25)
             score -= 25;
         else

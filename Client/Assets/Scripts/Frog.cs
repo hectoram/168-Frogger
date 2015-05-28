@@ -83,11 +83,11 @@ public class Frog : MonoBehaviour
         // Otherwise allow for next jump
         else
         {
-            bool result;
+            /*bool result;
 
             if (playerSpawner.getThisPlayer() == this.gameObject)
                 result = true;
-            else result = false;
+            else result = false;*/
 
             //Debug.Log("Result: " + result);
 
