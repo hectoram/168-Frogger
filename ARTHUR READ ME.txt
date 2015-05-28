@@ -1,0 +1,18 @@
+MILESTONE #4 INSTRUCTIONS:
+
+===== LAUNCHING THE SERVER =====
+1) Navigate to the FroggerServer.sln file in the Server folder and double-click to launch VS
+2) Click Build -> Clean Solution
+3) Click Build -> Build Solution
+4) Click Debug -> Start without Debugging OR double-click on the FroggerServer.exe in the Debug folder
+
+===== LAUNCHING THE CLIENT =====
+1) Double-click on the Menu Scene in the Client -> Assets -> Scenes folder
+2) Once Unity has finished loading, click on File -> Build Settings
+3) Drag and drop the scenes from the Scene folder into the "Scenes in Build" area
+	 Scenes should be listed as follows:
+	 	- Menu Scene = 0
+	 	- Multiplayer Scene = 1
+	 	- Main Scene = 2
+4) Click Build and select the location and file name of the exe
+5) Open multiple instances of the game using the exe to demonstrate multiplayer connections
