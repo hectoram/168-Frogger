@@ -106,13 +106,23 @@ namespace FroggerServer
             try
             {
                 if (first.IP.Equals(IP))
+                {
                     playerOneScore = -1;
+                    NetworkHandler.Instance.sendMessage(second.IP, "disconnect," + 1 + "<EOF>");
+                }
                 else if (second.IP.Equals(IP))
+                {
                     playerTwoScore = -1;
+                    NetworkHandler.Instance.sendMessage(first.IP, "disconnect," + 2 + "<EOF>");
+                }
                 else if (third.IP.Equals(IP))
+                {
                     playerThreeScore = -1;
+                }
                 else if (fourth.IP.Equals(IP))
+                {
                     playerFourScore = -1;
+                }
             }
             catch (Exception e)
             {
