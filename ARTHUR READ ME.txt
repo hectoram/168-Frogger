@@ -16,3 +16,11 @@ MILESTONE #4 INSTRUCTIONS:
 	 	- Main Scene = 2
 4) Click Build and select the location and file name of the exe
 5) Open multiple instances of the game using the exe to demonstrate multiplayer connections
+
+
+
+===== SERVER SCRIPTS =====
+Network-handler listens for connections/recieves messages
+GameHandler takes care of sessions
+GameLogic keeps track of all players in a session/score/timer
+Player class is a simple container class.
