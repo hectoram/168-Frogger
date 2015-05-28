@@ -455,7 +455,7 @@ namespace FroggerServer
                     long seconds = (long) (totalMilliseconds / 0.001);
                     Console.WriteLine("Current gametime is: " + seconds);
 
-                    if (totalMilliseconds >= 6000)
+                    if (totalMilliseconds >= 60000)
                     {
                         gameIsOver = true;
                         gameHasStarted = !gameHasStarted;
