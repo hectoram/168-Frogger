@@ -55,7 +55,7 @@ public class Frog : MonoBehaviour
 		//Destroy (gameObject);
 		//menu.ShowLoseMenu ();
 
-        if (coll.tag == "Car")
+        if (coll.tag == "Car" || coll.tag == "Water")
         {
             gameUI.addDeathScore();
             transform.position = new Vector3(0, -8, 0);

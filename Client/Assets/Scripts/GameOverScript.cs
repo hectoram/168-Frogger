@@ -55,6 +55,7 @@ public class GameOverScript : MonoBehaviour {
 	{
 		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 
+        Debug.Log("Loading Main Menu from in-game...");
 		Application.LoadLevel ("Menu Scene");
 	}
 
@@ -74,6 +75,7 @@ public class GameOverScript : MonoBehaviour {
     {
         if (!scoreMenu.enabled)
         {
+            Debug.Log("Your result is: " + result);
             if (result == "won")
             {
                 resultText.color = Color.green;
@@ -89,6 +91,9 @@ public class GameOverScript : MonoBehaviour {
                 resultText.color = Color.yellow;
                 resultText.text = "IT'S A TIE!";
             }
+
+            Debug.Log("Your result is: " + result);
+            Debug.Log("Result text says:  " + resultText.text);
 
             scoreMenu.enabled = true;
             GetComponent<AudioSource>().PlayOneShot(winnerSFX);

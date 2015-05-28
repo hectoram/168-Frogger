@@ -541,29 +541,47 @@ public class ClientScript : MonoBehaviour
                 }
                 else if (messageToCheck[0] == "score")
                 {
-                    GameUI.score1 = messageToCheck[1];
-                    GameUI.score2 = messageToCheck[2];
+                    if (messageToCheck[1] == "-1")
+                    {
+                        GameUI.score1 = "DISCONNECTED";
+                        PlayerSpawner.p1.SetActive(false);
+                    }
+                    else if (messageToCheck[2] == "-1")
+                    {
+                        GameUI.score2 = "DISCONNECTED";
+                        PlayerSpawner.p1.SetActive(false);
+                    }
+                    else
+                    {
+                        GameUI.score1 = messageToCheck[1];
+                        GameUI.score2 = messageToCheck[2];
+                    }
                 }
                 // "gameOver, result, score1, score2, score3, score4<EOF>"
                 else if (messageToCheck[0] == "gameOver")
                 {
+                    Debug.Log("My player number is: " + myPlayerNumber);
                     if (myPlayerNumber == "1")
                     {
-                        if (messageToCheck[2] == "won")
+                        /*if (messageToCheck[2] == "won")
                             GameOverScript.result = "won";
                         else if (messageToCheck[2] == "lost")
                             GameOverScript.result = "lost";
                         else if (messageToCheck[2] == "tie")
-                            GameOverScript.result = "tie";
+                            GameOverScript.result = "tie";*/
+
+                        GameOverScript.result = messageToCheck[2];
                     }
                     else if (myPlayerNumber == "2")
                     {
-                        if (messageToCheck[5] == "won")
+                        /*if (messageToCheck[5] == "won")
                             GameOverScript.result = "won";
                         else if (messageToCheck[5] == "lost")
                             GameOverScript.result = "lost";
                         else if (messageToCheck[5] == "tie")
-                            GameOverScript.result = "tie";
+                            GameOverScript.result = "tie";*/
+
+                        GameOverScript.result = messageToCheck[5];
                     } 
                 }
                 
