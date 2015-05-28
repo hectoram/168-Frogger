@@ -20,7 +20,7 @@ namespace FroggerServer
 
         private bool fourPlayer;
 
-        private bool gameHasStarted;
+        public bool gameHasStarted;
         private bool gameIsOver;
         private bool timerStarted;
 
@@ -102,8 +102,22 @@ namespace FroggerServer
         }
 
         public void handleDissconnectedPlayer(string IP)
-        { 
-            //Do things here
+        {
+            try
+            {
+                if (first.IP.Equals(IP))
+                    playerOneScore = -1;
+                else if (second.IP.Equals(IP))
+                    playerTwoScore = -1;
+                else if (third.IP.Equals(IP))
+                    playerThreeScore = -1;
+                else if (fourth.IP.Equals(IP))
+                    playerFourScore = -1;
+            }
+            catch (Exception e)
+            {
+                
+            }
         }
 
         public int getCurrentTime()
@@ -423,17 +437,13 @@ namespace FroggerServer
                     long seconds = (long) (totalMilliseconds / 0.001);
                     Console.WriteLine("Current gametime is: " + seconds);
 
-                    if (totalMilliseconds >= 600000)
+                    if (totalMilliseconds >= 6000)
                     {
                         gameIsOver = true;
                         gameHasStarted = !gameHasStarted;
                         if(bothScoresSet)
                           sendGameOver();
-                    }
-                    else
-                    {
-                        NetworkHandler.Instance.sendMessage(first.IP, "frogPosition," + getPlayerPositions(1) + ",2," + getPlayerPositions(2) + ",3,null,null,4,null,null<EOF>");
-                    }
+                    }               
                 }
                     
             }
