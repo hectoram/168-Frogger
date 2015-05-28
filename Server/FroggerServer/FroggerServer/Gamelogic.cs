@@ -389,14 +389,32 @@ namespace FroggerServer
 
         public void sendGameOver()
         {
-            try
+             try
             {
                 //gameOver,result,score1,score2,score3,score4<EOF>
+                string toSendP1 = "";
+                string toSendP2 = "";
+
+                if(winner == 1)
+                    toSendP1 =  "gameOver,won," + playerOneScore +"," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>";
+                else if(winner == -1)
+                    toSendP1 =  "gameOver,tie," + playerOneScore +"," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>";
+                else
+                    toSendP1 = "gameOver,lost," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>";
+
+                if(winner == 2)
+                    toSendP2 = "gameOver,won," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>";
+                else if(winner == -1)
+                    toSendP2 =  "gameOver,tie," + playerOneScore +"," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>";
+                else
+                    toSendP2 = "gameOver,lost," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>";
+
+
                 if (first != null)
-                    NetworkHandler.Instance.sendMessage(first.IP, "gameOver,result," + playerOneScore +"," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>");
+                    NetworkHandler.Instance.sendMessage(first.IP, toSendP1);
 
                 if (second != null)
-                    NetworkHandler.Instance.sendMessage(second.IP, "gameOver,result," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>");
+                    NetworkHandler.Instance.sendMessage(second.IP, toSendP2);
 
                 if (third != null)
                     NetworkHandler.Instance.sendMessage(third.IP, "gameOver,result," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>");
