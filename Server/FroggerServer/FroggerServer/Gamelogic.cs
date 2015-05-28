@@ -452,15 +452,11 @@ namespace FroggerServer
                 { 
                     long totalMilliseconds = stopWatch.ElapsedMilliseconds;
 
-                    long seconds = (long) (totalMilliseconds / 0.001);
-                    Console.WriteLine("Current gametime is: " + seconds);
-
                     if (totalMilliseconds >= 60000)
                     {
                         gameIsOver = true;
                         gameHasStarted = !gameHasStarted;
-                        if(bothScoresSet)
-                          sendGameOver();
+                        //sendGameOver();
                     }               
                 }
                     
