@@ -561,28 +561,8 @@ public class ClientScript : MonoBehaviour
                 else if (messageToCheck[0] == "gameOver")
                 {
                     Debug.Log("My player number is: " + myPlayerNumber);
-                    if (myPlayerNumber == "1")
-                    {
-                        /*if (messageToCheck[2] == "won")
-                            GameOverScript.result = "won";
-                        else if (messageToCheck[2] == "lost")
-                            GameOverScript.result = "lost";
-                        else if (messageToCheck[2] == "tie")
-                            GameOverScript.result = "tie";*/
 
-                        GameOverScript.result = messageToCheck[2];
-                    }
-                    else if (myPlayerNumber == "2")
-                    {
-                        /*if (messageToCheck[5] == "won")
-                            GameOverScript.result = "won";
-                        else if (messageToCheck[5] == "lost")
-                            GameOverScript.result = "lost";
-                        else if (messageToCheck[5] == "tie")
-                            GameOverScript.result = "tie";*/
-
-                        GameOverScript.result = messageToCheck[5];
-                    } 
+                    GameOverScript.result = messageToCheck[1];
                 }
                 
                 if (messageToCheck.Length == 2)

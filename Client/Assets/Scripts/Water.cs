@@ -17,15 +17,15 @@ public class Water : MonoBehaviour {
 	void OnTriggerStay2D(Collider2D coll)
 	{
 		// Check to see if the object is a frog
-        if (coll.tag == "Player" || coll.name == "Player 1" || coll.name == "Player 2")
+        if (coll.name == "none")
 			// Check to see if the frog isn't jumping
 		if (!coll.GetComponent<Frog> ().isJumping ())
 				// Check to see if the frog isn't on a platform
-		if (coll.transform.parent == null) {
+		if (coll.transform.parent == null && coll.transform.position.y > -1 && coll.transform.position.y < 5) {
 			// GAME OVER
 			//Destroy (coll.gameObject);
 			//menu.ShowLoseMenu();
-
+            Debug.Log("WATER DEATHHH!");
             gameUI.addDeathScore();
             coll.gameObject.transform.position = new Vector3(0, -8, 0);
 		}
