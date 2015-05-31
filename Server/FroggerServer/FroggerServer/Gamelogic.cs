@@ -157,7 +157,7 @@ namespace FroggerServer
             else if (playerTwoScore > playerOneScore)
                 winner = 2;
             else
-                winner = 3;
+                winner = -1;
 
             if (firstScore && secondScore)
             {
@@ -301,15 +301,8 @@ namespace FroggerServer
                 playerFourScore = int.Parse(myScore);
             }
 
-                winnerSet = !winnerSet;
-                bothScoresSet = true;
-
-                if (playerOneScore > playerTwoScore)
-                    winner = 1;
-                else if (playerTwoScore > playerOneScore)
-                    winner = 2;
-                else
-                    winner = 3;
+            winnerSet = true;
+            bothScoresSet = true;
             //else if (third.IP.Equals(IP)) 
            // else if (fourth.IP.Equals(IP))
                 

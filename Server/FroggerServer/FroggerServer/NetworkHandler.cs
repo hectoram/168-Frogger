@@ -214,6 +214,7 @@ namespace FroggerServer
             }
             else if (message[0] == "gameOver")
             {
+                Console.WriteLine("I've got a gameOver");
                 GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].registerFinalScore(senderIP, message[1]);   
             }
             else if (message[0] == "ready")
