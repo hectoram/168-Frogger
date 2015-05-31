@@ -129,6 +129,45 @@ namespace FroggerServer
             }
         }
 
+        public void registerFinalScore(string IP,string myScore)
+        {
+            if (first.IP.Equals(IP))
+            {
+                playerOneScore = int.Parse(myScore);
+                firstScore = true;
+            }
+            else if (second.IP.Equals(IP))
+            {
+                playerTwoScore = int.Parse(myScore);
+                secondScore = true;
+            }
+            else if (third.IP.Equals(IP))
+            {
+                playerThreeScore = int.Parse(myScore);
+                thirdScore = true;
+            }
+            else if (fourth.IP.Equals(IP))
+            {
+                playerFourScore = int.Parse(myScore);
+                fourthScore = true;
+            }
+
+            if (playerOneScore > playerTwoScore)
+                winner = 1;
+            else if (playerTwoScore > playerOneScore)
+                winner = 2;
+            else
+                winner = 3;
+
+            if (firstScore && secondScore)
+            {
+                sendGameOver();
+            }
+            //else if (third.IP.Equals(IP)) 
+            // else if (fourth.IP.Equals(IP))
+        }
+
+
         public int getCurrentTime()
         {
             TimeSpan time = stopWatch.Elapsed;
@@ -462,7 +501,6 @@ namespace FroggerServer
                     {
                         gameIsOver = true;
                         gameHasStarted = !gameHasStarted;
-                        sendGameOver();
                         //GameHandler.Instance.endGame(SessionName);
                     }               
                 }

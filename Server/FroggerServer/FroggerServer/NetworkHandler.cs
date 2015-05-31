@@ -214,33 +214,7 @@ namespace FroggerServer
             }
             else if (message[0] == "gameOver")
             {
-                GameHandler.Instance.setScore(GameHandler.Instance.getSessionName(senderIP), senderIP, message[1]);
-                //If I've recieved both players scores
-                if (GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].bothScoresSet)
-                {
-                    string toSendP1;
-
-                    if (GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].winner == 1)
-                    {
-                        toSendP1 = "gameOver," + "1," + "lost," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerOneScore + ",2," + "lost," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerTwoScore + ",3," + "null,4,null<EOF>";
-                    }
-                    else if (GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].winner == 2)
-                    {
-                        toSendP1 = "gameOver," + "1," + "won," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerOneScore + ",2," + "won," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerTwoScore + ",3," + "null,4,null<EOF>";
-                    }
-                    else
-                    {
-                        toSendP1 = "gameOver," + "1," + "tie," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerOneScore + ",2," + "tie," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerTwoScore + ",3," + "null,4,null<EOF>";
-                    }
-
-                    if (!GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].scoresSent)
-                    {
-                        sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.IP, toSendP1);
-                        sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.IP, toSendP1);
-                        GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].scoresSent = true;
-                    }
-
-                }
+                GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].registerFinalScore(senderIP, message[1]);   
             }
             else if (message[0] == "ready")
             {
@@ -448,8 +422,6 @@ namespace FroggerServer
                 String myIP = String.Empty;
                 string messageIP = handler.RemoteEndPoint.ToString();
                 myIP = messageIP;
-
-                Console.WriteLine("The following IP is sending me a message: " + myIP);
 
                 content = state.sb.ToString();
                 if (content.IndexOf("<EOF>") > -1)
