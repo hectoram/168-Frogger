@@ -131,27 +131,40 @@ namespace FroggerServer
 
         public void registerFinalScore(string IP,string myScore)
         {
-            if (first.IP.Equals(IP))
+            try
             {
-                playerOneScore = int.Parse(myScore);
-                firstScore = true;
-            }
-            else if (second.IP.Equals(IP))
+                if (first.IP.Equals(IP))
+                {
+                    playerOneScore = int.Parse(myScore);
+                    if (int.Parse(myScore) > DataBase.Instance.getHighscore(first.getUserName()))
+                        DataBase.Instance.addHighscore(first.getUserName() , myScore);
+                    firstScore = true;
+                }
+                else if (second.IP.Equals(IP))
+                {
+                    playerTwoScore = int.Parse(myScore);
+                    if (int.Parse(myScore) > DataBase.Instance.getHighscore(second.getUserName()))
+                        DataBase.Instance.addHighscore(second.getUserName(), myScore);
+                    secondScore = true;
+                }
+                else if (third.IP.Equals(IP))
+                {
+                    playerThreeScore = int.Parse(myScore);
+                    if (int.Parse(myScore) > DataBase.Instance.getHighscore(third.getUserName()))
+                        DataBase.Instance.addHighscore(third.getUserName(), myScore);
+                    thirdScore = true;
+                }
+                else if (fourth.IP.Equals(IP))
+                {
+                    playerFourScore = int.Parse(myScore);
+                    if (int.Parse(myScore) > DataBase.Instance.getHighscore(fourth.getUserName()))
+                        DataBase.Instance.addHighscore(fourth.getUserName(), myScore);
+                    fourthScore = true;
+                }
+            }catch(Exception e)
             {
-                playerTwoScore = int.Parse(myScore);
-                secondScore = true;
+                
             }
-            else if (third.IP.Equals(IP))
-            {
-                playerThreeScore = int.Parse(myScore);
-                thirdScore = true;
-            }
-            else if (fourth.IP.Equals(IP))
-            {
-                playerFourScore = int.Parse(myScore);
-                fourthScore = true;
-            }
-
             if (playerOneScore > playerTwoScore)
                 winner = 1;
             else if (playerTwoScore > playerOneScore)
