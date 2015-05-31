@@ -233,8 +233,12 @@ namespace FroggerServer
                         toSendP1 = "gameOver," + "1," + "tie," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerOneScore + ",2," + "tie," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerTwoScore + ",3," + "null,4,null<EOF>";
                     }
 
-                    sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.IP, toSendP1);
-                    sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.IP, toSendP1);
+                    if (!GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].scoresSent)
+                    {
+                        sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.IP, toSendP1);
+                        sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.IP, toSendP1);
+                        GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].scoresSent = true;
+                    }
 
                 }
             }

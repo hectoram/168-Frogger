@@ -11,6 +11,7 @@ namespace FroggerServer
     class GameLogic
     {
         //Add some type of datastructure to hold messages of the players. Map maybe?
+        private string SessionName = "";
         public Player first;
         public Player second;
         Player third;
@@ -21,12 +22,13 @@ namespace FroggerServer
         private bool fourPlayer;
 
         public bool gameHasStarted;
-        private bool gameIsOver;
+        private bool gameIsOver = false;
         private bool timerStarted;
 
         private int playerCount = 0;
 
         //Scores being set
+        public bool scoresSent = false;
         public int playerOneScore;
         public int playerTwoScore;
         public int playerThreeScore;
@@ -57,7 +59,6 @@ namespace FroggerServer
         public GameLogic() 
         {
             gameHasStarted = false;
-            gameIsOver = false;
             timerStarted = false;
             setDefaultPosition(1);
             setDefaultPosition(2);
@@ -77,7 +78,6 @@ namespace FroggerServer
             setDefaultPosition(3);
             setDefaultPosition(4);
             gameHasStarted = false;
-            gameIsOver = false;
             timerStarted = false;
         }
 
@@ -91,8 +91,17 @@ namespace FroggerServer
             setDefaultPosition(3);
             setDefaultPosition(4);
             gameHasStarted = false;
-            gameIsOver = false;
             timerStarted = false;
+        }
+
+        public void setSessionName(string mySession)
+        {
+            SessionName = mySession;
+        }
+
+        public string getSessionName()
+        {
+            return SessionName;
         }
 
         public void setTimer()
@@ -106,23 +115,13 @@ namespace FroggerServer
             try
             {
                 if (first.IP.Equals(IP))
-                {
                     playerOneScore = -1;
-                    NetworkHandler.Instance.sendMessage(second.IP, "disconnect," + 1 + "<EOF>");
-                }
                 else if (second.IP.Equals(IP))
-                {
                     playerTwoScore = -1;
-                    NetworkHandler.Instance.sendMessage(first.IP, "disconnect," + 2 + "<EOF>");
-                }
                 else if (third.IP.Equals(IP))
-                {
                     playerThreeScore = -1;
-                }
                 else if (fourth.IP.Equals(IP))
-                {
                     playerFourScore = -1;
-                }
             }
             catch (Exception e)
             {
@@ -133,7 +132,11 @@ namespace FroggerServer
         public int getCurrentTime()
         {
             TimeSpan time = stopWatch.Elapsed;
-            return 60 - time.Seconds;
+            if (!gameIsOver)
+                return 60 - time.Seconds;
+            else
+                return 0;
+
         }
 
         public bool playerIsInGame(string IP) 
@@ -245,26 +248,20 @@ namespace FroggerServer
             if (first.IP.Equals(IP))
             {
                 playerOneScore = int.Parse(myScore);
-                firstScore = true;
             }
             else if (second.IP.Equals(IP))
             {
                 playerTwoScore = int.Parse(myScore);
-                secondScore = true;
             }
             else if (third.IP.Equals(IP))
             {
                 playerThreeScore = int.Parse(myScore);
-                thirdScore = true;
             }
             else if (fourth.IP.Equals(IP))
             {
                 playerFourScore = int.Parse(myScore);
-                fourthScore = true;
             }
 
-            if (!winnerSet && firstScore && secondScore) 
-            {
                 winnerSet = !winnerSet;
                 bothScoresSet = true;
 
@@ -274,7 +271,6 @@ namespace FroggerServer
                     winner = 2;
                 else
                     winner = 3;
-            }
             //else if (third.IP.Equals(IP)) 
            // else if (fourth.IP.Equals(IP))
                 
@@ -459,14 +455,15 @@ namespace FroggerServer
                     timerStarted = !timerStarted;
                 }
                 else
-                { 
-                    long totalMilliseconds = stopWatch.ElapsedMilliseconds;
+                {
+                    TimeSpan time = stopWatch.Elapsed;
 
-                    if (totalMilliseconds >= 60000)
+                    if (time.Minutes >= 1)
                     {
                         gameIsOver = true;
                         gameHasStarted = !gameHasStarted;
-                        //sendGameOver();
+                        sendGameOver();
+                        //GameHandler.Instance.endGame(SessionName);
                     }               
                 }
                     

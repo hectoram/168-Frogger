@@ -14,6 +14,8 @@ namespace FroggerServer
         //Maps IP to the game session name
         public SortedDictionary<string, string> playerSessionNames = new SortedDictionary<string, string>();
 
+        private List<string> toRemove = new List<string>();
+        private bool itemsToRemove = false;
         private string genericSession = "default"; 
 
         private static GameHandler instance = null;
@@ -75,6 +77,7 @@ namespace FroggerServer
                     else 
                     {
                         creatNewSession(genericSession);
+                        gameSessions[genericSession].setSessionName(genericSession);
                         gameSessions[genericSession].addPlayerToGame(joiningPlayer);
                         playerSessionNames.Add(joiningPlayer.IP, genericSession);
                         return true;
@@ -93,6 +96,7 @@ namespace FroggerServer
                 else
                 { 
                     creatNewSession(SessionToJoin);
+                    gameSessions[SessionToJoin].setSessionName(SessionToJoin);
                     gameSessions[SessionToJoin].addPlayerToGame(joiningPlayer);
                     playerSessionNames.Add(joiningPlayer.IP, SessionToJoin);
                     return true;
@@ -124,7 +128,14 @@ namespace FroggerServer
 
         public void setScore(string session, string IP, string score)
         {
-            gameSessions[session].setScore(IP, score);
+            try
+            {
+                gameSessions[session].setScore(IP, score);
+            }
+            catch (Exception e)
+            { 
+                //Game is over. No point in trying to set old scores. 
+            }
         }
 
         public void chatMessageHandle(string session,string message ,string IP)
@@ -170,6 +181,31 @@ namespace FroggerServer
             }
         }
 
+        public void endGame(string sessionName)
+        {
+            toRemove.Add(sessionName);
+            itemsToRemove = true;
+        }
+
+        private void removeGames()
+        {
+            mutexLock.WaitOne();
+            try
+            {
+                foreach (var value in toRemove)
+                {
+                    gameSessions.Remove(value);
+                }
+                //Clear so other problems don't arise later.
+                itemsToRemove = false;
+                toRemove.Clear();
+            }
+            finally
+            {
+                mutexLock.ReleaseMutex();
+            }
+        }
+
         public int getCurrentTime(string session)
         {
             return gameSessions[session].getCurrentTime();
@@ -188,7 +224,12 @@ namespace FroggerServer
             finally
             {
                 mutexLock.ReleaseMutex();
-            } 
+            }
+
+            //This might cause a lock up. 
+            //if (itemsToRemove)
+                //removeGames();
+
         }
 
         public static GameHandler Instance
