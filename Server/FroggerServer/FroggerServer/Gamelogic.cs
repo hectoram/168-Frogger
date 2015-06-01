@@ -213,11 +213,16 @@ namespace FroggerServer
                 
             }
 
-             if (playerOneScore > playerTwoScore)
-                winner = 1;
-            else if (playerTwoScore > playerOneScore)
+            int currentHighScore = playerOneScore;
+            winner = 1;
+
+             if (playerTwoScore > currentHighScore)
                 winner = 2;
-            else
+            else if (playerThreeScore > currentHighScore)
+                winner = 3;
+            else if(playerFourScore > currentHighScore)
+                 winner = 4;
+             else
                 winner = -1;
 
             if (firstScore && secondScore)
