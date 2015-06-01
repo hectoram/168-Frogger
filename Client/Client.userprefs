@@ -1,11 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\FinishLineScript.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ClientScript.cs">
     <Files>
+      <File FileName="Assets\Scripts\ClientScript.cs" Line="641" Column="22" />
       <File FileName="Assets\Scripts\Platform.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\LoginScript.cs" Line="59" Column="30" />
-      <File FileName="Assets\Scripts\ClientScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CreateUserScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LoginScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MenuScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Spawn.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\FinishLineScript.cs" Line="1" Column="1" />

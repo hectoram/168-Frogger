@@ -447,7 +447,7 @@ public class ClientScript : MonoBehaviour
                 string content = state.sb.ToString();
                 Debug.Log("Content: " + content);
 
-                char[] delimiterChars = { ' ', ',','<','>'};
+                char[] delimiterChars = { ',','<','>'}; // Ceci: removed space for chatlog
 
                 string[] messageToCheck = content.Split(delimiterChars);
 
@@ -632,8 +632,12 @@ public class ClientScript : MonoBehaviour
                     int i = 2;
                     while (messageToCheck[i] != "EOF")
                     {
-                        wholeMessage = wholeMessage + messageToCheck[i] + " ";
-                        i++;
+						wholeMessage = wholeMessage + messageToCheck[i];
+
+						if (messageToCheck[i+1] != "EOF"){ // Comma handling
+							wholeMessage = wholeMessage + ",";
+						}
+						i++;
                     }
 
                     chatMessage = wholeMessage;

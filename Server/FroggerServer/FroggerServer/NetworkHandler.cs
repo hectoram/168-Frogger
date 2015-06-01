@@ -148,7 +148,7 @@ namespace FroggerServer
 
         public void parseMessage(string senderIP, string toParse)
         {
-            char[] delimiterChars = { ' ', ',', '<', '>' };
+            char[] delimiterChars = { ',', '<', '>' };//Ceci: removed space, testing
             string[] message = toParse.Split(delimiterChars);
 
             // handle Login
@@ -275,8 +275,15 @@ namespace FroggerServer
                 int i = 1;
                 while (message[i] != "EOF")
                 {
-                    messageToSend = messageToSend + message[i] + " ";
+                    messageToSend = messageToSend + message[i];
+
+                    if (message[i + 1] != "EOF") // Handles comma parsing
+                    {
+                        messageToSend = messageToSend  + ",";
+                    }
+
                     i++;
+                    
                 }
 
                 Console.WriteLine("I'm going to be sending this out to all the clients: " + messageToSend);
