@@ -260,9 +260,20 @@ namespace FroggerServer
             }
             else if (message[0] == "chat-message")
             {
-                Console.WriteLine("I'm going to be sending this out to all the clients: " + message[1]);
-                GameHandler.Instance.chatMessageHandle(GameHandler.Instance.getSessionName(senderIP), message[1], senderIP);
+                // This is Ceci's temporary fix to the chatbox problem
+                // It's not the most elegant solution, but for now, it works
+                string messageToSend = "";
+                int i = 1;
+                while (message[i] != "EOF")
+                {
+                    messageToSend = messageToSend + message[i] + " ";
+                    i++;
+                }
+
+                Console.WriteLine("I'm going to be sending this out to all the clients: " + messageToSend);
+                GameHandler.Instance.chatMessageHandle(GameHandler.Instance.getSessionName(senderIP), messageToSend, senderIP);
             }
+
             else if (message[0] == "timer")
             {
                 sendMessage(senderIP, "timer," + GameHandler.Instance.getCurrentTime(GameHandler.Instance.getSessionName(senderIP)) + "<EOF>");
