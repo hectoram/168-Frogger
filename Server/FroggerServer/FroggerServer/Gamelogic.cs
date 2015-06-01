@@ -219,13 +219,15 @@ namespace FroggerServer
             int currentHighScore = playerOneScore;
             winner = 1;
 
-             if (playerTwoScore > currentHighScore)
+            if (playerTwoScore > currentHighScore)
                 winner = 2;
             else if (playerThreeScore > currentHighScore)
                 winner = 3;
-            else if(playerFourScore > currentHighScore)
-                 winner = 4;
-             else
+            else if (playerFourScore > currentHighScore)
+                winner = 4;
+            else if (currentHighScore >= playerOneScore)
+                winner = 1;
+            else
                 winner = -1;
 
             //Send the scores if it's a 4 player game -> 3 player game -> two player game.
