@@ -21,6 +21,8 @@ public class GameUI : MonoBehaviour {
 
     public Text timeText;
 
+    Vector3 temp1;
+
     public static string score1 = "000";
     public static string score2 = "000";
     public static string score3 = "000";
@@ -73,6 +75,10 @@ public class GameUI : MonoBehaviour {
         score2Panel = GameObject.Find("Score 2 Panel");
         score3Panel = GameObject.Find("Score 3 Panel");
         score4Panel = GameObject.Find("Score 4 Panel");
+
+        temp1.Set(0, 6, 0);
+
+        timeText.transform.position = temp1;
 
         if (clientManager.getNumberOfPlayers() == "2")
         {
@@ -143,21 +149,37 @@ public class GameUI : MonoBehaviour {
                 {
                     //scoreText1.fontSize = 12;
                     scoreText1.text = "DISCONNECTED";
+
+                    scoreText2.text = score2.ToString();
+                    scoreText3.text = score3.ToString();
+                    scoreText4.text = score4.ToString();
                 }
                 else if (score2 == "DICONNECTED" || score2 == "-1")
                 {
                     //scoreText2.fontSize = 12;
                     scoreText2.text = "DISCONNECTED";
+
+                    scoreText1.text = score1.ToString();
+                    scoreText3.text = score3.ToString();
+                    scoreText4.text = score4.ToString();
                 }
                 else if (score3 == "DICONNECTED" || score3 == "-1")
                 {
                     //scoreText3.fontSize = 12;
                     scoreText3.text = "DISCONNECTED";
+
+                    scoreText2.text = score2.ToString();
+                    scoreText1.text = score1.ToString();
+                    scoreText4.text = score4.ToString();
                 }
                 else if (score4 == "DICONNECTED" || score4 == "-1")
                 {
                     //scoreText4.fontSize = 12;
                     scoreText4.text = "DISCONNECTED";
+
+                    scoreText2.text = score2.ToString();
+                    scoreText3.text = score3.ToString();
+                    scoreText1.text = score4.ToString();
                 }
                 else
                 {
@@ -184,7 +206,7 @@ public class GameUI : MonoBehaviour {
 
         string niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
 
-        timeText.text = niceTime;
+        timeText.text = "TIME: " + niceTime;
 	}
 
     public void addFinishLineScore()
