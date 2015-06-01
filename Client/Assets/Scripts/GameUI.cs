@@ -6,10 +6,15 @@ public class GameUI : MonoBehaviour {
 
     public Text scoreText1;
     public Text scoreText2;
+    public Text scoreText3;
+    public Text scoreText4;
+
     public Text timeText;
 
     public static string score1 = "000";
     public static string score2 = "000";
+    public static string score3 = "000";
+    public static string score4 = "000";
 
     GameObject menuObject;
     GameOverScript menu;
@@ -53,6 +58,20 @@ public class GameUI : MonoBehaviour {
 
         networking = GameObject.FindGameObjectWithTag("Networking");
         clientManager = networking.GetComponent<ClientScript>();
+
+        if (clientManager.getNumberOfPlayers() == "2")
+        {
+            scoreText3.enabled = false;
+            scoreText4.enabled = false;
+        }
+        else if (clientManager.getNumberOfPlayers() == "3")
+        {
+            scoreText4.enabled = false;
+        }
+        else if (clientManager.getNumberOfPlayers() == "4")
+        {
+        
+        }
 	}
 	
 	// Update is called once per frame
@@ -69,10 +88,13 @@ public class GameUI : MonoBehaviour {
                 isGameOver = true;
                 startTimer = false;
                 PlayerSpawner.updatePositions = false;
+
                 scoreText1.text = score1.ToString();
                 scoreText2.text = score2.ToString();
+                scoreText3.text = score3.ToString();
+                scoreText4.text = score4.ToString();
+
                 menu.finalScoreText.text = "SCORE: " + score.ToString();
-                //menu.ShowScoreMenu();
 
                 clientManager.Send("gameOver," + score.ToString() + "<EOF>");
             }
@@ -85,21 +107,11 @@ public class GameUI : MonoBehaviour {
 
         timeText.text = niceTime;
 
-        /*if (ClientScript.myPlayerNumber == "1")
-        {
-            scoreText1.text = score.ToString();
-        }*/
-
         scoreText1.text = score1.ToString();
         scoreText2.text = score2.ToString();
+        scoreText3.text = score3.ToString();
+        scoreText4.text = score4.ToString();
 	}
-
-    /*public void resetGame()
-    {
-        score = 0;
-        time = 300;
-        isGameOver = false;
-    }*/
 
     public void addFinishLineScore()
     {
