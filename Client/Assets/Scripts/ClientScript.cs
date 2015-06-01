@@ -534,7 +534,11 @@ public class ClientScript : MonoBehaviour
                     Vector2 newPosition1;
                     Vector2 newPosition2;
 
-                    Debug.Log("Frog positions: " + messageToCheck[1] + " " + messageToCheck[2] + " " + messageToCheck[3] + " " + messageToCheck[4] + " " + messageToCheck[5] + " " + messageToCheck[6]);
+                    // GOAL 4 PLAYERS
+                    Vector2 newPosition3;
+                    Vector2 newPosition4;
+
+                    Debug.Log("Frog positions: " + messageToCheck[1] + " " + messageToCheck[2] + " " + messageToCheck[3] + " " + messageToCheck[4] + " " + messageToCheck[5] + " " + messageToCheck[6] + " " + messageToCheck[7] + " " + messageToCheck[8] + " " + messageToCheck[9] + " " + messageToCheck[10] + messageToCheck[11]);
                     if (numberOfPlayers == "2")
                     {
                         newPosition1.x = float.Parse(messageToCheck[1]);
@@ -543,7 +547,13 @@ public class ClientScript : MonoBehaviour
                         newPosition2.x = float.Parse(messageToCheck[4]);
                         newPosition2.y = float.Parse(messageToCheck[5]);
 
-                        PlayerSpawner.setPlayerPositions(newPosition1, newPosition2);
+                        newPosition3.x = float.Parse(messageToCheck[7]);
+                        newPosition3.y = float.Parse(messageToCheck[8]);
+
+                        newPosition4.x = float.Parse(messageToCheck[10]);
+                        newPosition4.y = float.Parse(messageToCheck[11]);
+
+                        PlayerSpawner.setPlayerPositions(newPosition1, newPosition2, newPosition3, newPosition4);
                     }
                 }
                 else if (messageToCheck[0] == "join-session")
@@ -555,6 +565,7 @@ public class ClientScript : MonoBehaviour
                 }
                 else if (messageToCheck[0] == "disconnected")
                 {
+                    // GOAL 4 PLAYERS
                     Debug.Log("Receiving player disconnect message from the server!");
                     if (messageToCheck[1] == "1")
                     {
@@ -566,11 +577,23 @@ public class ClientScript : MonoBehaviour
                         GameUI.score2 = "DISCONNECTED";
                         PlayerSpawner.p2.SetActive(false);
                     }
+                    else if (messageToCheck[2] == "3")
+                    {
+                        GameUI.score3 = "DISCONNECTED";
+                        PlayerSpawner.p3.SetActive(false);
+                    }
+                    else if (messageToCheck[2] == "4")
+                    {
+                        GameUI.score4 = "DISCONNECTED";
+                        PlayerSpawner.p4.SetActive(false);
+                    }
                 }
                 else if (messageToCheck[0] == "score")
                 {
                     GameUI.score1 = messageToCheck[1];
                     GameUI.score2 = messageToCheck[2];
+                    GameUI.score3 = messageToCheck[3];
+                    GameUI.score4 = messageToCheck[4];
                 }
                 // "gameOver, result, score1, score2, score3, score4<EOF>"
                 else if (messageToCheck[0] == "gameOver")
@@ -590,6 +613,8 @@ public class ClientScript : MonoBehaviour
 
                     GameUI.score1 = messageToCheck[2];
                     GameUI.score2 = messageToCheck[3];
+                    GameUI.score3 = messageToCheck[3];
+                    GameUI.score4 = messageToCheck[4];
                 }
                 
                 if (messageToCheck.Length == 2)
