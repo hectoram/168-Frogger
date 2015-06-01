@@ -56,6 +56,8 @@ public class PlayerSpawner : MonoBehaviour {
 
     public static void setPlayerPositions(Vector2 newPos1, Vector2 newPos2, Vector2 newPos3, Vector2 newPos4)
     {
+        Debug.Log("Recieved positions: " + newPos1 + " " + newPos2 + " " + newPos3 + " " + newPos4);
+
         if (playerNumber == "1")
         {
             p2Pos = newPos2;

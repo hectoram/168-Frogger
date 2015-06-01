@@ -556,12 +556,47 @@ public class ClientScript : MonoBehaviour
                         newPosition2.x = float.Parse(messageToCheck[4]);
                         newPosition2.y = float.Parse(messageToCheck[5]);
 
+                        newPosition3.x = 0;
+                        newPosition3.y = 0;
+
+                        newPosition4.x = 0;
+                        newPosition4.y = 0;
+
+                        Debug.Log("Sending positions: " + newPosition1 + " " + newPosition2 + " " + newPosition3 + " " + newPosition4);
+                        PlayerSpawner.setPlayerPositions(newPosition1, newPosition2, newPosition3, newPosition4);
+                    }
+                    else if (numberOfPlayers == "3")
+                    {
+                        newPosition1.x = float.Parse(messageToCheck[1]);
+                        newPosition1.y = float.Parse(messageToCheck[2]);
+
+                        newPosition2.x = float.Parse(messageToCheck[4]);
+                        newPosition2.y = float.Parse(messageToCheck[5]);
+
+                        newPosition3.x = float.Parse(messageToCheck[7]);
+                        newPosition3.y = float.Parse(messageToCheck[8]);
+
+                        newPosition4.x = 0;
+                        newPosition4.y = 0;
+
+                        Debug.Log("Sending positions: " + newPosition1 + " " + newPosition2 + " " + newPosition3 + " " + newPosition4);
+                        PlayerSpawner.setPlayerPositions(newPosition1, newPosition2, newPosition3, newPosition4);
+                    }
+                    else if (numberOfPlayers == "4")
+                    {
+                        newPosition1.x = float.Parse(messageToCheck[1]);
+                        newPosition1.y = float.Parse(messageToCheck[2]);
+
+                        newPosition2.x = float.Parse(messageToCheck[4]);
+                        newPosition2.y = float.Parse(messageToCheck[5]);
+
                         newPosition3.x = float.Parse(messageToCheck[7]);
                         newPosition3.y = float.Parse(messageToCheck[8]);
 
                         newPosition4.x = float.Parse(messageToCheck[10]);
                         newPosition4.y = float.Parse(messageToCheck[11]);
 
+                        Debug.Log("Sending positions: " + newPosition1 + " " + newPosition2 + " " + newPosition3 + " " + newPosition4);
                         PlayerSpawner.setPlayerPositions(newPosition1, newPosition2, newPosition3, newPosition4);
                     }
                 }
