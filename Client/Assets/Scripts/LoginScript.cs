@@ -248,13 +248,17 @@ public class LoginScript : MonoBehaviour {
     // Calls Login when you hit Enter
     void OnGUI()
     {
-        if (Event.current.Equals(Event.KeyboardEvent("Return")))
+        if (Event.current.Equals(Event.KeyboardEvent("Return")) && loginMenu.enabled == true) // Enter to login
         {
             LogIn();
         }
-        else if (Event.current.Equals(Event.KeyboardEvent("Tab")))
+        else if (Event.current.Equals(Event.KeyboardEvent("Tab")) && loginMenu.enabled == true) // Tab to password input
         {
             password.Select();
+        }
+        else if (Event.current.Equals(Event.KeyboardEvent("Return")) && lobbyMenu.enabled == true) // Enter to login
+        {
+            ConnectLobby();
         }
     }
 
