@@ -236,6 +236,76 @@ namespace FroggerServer
         }
 
 
+        public string getPlayerScore(int playerNumber)
+        {
+            string playerNotInGame = "null";
+            try
+            {
+                if (playerNumber == 1 && first != null)
+                {
+                    return playerOneScore.ToString();
+                }
+                else if (playerNumber == 2 && second != null)
+                {
+                    return playerTwoScore.ToString();
+                }
+                else if (playerNumber == 3 && third != null)
+                {
+                    return playerThreeScore.ToString();
+                }
+                else if (playerNumber == 4 && fourth != null)
+                {
+                    return playerFourScore.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                return playerNotInGame;
+            }
+
+            return playerNotInGame;
+        }
+
+        public string playerIsReady(int playerNumber)
+        {
+            try
+            {
+                if (playerNumber == 1 && first != null)
+                {
+                    if (p1Ready)
+                        return first.getUserName();
+                    else
+                        return "empty";
+                }
+                else if (playerNumber == 2 && second != null)
+                {
+                    if (p2Ready)
+                        return second.getUserName();
+                    else
+                        return "empty";
+                }
+                else if (playerNumber == 3 && third != null)
+                {
+                    if (p3Ready)
+                        return third.getUserName();
+                    else
+                        return "empty";
+                }
+                else if (playerNumber == 4 && fourth != null)
+                {
+                    if (p4Ready)
+                        return fourth.getUserName();
+                    else
+                        return "empty";
+                }
+            }
+            catch (Exception e)
+            {
+                return "null";
+            }
+            return "null";
+        }
+
         public int getCurrentTime()
         {
             TimeSpan time = stopWatch.Elapsed;
@@ -338,16 +408,22 @@ namespace FroggerServer
 
         public string getPlayerPositions(int pos)
         {
-            if (pos== 1)
-                return positions[0] + "," + positions[1];
-            else if (pos == 2)
-                return positions[2] + "," + positions[3];
-            else if (pos == 3)
-                return positions[4] + "," + positions[5];
-            else if (pos == 4)
-                return positions[6] + "," + positions[7];
-
-            return "";
+            try
+            {
+                if (pos == 1 && first != null)
+                    return positions[0] + "," + positions[1];
+                else if (pos == 2 && second != null)
+                    return positions[2] + "," + positions[3];
+                else if (pos == 3 && third != null)
+                    return positions[4] + "," + positions[5];
+                else if (pos == 4 && fourth != null)
+                    return positions[6] + "," + positions[7];
+            }
+            catch (Exception e)
+            {
+                return "null,null";
+            }
+            return "null,null";
         }
 
         public void setScore(string IP, string myScore)

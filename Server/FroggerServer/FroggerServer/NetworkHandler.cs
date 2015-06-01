@@ -196,9 +196,11 @@ namespace FroggerServer
                 try
                 {
                     toSendReady =
-                    "ready,1," + ((GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].p1Ready) ? GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.getUserName() : "empty") +
-                    ",2," + ((GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].p2Ready) ? GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.getUserName() : "empty")
-                    + ",3,null,4,null<EOF>";
+                    "ready,1," +
+                     GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(1) + ",2," +
+                     GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(2) + ",3," +
+                     GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(3) + ",4," +
+                     GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(3) + "<EOF>";
                 }
                 catch (Exception e)
                 {
@@ -227,9 +229,11 @@ namespace FroggerServer
                 try
                 {
                     toSend =
-                    "ready,1," + ((GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].p1Ready) ? GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.getUserName() : "empty") +
-                    ",2," + ((GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].p2Ready) ? GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.getUserName() : "empty")
-                    + ",3,null,4,null<EOF>";
+                    "ready,1," +
+                     GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(1) + ",2," +
+                     GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(2) + ",3," +
+                     GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(3) + ",4," +
+                     GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(3) + "<EOF>";
                 }
                 catch (Exception e)
                 {
@@ -252,7 +256,12 @@ namespace FroggerServer
             else if (message[0] == "frogPosition")
             {
                 GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].setPlayerPosition(senderIP, float.Parse(message[1]), float.Parse(message[2]));
-                string toSend = "frogPosition," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerPositions(1) + ",2," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerPositions(2) + ",3,null,null,4,null,null<EOF>";
+                
+                string toSend = "frogPosition," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerPositions(1) + ",2," + 
+                    GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerPositions(2) +
+                    ",3," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerPositions(3) + ",4," +
+                    GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerPositions(4) + "<EOF>";
+                
                 sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.IP, toSend);
                 sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.IP, toSend);
                 //Timer info
@@ -302,8 +311,11 @@ namespace FroggerServer
             {
                 GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].setScore(senderIP, message[1]);
                 //score, score1, score2, score3, score4<EOF>
-                string toSend = "score," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerOneScore + "," +
-                    GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerTwoScore + "," + "null,null<EOF>";
+                string toSend = "score," + 
+                    GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerScore(1) + "," +
+                    GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerScore(2) + "," +
+                    GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerScore(3) + "," +
+                    GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerScore(4) + "<EOF>";
 
                 sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.IP, toSend);
                 sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.IP, toSend);
