@@ -16,7 +16,7 @@ public class LoginScript : MonoBehaviour {
 	public Canvas loginFailedMenu;
 	public Canvas loginSuccessMenu;
 	public Canvas loginNewUserMenu;
-	public Canvas loginNewUserFailedMenu; // Ceci
+	public Canvas loginNewUserFailedMenu;
     public Canvas loggedInMenu;
     public Canvas lobbyMenu;
     public Canvas sessionFailedMenu;
@@ -50,7 +50,7 @@ public class LoginScript : MonoBehaviour {
 		loginFailedMenu = loginFailedMenu.GetComponent<Canvas> ();
 		loginSuccessMenu = loginSuccessMenu.GetComponent<Canvas> ();
 		loginNewUserMenu = loginNewUserMenu.GetComponent<Canvas> ();
-        loginNewUserFailedMenu = loginNewUserFailedMenu.GetComponent<Canvas>(); //Ceci
+        loginNewUserFailedMenu = loginNewUserFailedMenu.GetComponent<Canvas>();
         loggedInMenu = loggedInMenu.GetComponent<Canvas>();
         lobbyMenu = lobbyMenu.GetComponent<Canvas>();
         sessionFailedMenu = sessionFailedMenu.GetComponent<Canvas>();
@@ -245,10 +245,10 @@ public class LoginScript : MonoBehaviour {
         DisplayLoginMenu();
     }
 
-    // Calls Login when you hit Enter
+    // GUI keyboard shortcuts
     void OnGUI()
     {
-        if (Event.current.Equals(Event.KeyboardEvent("Return")) && loginMenu.enabled == true) // Enter to login
+        if (Event.current.Equals(Event.KeyboardEvent("Return")) && loginMenu.enabled == true) // Enter/Return to login
         {
             LogIn();
         }
@@ -256,7 +256,7 @@ public class LoginScript : MonoBehaviour {
         {
             password.Select();
         }
-        else if (Event.current.Equals(Event.KeyboardEvent("Return")) && lobbyMenu.enabled == true) // Enter to login
+        else if (Event.current.Equals(Event.KeyboardEvent("Return")) && lobbyMenu.enabled == true) // Enter/Return to submit lobby
         {
             ConnectLobby();
         }

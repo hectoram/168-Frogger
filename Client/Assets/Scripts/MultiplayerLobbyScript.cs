@@ -106,7 +106,7 @@ public class MultiplayerLobbyScript : MonoBehaviour {
 
         isReady = false;
 
-        //Ceci
+        // For the chatbox
         chatlog = chatlog.GetComponent<Text>();
         chatlog.text = "";
 
@@ -238,7 +238,7 @@ public class MultiplayerLobbyScript : MonoBehaviour {
         isReady = false;
     }
 
-    // Ceci
+    // When you hit "SEND" in the chatbox
     public void SendChatMessage()
     {
         chatmessage = chatmessage.GetComponent<InputField>();
@@ -259,6 +259,7 @@ public class MultiplayerLobbyScript : MonoBehaviour {
         chatmessage.Select();
     }
 
+    // Updates the log of chat messages
     public void UpdateChatlog(string user, string message)
     {
         chatlog.text = chatlog.text + user + ": " + message + "\n";

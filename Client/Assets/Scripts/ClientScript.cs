@@ -336,7 +336,7 @@ public class ClientScript : MonoBehaviour
     }
 
 	//public void StartClient (string username, string password)
-	  public void StartClient(string message, string username, string password) //Ceci: added the first param
+	  public void StartClient(string message, string username, string password)
     {
         Debug.Log("Starting client...");
         
@@ -447,7 +447,7 @@ public class ClientScript : MonoBehaviour
                 string content = state.sb.ToString();
                 Debug.Log("Content: " + content);
 
-                char[] delimiterChars = { ',','<','>'}; // Ceci: removed space for chatlog
+                char[] delimiterChars = { ',','<','>'};
 
                 string[] messageToCheck = content.Split(delimiterChars);
 
@@ -626,24 +626,20 @@ public class ClientScript : MonoBehaviour
                 {
                     chatUser = messageToCheck[1];
 
-                    // Fix to the chat message getting cropped off
-                    // Not the greatest solution, but it works for now
                     string wholeMessage = "";
                     int i = 2;
                     while (messageToCheck[i] != "EOF")
                     {
 						wholeMessage = wholeMessage + messageToCheck[i];
 
-						if (messageToCheck[i+1] != "EOF"){ // Comma handling
+                        // Makes sure commas don't get parsed out
+						if (messageToCheck[i+1] != "EOF"){
 							wholeMessage = wholeMessage + ",";
 						}
 						i++;
                     }
 
                     chatMessage = wholeMessage;
-
-
-
                     setData("chat-message");
                 }
 

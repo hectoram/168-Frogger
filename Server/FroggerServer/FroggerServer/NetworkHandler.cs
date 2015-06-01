@@ -269,15 +269,14 @@ namespace FroggerServer
             }
             else if (message[0] == "chat-message")
             {
-                // This is Ceci's temporary fix to the chatbox problem
-                // It's not the most elegant solution, but for now, it works
                 string messageToSend = "";
                 int i = 1;
                 while (message[i] != "EOF")
                 {
                     messageToSend = messageToSend + message[i];
 
-                    if (message[i + 1] != "EOF") // Handles comma parsing
+                    // Makes sure commas don't get parsed out
+                    if (message[i + 1] != "EOF")
                     {
                         messageToSend = messageToSend  + ",";
                     }
