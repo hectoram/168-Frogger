@@ -110,6 +110,41 @@ namespace FroggerServer
             stopWatch.Start();
         }
 
+        public void sendDCMessage(int playerNumber)
+        {
+            try
+            {
+                NetworkHandler.Instance.sendMessage(first.IP, "disconnected," + playerNumber + "<EOF>");
+            }catch(Exception e)
+            {
+                
+            }
+            try
+            {
+                NetworkHandler.Instance.sendMessage(second.IP, "disconnected," + playerNumber + "<EOF>");
+            }
+            catch (Exception e)
+            {
+
+            }
+            try
+            {
+                NetworkHandler.Instance.sendMessage(third.IP, "disconnected," + playerNumber + "<EOF>");
+            }
+            catch (Exception e)
+            {
+
+            }
+            try
+            {
+                NetworkHandler.Instance.sendMessage(fourth.IP, "disconnected," + playerNumber + "<EOF>");
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
         public void handleDissconnectedPlayer(string IP)
         {
             try
@@ -131,10 +166,7 @@ namespace FroggerServer
                     playerFourScore = -1;
                 }
 
-                NetworkHandler.Instance.sendMessage(first.IP, "disconnected," + getPlayerNumber(IP) + "<EOF>");
-                NetworkHandler.Instance.sendMessage(second.IP, "disconnected," + getPlayerNumber(IP) + "<EOF>");
-                NetworkHandler.Instance.sendMessage(third.IP, "disconnected," + getPlayerNumber(IP) + "<EOF>");
-                NetworkHandler.Instance.sendMessage(fourth.IP, "disconnected," + getPlayerNumber(IP) + "<EOF>");
+                sendDCMessage(getPlayerNumber(IP));
 
             }
             catch (Exception e)
