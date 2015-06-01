@@ -11,7 +11,7 @@ public class GameOverScript : MonoBehaviour {
     public Text finalScoreText;
     public Text resultText;
 
-    public static string result = "";
+    public string result = "";
 
     //public Canvas multiScoreMenu;
 
@@ -24,6 +24,19 @@ public class GameOverScript : MonoBehaviour {
 	public AudioClip winnerSFX;
 	public AudioClip buttonClickSFX;
 	public AudioClip buttonHoverSFX;
+
+    GameObject networking;
+    ClientScript clientManager;
+
+    GameObject gameUI;
+    GameUI menu;
+
+    public static bool gameOverReceived = false;
+
+    public void setGameOverResult(string newResult)
+    {
+        result = newResult;
+    }
 	
 	// Use this for initialization
 	void Start () {
@@ -39,11 +52,23 @@ public class GameOverScript : MonoBehaviour {
 		yesLoseButton = yesLoseButton.GetComponent<Button> ();
 		noLoseButton = noLoseButton.GetComponent<Button> ();
 
+        networking = GameObject.FindGameObjectWithTag("Networking");
+        clientManager = networking.GetComponent<ClientScript>();
+
+        gameUI = GameObject.FindGameObjectWithTag("Menus");
+        menu = gameUI.GetComponent<GameUI>();
+
 		winMenu.enabled = false;
 		loseMenu.enabled = false;
         scoreMenu.enabled = false;
 	}
 	
+    void Update()
+    {
+        if (gameOverReceived)
+            ShowScoreMenu();
+    }
+
 	public void YesPressed()
 	{
 		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
@@ -75,24 +100,23 @@ public class GameOverScript : MonoBehaviour {
     {
         if (!scoreMenu.enabled)
         {
-            Debug.Log("Your result is: " + result);
-            if (result == "won")
+            Debug.Log("Received RESULT: " + ClientScript.Holder.finalGameOverResult);
+            if (ClientScript.Holder.finalGameOverResult == "won")
             {
                 resultText.color = Color.green;
                 resultText.text = "YOU WON!";
             }
-            else if (result == "lost")
+            else if (ClientScript.Holder.finalGameOverResult == "lost")
             {
                 resultText.color = Color.red;
                 resultText.text = "YOU LOST!";
             }
-            else if (result == "tie")
+            else if (ClientScript.Holder.finalGameOverResult == "tie")
             {
                 resultText.color = Color.yellow;
                 resultText.text = "IT'S A TIE!";
             }
 
-            Debug.Log("Your result is: " + result);
             Debug.Log("Result text says:  " + resultText.text);
 
             scoreMenu.enabled = true;

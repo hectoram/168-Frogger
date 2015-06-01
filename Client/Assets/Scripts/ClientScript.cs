@@ -90,6 +90,13 @@ public class ClientScript : MonoBehaviour
 
     public static string currentScene = "Menu Scene";
 
+    public static string gameOverResult = "";
+
+    public string getGameOverResult()
+    {
+        return gameOverResult;
+    }
+
     public void setLoggedIn(bool value)
     {
         loggedIn = value;
@@ -305,6 +312,13 @@ public class ClientScript : MonoBehaviour
             {
                 lobbyInfo.DisplayLobby();
                 resetData();
+            }
+        }
+        else if (currentScene == "Multiplayer Scene")
+        {
+            if (data == "gameOver")
+            {
+                
             }
         }
     }
@@ -562,8 +576,17 @@ public class ClientScript : MonoBehaviour
                 else if (messageToCheck[0] == "gameOver")
                 {
                     Debug.Log("My player number is: " + myPlayerNumber);
+                    Debug.Log("My result is: " + messageToCheck[1]);
 
-                    GameOverScript.result = messageToCheck[1];
+                    //GameOverScript.result = messageToCheck[1];
+                    //GameOverScript.setGameOverResult(messageToCheck[1]);
+                    //gameOverResult = messageToCheck[1];
+                    Holder.finalGameOverResult = messageToCheck[1];
+
+                    setData("gameOver");
+                    GameOverScript.gameOverReceived = true;
+
+                    Debug.Log("Sending this RESULT: " + Holder.finalGameOverResult);
 
                     GameUI.score1 = messageToCheck[2];
                     GameUI.score2 = messageToCheck[3];
@@ -670,6 +693,11 @@ public class ClientScript : MonoBehaviour
 
     public ReadyMessage ConsumeReadyMessage() {
       return readyQueue.Dequeue();
+    }
+
+    public static class Holder
+    {
+        public static string finalGameOverResult = "";
     }
 
     // State object for receiving data from remote device.
