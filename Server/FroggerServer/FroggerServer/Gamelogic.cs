@@ -369,8 +369,6 @@ namespace FroggerServer
 
             winnerSet = true;
             bothScoresSet = true;
-            //else if (third.IP.Equals(IP)) 
-           // else if (fourth.IP.Equals(IP))
                 
         }
 
@@ -419,7 +417,7 @@ namespace FroggerServer
 
         public bool addPlayerToGame(Player toAdd) 
         {
-            if (playerCount != 3)
+            if (playerCount != 4)
             {
                 if (playerCount == 0)
                     first = toAdd;
@@ -498,6 +496,8 @@ namespace FroggerServer
                 //gameOver,result,score1,score2,score3,score4<EOF>
                 string toSendP1 = "";
                 string toSendP2 = "";
+                string toSendP3 = "";
+                string toSendP4 = "";
 
                 if(winner == 1)
                     toSendP1 =  "gameOver,won," + playerOneScore +"," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>";
@@ -513,6 +513,19 @@ namespace FroggerServer
                 else
                     toSendP2 = "gameOver,lost," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>";
 
+                if (winner == 3)
+                    toSendP3= "gameOver,won," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>";
+                else if (winner == -1)
+                    toSendP3 = "gameOver,tie," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>";
+                else
+                    toSendP3 = "gameOver,lost," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>";
+
+                if (winner == 4)
+                    toSendP4 = "gameOver,won," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>";
+                else if (winner == -1)
+                    toSendP4 = "gameOver,tie," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>";
+                else
+                    toSendP4 = "gameOver,lost," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>";
 
                 if (first != null)
                     NetworkHandler.Instance.sendMessage(first.IP, toSendP1);
@@ -521,10 +534,10 @@ namespace FroggerServer
                     NetworkHandler.Instance.sendMessage(second.IP, toSendP2);
 
                 if (third != null)
-                    NetworkHandler.Instance.sendMessage(third.IP, "gameOver,result," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>");
+                    NetworkHandler.Instance.sendMessage(third.IP, toSendP3);
 
                 if (fourth != null)
-                    NetworkHandler.Instance.sendMessage(fourth.IP, "gameOver,result," + playerOneScore + "," + playerTwoScore + "," + playerThreeScore + "," + playerFourScore + "<EOF>");
+                    NetworkHandler.Instance.sendMessage(fourth.IP, toSendP4);
             }
             catch(Exception e)
             { 
