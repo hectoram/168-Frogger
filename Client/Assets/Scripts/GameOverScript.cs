@@ -11,7 +11,7 @@ public class GameOverScript : MonoBehaviour {
     public Text finalScoreText;
     public Text resultText;
 
-    public static string result = "";
+    public string result = "";
 
     //public Canvas multiScoreMenu;
 
@@ -24,6 +24,14 @@ public class GameOverScript : MonoBehaviour {
 	public AudioClip winnerSFX;
 	public AudioClip buttonClickSFX;
 	public AudioClip buttonHoverSFX;
+
+    GameObject networking;
+    ClientScript clientManager;
+
+    public void setGameOverResult(string newResult)
+    {
+        result = newResult;
+    }
 	
 	// Use this for initialization
 	void Start () {
@@ -38,6 +46,9 @@ public class GameOverScript : MonoBehaviour {
 		noWinButton = noWinButton.GetComponent<Button> ();
 		yesLoseButton = yesLoseButton.GetComponent<Button> ();
 		noLoseButton = noLoseButton.GetComponent<Button> ();
+
+        networking = GameObject.FindGameObjectWithTag("Networking");
+        clientManager = networking.GetComponent<ClientScript>();
 
 		winMenu.enabled = false;
 		loseMenu.enabled = false;
@@ -75,24 +86,23 @@ public class GameOverScript : MonoBehaviour {
     {
         if (!scoreMenu.enabled)
         {
-            Debug.Log("Your result is: " + result);
-            if (result == "won")
+            Debug.Log("Your result is: " + clientManager.getGameOverResult());
+            if (clientManager.getGameOverResult() == "won")
             {
                 resultText.color = Color.green;
                 resultText.text = "YOU WON!";
             }
-            else if (result == "lost")
+            else if (clientManager.getGameOverResult() == "lost")
             {
                 resultText.color = Color.red;
                 resultText.text = "YOU LOST!";
             }
-            else if (result == "tie")
+            else if (clientManager.getGameOverResult() == "tie")
             {
                 resultText.color = Color.yellow;
                 resultText.text = "IT'S A TIE!";
             }
 
-            Debug.Log("Your result is: " + result);
             Debug.Log("Result text says:  " + resultText.text);
 
             scoreMenu.enabled = true;
