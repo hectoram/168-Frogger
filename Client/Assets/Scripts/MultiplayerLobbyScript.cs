@@ -243,10 +243,20 @@ public class MultiplayerLobbyScript : MonoBehaviour {
     {
         chatmessage = chatmessage.GetComponent<InputField>();
 
+        if (chatmessage.text == "")
+        {
+            return;
+        }
+
         clientManager.resetData();
-		clientManager.Send("chat-message," + chatmessage.text + "<EOF>");
+        clientManager.Send("chat-message," + chatmessage.text + "<EOF>");
         Debug.Log("chat-message," + chatmessage.text + "<EOF>");
 
-        chatlog.text = chatlog.text + clientManager.getUsername() + ": " + chatmessage.text + "\n";
+        UpdateChatlog(clientManager.getUsername(), chatmessage.text);
+    }
+
+    public void UpdateChatlog(string user, string message)
+    {
+        chatlog.text = chatlog.text + user + ": " + message + "\n";
     }
 }
