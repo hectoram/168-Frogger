@@ -23,6 +23,11 @@ public class GameUI : MonoBehaviour {
     static bool isGameOver;
     static bool startTimer;
 
+    public bool getIsGameOver()
+    {
+        return isGameOver;
+    }
+
     public static void restartGame()
     {
         score = 0;
@@ -67,7 +72,7 @@ public class GameUI : MonoBehaviour {
                 scoreText1.text = score1.ToString();
                 scoreText2.text = score2.ToString();
                 menu.finalScoreText.text = "SCORE: " + score.ToString();
-                menu.ShowScoreMenu();
+                //menu.ShowScoreMenu();
 
                 clientManager.Send("gameOver," + score.ToString() + "<EOF>");
             }

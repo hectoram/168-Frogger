@@ -2007,7 +2007,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!1 &1235784881
 GameObject:
   m_ObjectHideFlags: 0
@@ -3011,6 +3011,7 @@ MonoBehaviour:
   scoreMenu: {fileID: 160349046}
   finalScoreText: {fileID: 1633386866}
   resultText: {fileID: 1906511737}
+  result: 
   yesWinButton: {fileID: 965556323}
   noWinButton: {fileID: 964246714}
   yesLoseButton: {fileID: 1321967005}

@@ -28,6 +28,11 @@ public class GameOverScript : MonoBehaviour {
     GameObject networking;
     ClientScript clientManager;
 
+    GameObject gameUI;
+    GameUI menu;
+
+    public static bool gameOverReceived = false;
+
     public void setGameOverResult(string newResult)
     {
         result = newResult;
@@ -50,11 +55,20 @@ public class GameOverScript : MonoBehaviour {
         networking = GameObject.FindGameObjectWithTag("Networking");
         clientManager = networking.GetComponent<ClientScript>();
 
+        gameUI = GameObject.FindGameObjectWithTag("Menus");
+        menu = gameUI.GetComponent<GameUI>();
+
 		winMenu.enabled = false;
 		loseMenu.enabled = false;
         scoreMenu.enabled = false;
 	}
 	
+    void Update()
+    {
+        if (gameOverReceived)
+            ShowScoreMenu();
+    }
+
 	public void YesPressed()
 	{
 		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
@@ -86,18 +100,18 @@ public class GameOverScript : MonoBehaviour {
     {
         if (!scoreMenu.enabled)
         {
-            Debug.Log("Your result is: " + clientManager.getGameOverResult());
-            if (clientManager.getGameOverResult() == "won")
+            Debug.Log("Received RESULT: " + ClientScript.Holder.finalGameOverResult);
+            if (ClientScript.Holder.finalGameOverResult == "won")
             {
                 resultText.color = Color.green;
                 resultText.text = "YOU WON!";
             }
-            else if (clientManager.getGameOverResult() == "lost")
+            else if (ClientScript.Holder.finalGameOverResult == "lost")
             {
                 resultText.color = Color.red;
                 resultText.text = "YOU LOST!";
             }
-            else if (clientManager.getGameOverResult() == "tie")
+            else if (ClientScript.Holder.finalGameOverResult == "tie")
             {
                 resultText.color = Color.yellow;
                 resultText.text = "IT'S A TIE!";
