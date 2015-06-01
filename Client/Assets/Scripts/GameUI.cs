@@ -76,22 +76,31 @@ public class GameUI : MonoBehaviour {
 
         if (clientManager.getNumberOfPlayers() == "2")
         {
-            scoreText3.enabled = false;
-            scoreText4.enabled = false;
+            score1Panel.SetActive(true);
+            score2Panel.SetActive(true);
 
-            score1Pos.Set(75, 6, 0);
-            score2Pos.Set(247, 6, 0);
+            Debug.Log("Printing the location of the SCORE 1 PANEL: X = " + score1Panel.transform.position.x + " Y = " + score1Panel.transform.position.y);
+            Debug.Log("Printing the location of the SCORE 2 PANEL: X = " + score2Panel.transform.position.x + " Y = " + score2Panel.transform.position.y);
+
+            score1Pos.Set(-3, 7, 0);
+            score2Pos.Set(3, 7, 0);
 
             score1Panel.transform.position = score1Pos;
             score2Panel.transform.position = score2Pos;
         }
         else if (clientManager.getNumberOfPlayers() == "3")
         {
-            scoreText4.enabled = false;
+            score1Panel.SetActive(true);
+            score2Panel.SetActive(true);
+            score3Panel.SetActive(true);
 
-            score1Pos.Set(49, 6, 0);
-            score2Pos.Set(161, 6, 0);
-            score3Pos.Set(277, 6, 0);
+            Debug.Log("Printing the location of the SCORE 1 PANEL: X = " + score1Panel.transform.position.x + " Y = " + score1Panel.transform.position.y);
+            Debug.Log("Printing the location of the SCORE 2 PANEL: X = " + score2Panel.transform.position.x + " Y = " + score2Panel.transform.position.y);
+            Debug.Log("Printing the location of the SCORE 3 PANEL: X = " + score3Panel.transform.position.x + " Y = " + score3Panel.transform.position.y);
+
+            score1Pos.Set(-5, 7, 0);
+            score2Pos.Set(0, 7, 0);
+            score3Pos.Set(5, 7, 0);
 
             score1Panel.transform.position = score1Pos;
             score2Panel.transform.position = score2Pos;
@@ -99,10 +108,20 @@ public class GameUI : MonoBehaviour {
         }
         else if (clientManager.getNumberOfPlayers() == "4")
         {
-            score1Pos.Set(22, 6, 0);
-            score2Pos.Set(115, 6, 0);
-            score3Pos.Set(211, 6, 0);
-            score4Pos.Set(304, 6, 0);
+            score1Panel.SetActive(true);
+            score2Panel.SetActive(true);
+            score3Panel.SetActive(true);
+            score4Panel.SetActive(true);
+
+            Debug.Log("Printing the location of the SCORE 1 PANEL: X = " + score1Panel.transform.position.x + " Y = " + score1Panel.transform.position.y);
+            Debug.Log("Printing the location of the SCORE 2 PANEL: X = " + score2Panel.transform.position.x + " Y = " + score2Panel.transform.position.y);
+            Debug.Log("Printing the location of the SCORE 3 PANEL: X = " + score3Panel.transform.position.x + " Y = " + score3Panel.transform.position.y);
+            Debug.Log("Printing the location of the SCORE 4 PANEL: X = " + score4Panel.transform.position.x + " Y = " + score4Panel.transform.position.y);
+
+            score1Pos.Set(-7, 7, 0);
+            score2Pos.Set(-2, 7, 0);
+            score3Pos.Set(2, 7, 0);
+            score4Pos.Set(7, 7, 0);
 
             score1Panel.transform.position = score1Pos;
             score2Panel.transform.position = score2Pos;
