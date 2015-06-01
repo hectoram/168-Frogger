@@ -225,7 +225,9 @@ namespace FroggerServer
              else
                 winner = -1;
 
-            if (firstScore && secondScore)
+            //Send the scores if it's a 4 player game -> 3 player game -> two player game.
+            //Expression will be evaluated from left to right so you can assure that it'll check for a 4 player game first.
+             if (firstScore && secondScore && thirdScore && fourthScore || firstScore && secondScore && thirdScore || firstScore && secondScore)
             {
                 sendGameOver();
             }
@@ -412,7 +414,7 @@ namespace FroggerServer
 
         public bool allPlayersLoaded()
         {
-            return p2Loaded && p1Loaded;
+            return p1Loaded && p2Loaded && p3Loaded && p4Loaded || p1Loaded && p2Loaded && p3Loaded || p1Loaded && p2Loaded ;
         }
 
         public bool addPlayerToGame(Player toAdd) 
