@@ -10,6 +10,7 @@ public class MenuScript : MonoBehaviour {
 	public Button creditsButton;
 	public Button quitButton;
     public Button multiplayerButton;
+    public Canvas startMenu;
 
 	public AudioClip buttonClickSFX;
 	public AudioClip buttonHoverSFX;
@@ -20,11 +21,13 @@ public class MenuScript : MonoBehaviour {
 		quitMenu = quitMenu.GetComponent<Canvas> ();
 		playButton = playButton.GetComponent<Button> ();
 		creditsButton = creditsButton.GetComponent<Button> ();
-		quitButton = quitButton.GetComponent<Button> ();
         multiplayerButton = multiplayerButton.GetComponent<Button>();
+		quitButton = quitButton.GetComponent<Button> ();
+        startMenu = startMenu.GetComponent<Canvas>();
 
 		quitMenu.enabled = false;
 		creditsMenu.enabled = false;
+        startMenu.enabled = true;
 	}
 	
 	public void QuitPressed()

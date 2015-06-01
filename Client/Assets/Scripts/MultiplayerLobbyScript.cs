@@ -35,6 +35,9 @@ public class MultiplayerLobbyScript : MonoBehaviour {
     LoginScript loginInfo;
     GameObject loginMenu;
 
+    GameObject menuGUI;
+    MenuScript menu;
+
     bool isReady;
     int playerNumber = 0;
 
@@ -72,6 +75,9 @@ public class MultiplayerLobbyScript : MonoBehaviour {
 
         loginMenu = GameObject.FindGameObjectWithTag("Login Menu");
         loginInfo = loginMenu.GetComponent<LoginScript>();
+
+        menuGUI = GameObject.FindGameObjectWithTag("Menus");
+        menu = menuGUI.GetComponent<MenuScript>();
 
         username1 = username1.GetComponent<Text>();
         username2 = username2.GetComponent<Text>();
@@ -288,6 +294,7 @@ public class MultiplayerLobbyScript : MonoBehaviour {
         lobbyMenu.enabled = true;
         clientManager.setIsPlayerInLobby(true);
         loginInfo.lobbyMenu.enabled = false;
+        menu.startMenu.enabled = false;
         UpdateQueue();
     }
 
@@ -296,6 +303,7 @@ public class MultiplayerLobbyScript : MonoBehaviour {
         Debug.Log("You have left the lobby.");
         lobbyMenu.enabled = false;
         clientManager.setIsPlayerInLobby(false);
+        menu.startMenu.enabled = true;
         isReady = false;
     }
 
