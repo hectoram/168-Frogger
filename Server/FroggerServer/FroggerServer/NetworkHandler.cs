@@ -260,6 +260,7 @@ namespace FroggerServer
             }
             else if (message[0] == "chat-message")
             {
+                Console.WriteLine("I'm going to be sending this out to all the clients: " + message[1]);
                 GameHandler.Instance.chatMessageHandle(GameHandler.Instance.getSessionName(senderIP), message[1], senderIP);
             }
             else if (message[0] == "timer")
