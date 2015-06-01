@@ -138,17 +138,40 @@ public class GameUI : MonoBehaviour {
             if (time > 0)
             {
                 time -= Time.deltaTime;
+
+                if (score1 == "DICONNECTED" || score1 == "-1")
+                {
+                    //scoreText1.fontSize = 12;
+                    scoreText1.text = "DISCONNECTED";
+                }
+                else if (score2 == "DICONNECTED" || score2 == "-1")
+                {
+                    //scoreText2.fontSize = 12;
+                    scoreText2.text = "DISCONNECTED";
+                }
+                else if (score3 == "DICONNECTED" || score3 == "-1")
+                {
+                    //scoreText3.fontSize = 12;
+                    scoreText3.text = "DISCONNECTED";
+                }
+                else if (score4 == "DICONNECTED" || score4 == "-1")
+                {
+                    //scoreText4.fontSize = 12;
+                    scoreText4.text = "DISCONNECTED";
+                }
+                else
+                {
+                    scoreText1.text = score1.ToString();
+                    scoreText2.text = score2.ToString();
+                    scoreText3.text = score3.ToString();
+                    scoreText4.text = score4.ToString();
+                }
             }
             else
             {
                 isGameOver = true;
                 startTimer = false;
                 PlayerSpawner.updatePositions = false;
-
-                scoreText1.text = score1.ToString();
-                scoreText2.text = score2.ToString();
-                scoreText3.text = score3.ToString();
-                scoreText4.text = score4.ToString();
 
                 menu.finalScoreText.text = "SCORE: " + score.ToString();
 
@@ -162,11 +185,6 @@ public class GameUI : MonoBehaviour {
         string niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
 
         timeText.text = niceTime;
-
-        scoreText1.text = score1.ToString();
-        scoreText2.text = score2.ToString();
-        scoreText3.text = score3.ToString();
-        scoreText4.text = score4.ToString();
 	}
 
     public void addFinishLineScore()

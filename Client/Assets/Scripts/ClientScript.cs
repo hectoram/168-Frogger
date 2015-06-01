@@ -246,21 +246,13 @@ public class ClientScript : MonoBehaviour
         // Set this false to wait changing the scene
         async.allowSceneActivation = false;
 
-        
-
         gameUI = GameObject.FindGameObjectWithTag("Menus");
         gameplay = gameUI.GetComponent<GameUI>();
-
-        //StartClient();
     }
 
     public void Update()
     {
-        if (isGameInProgress)
-        {
-            //Send("position," + )
-        }
-        else if (isPlayerInLobby)
+        if (isPlayerInLobby)
         {
             lobbyInfo.queuedPlayers[0] = playerQueue[0];
             lobbyInfo.queuedPlayers[1] = playerQueue[1];
@@ -275,9 +267,6 @@ public class ClientScript : MonoBehaviour
 
         if (startGame)
         {
-            //StartCoroutine(LoadMultiplayerLevel());
-            //StartMultiplayerGame();
-            // Set this false to wait changing the scene
             async.allowSceneActivation = true;
             startGame = false;
             isGameInProgress = true;
@@ -320,14 +309,6 @@ public class ClientScript : MonoBehaviour
             {
                 lobbyInfo.UpdateChatlog(chatUser, chatMessage);
                 resetData();
-            }
-
-        }
-        else if (currentScene == "Multiplayer Scene")
-        {
-            if (data == "gameOver")
-            {
-                
             }
         }
     }
@@ -611,26 +592,7 @@ public class ClientScript : MonoBehaviour
                 {
                     // GOAL 4 PLAYERS
                     Debug.Log("Receiving player disconnect message from the server!");
-                    if (messageToCheck[1] == "1")
-                    {
-                        GameUI.score1 = "DISCONNECTED";
-                        PlayerSpawner.p1.SetActive(false);
-                    }
-                    else if (messageToCheck[2] == "2")
-                    {
-                        GameUI.score2 = "DISCONNECTED";
-                        PlayerSpawner.p2.SetActive(false);
-                    }
-                    else if (messageToCheck[2] == "3")
-                    {
-                        GameUI.score3 = "DISCONNECTED";
-                        PlayerSpawner.p3.SetActive(false);
-                    }
-                    else if (messageToCheck[2] == "4")
-                    {
-                        GameUI.score4 = "DISCONNECTED";
-                        PlayerSpawner.p4.SetActive(false);
-                    }
+                    Holder.DCPlayer(messageToCheck[1]);
                 }
                 else if (messageToCheck[0] == "score")
                 {
@@ -788,6 +750,28 @@ public class ClientScript : MonoBehaviour
     public static class Holder
     {
         public static string finalGameOverResult = "";
+
+        public static void DCPlayer(string thisPlayerNumber)
+        {
+            if (thisPlayerNumber == "1")
+            {
+                GameUI.score1 = "DISCONNECTED";
+            }
+            else if (thisPlayerNumber == "2")
+            {
+                GameUI.score2 = "DISCONNECTED";
+            }
+            else if (thisPlayerNumber == "3")
+            {
+                GameUI.score3 = "DISCONNECTED";
+            }
+            else if (thisPlayerNumber == "4")
+            {
+                GameUI.score4 = "DISCONNECTED";
+            }
+
+            PlayerSpawner.setPlayerDC(thisPlayerNumber, true);
+        }
     }
 
     // State object for receiving data from remote device.

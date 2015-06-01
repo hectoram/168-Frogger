@@ -42,7 +42,16 @@ public class PlayerSpawner : MonoBehaviour {
     Vector3 fourPlayerP3Position;
     Vector3 fourPlayerP4Position;
 
+    static bool playerDC = false;
+    static string playerDCNumber = "";
+
     public static bool updatePositions = false;
+
+    public static void setPlayerDC(string player, bool result)
+    {
+        playerDCNumber = player;
+        playerDC = result;
+    }
 
     public string getPlayerNumber()
     {
@@ -239,6 +248,18 @@ public class PlayerSpawner : MonoBehaviour {
                     p2.transform.position = p2Pos;
                     p3.transform.position = p3Pos;
                 }
+            }
+
+            if (playerDC)
+            {
+                if (playerDCNumber == "1")
+                    p1.SetActive(false);
+                else if (playerDCNumber == "2")
+                    p2.SetActive(false);
+                else if (playerDCNumber == "3")
+                    p3.SetActive(false);
+                else if (playerDCNumber == "4")
+                    p4.SetActive(false);
             }
         }
 	}
