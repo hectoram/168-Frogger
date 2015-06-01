@@ -539,8 +539,9 @@ public class ClientScript : MonoBehaviour
                     else
                         setData("sessionFailed");
                 }
-                else if (messageToCheck[0] == "disconnect")
+                else if (messageToCheck[0] == "disconnected")
                 {
+                    Debug.Log("Receiving player disconnect message from the server!");
                     if (messageToCheck[1] == "1")
                     {
                         GameUI.score1 = "DISCONNECTED";
@@ -562,24 +563,10 @@ public class ClientScript : MonoBehaviour
                 {
                     Debug.Log("My player number is: " + myPlayerNumber);
 
-                    if (myPlayerNumber == "1")
-                    {
-                        if (messageToCheck[2] == "won")
-                            GameOverScript.result = "won";
-                        else if (messageToCheck[2] == "lost")
-                            GameOverScript.result = "lost";
-                        else if (messageToCheck[2] == "tie")
-                            GameOverScript.result = "tie";
-                    }
-                    else if (myPlayerNumber == "2")
-                    {
-                        if (messageToCheck[5] == "won")
-                            GameOverScript.result = "won";
-                        else if (messageToCheck[5] == "lost")
-                            GameOverScript.result = "lost";
-                        else if (messageToCheck[5] == "tie")
-                            GameOverScript.result = "tie";
-                    } 
+                    GameOverScript.result = messageToCheck[1];
+
+                    GameUI.score1 = messageToCheck[2];
+                    GameUI.score2 = messageToCheck[3];
                 }
                 
                 if (messageToCheck.Length == 2)
