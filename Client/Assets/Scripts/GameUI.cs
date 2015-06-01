@@ -9,6 +9,16 @@ public class GameUI : MonoBehaviour {
     public Text scoreText3;
     public Text scoreText4;
 
+    public GameObject score1Panel;
+    public GameObject score2Panel;
+    public GameObject score3Panel;
+    public GameObject score4Panel;
+
+    Vector3 score1Pos;
+    Vector3 score2Pos;
+    Vector3 score3Pos;
+    Vector3 score4Pos;
+
     public Text timeText;
 
     public static string score1 = "000";
@@ -59,18 +69,45 @@ public class GameUI : MonoBehaviour {
         networking = GameObject.FindGameObjectWithTag("Networking");
         clientManager = networking.GetComponent<ClientScript>();
 
+        score1Panel = GameObject.Find("Score 1 Panel");
+        score2Panel = GameObject.Find("Score 2 Panel");
+        score3Panel = GameObject.Find("Score 3 Panel");
+        score4Panel = GameObject.Find("Score 4 Panel");
+
         if (clientManager.getNumberOfPlayers() == "2")
         {
             scoreText3.enabled = false;
             scoreText4.enabled = false;
+
+            score1Pos.Set(75, 6, 0);
+            score2Pos.Set(247, 6, 0);
+
+            score1Panel.transform.position = score1Pos;
+            score2Panel.transform.position = score2Pos;
         }
         else if (clientManager.getNumberOfPlayers() == "3")
         {
             scoreText4.enabled = false;
+
+            score1Pos.Set(49, 6, 0);
+            score2Pos.Set(161, 6, 0);
+            score3Pos.Set(277, 6, 0);
+
+            score1Panel.transform.position = score1Pos;
+            score2Panel.transform.position = score2Pos;
+            score3Panel.transform.position = score3Pos;
         }
         else if (clientManager.getNumberOfPlayers() == "4")
         {
-        
+            score1Pos.Set(22, 6, 0);
+            score2Pos.Set(115, 6, 0);
+            score3Pos.Set(211, 6, 0);
+            score4Pos.Set(304, 6, 0);
+
+            score1Panel.transform.position = score1Pos;
+            score2Panel.transform.position = score2Pos;
+            score3Panel.transform.position = score3Pos;
+            score4Panel.transform.position = score4Pos;
         }
 	}
 	
