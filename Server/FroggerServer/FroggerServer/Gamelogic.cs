@@ -29,10 +29,10 @@ namespace FroggerServer
 
         //Scores being set
         public bool scoresSent = false;
-        public int playerOneScore;
-        public int playerTwoScore;
-        public int playerThreeScore;
-        public int playerFourScore;
+        public int playerOneScore = 0;
+        public int playerTwoScore = 0;
+        public int playerThreeScore = 0;
+        public int playerFourScore = 0;
         private bool winnerSet = false;
         public int winner = 0;
         bool firstScore = false;
