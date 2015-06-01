@@ -92,6 +92,9 @@ public class ClientScript : MonoBehaviour
 
     public static string gameOverResult = "";
 
+    public static string chatUser = "";
+    public static string chatMessage = "";
+
     public string getGameOverResult()
     {
         return gameOverResult;
@@ -313,6 +316,12 @@ public class ClientScript : MonoBehaviour
                 lobbyInfo.DisplayLobby();
                 resetData();
             }
+            else if (data == "chat-message")
+            {
+                lobbyInfo.UpdateChatlog(chatUser, chatMessage);
+                resetData();
+            }
+
         }
         else if (currentScene == "Multiplayer Scene")
         {
@@ -616,7 +625,14 @@ public class ClientScript : MonoBehaviour
                     GameUI.score3 = messageToCheck[3];
                     GameUI.score4 = messageToCheck[4];
                 }
-                
+                else if (messageToCheck[0] == "chat-message")
+                {
+                    chatUser = messageToCheck[1];
+                    chatMessage = messageToCheck[2];
+
+                    setData("chat-message");
+                }
+
                 if (messageToCheck.Length == 2)
                 {
                     state.receiveDone.Set();
