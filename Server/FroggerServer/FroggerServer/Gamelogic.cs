@@ -24,7 +24,7 @@ namespace FroggerServer
         public bool gameHasStarted;
         private bool gameIsOver = false;
         private bool timerStarted;
-
+        private bool playerDC = false;
         private int playerCount = 0;
 
         //Scores being set
@@ -115,6 +115,7 @@ namespace FroggerServer
             try
             {
                 NetworkHandler.Instance.sendMessage(first.IP, "disconnected," + playerNumber + "<EOF>");
+               
             }catch(Exception e)
             {
                 
@@ -122,6 +123,7 @@ namespace FroggerServer
             try
             {
                 NetworkHandler.Instance.sendMessage(second.IP, "disconnected," + playerNumber + "<EOF>");
+
             }
             catch (Exception e)
             {
@@ -143,6 +145,7 @@ namespace FroggerServer
             {
 
             }
+            playerDC = true;
         }
 
         public void handleDissconnectedPlayer(string IP)
@@ -228,9 +231,11 @@ namespace FroggerServer
             //Send the scores if it's a 4 player game -> 3 player game -> two player game.
             //Expression will be evaluated from left to right so you can assure that it'll check for a 4 player game first.
              if ((firstScore && secondScore && thirdScore && fourthScore) || (firstScore && secondScore && thirdScore) || (firstScore && secondScore))
-            {
-                sendGameOver();
-            }
+             {
+                 sendGameOver();
+             }
+             else if (playerDC)
+                 sendGameOver();
             //else if (third.IP.Equals(IP)) 
             // else if (fourth.IP.Equals(IP))
         }
