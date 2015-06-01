@@ -96,6 +96,7 @@ namespace FroggerServer
                 foreach (var value in toRemove)
                 {  
                     connectedPlayers.Remove(value);
+                    GameHandler.Instance.handleDisconnectedPlayer(value);
                 }
                 //Clear so other problems don't arise later. 
                 toRemove.Clear();
