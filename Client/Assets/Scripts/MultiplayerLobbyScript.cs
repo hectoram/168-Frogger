@@ -245,18 +245,32 @@ public class MultiplayerLobbyScript : MonoBehaviour {
 
         if (chatmessage.text == "")
         {
+            chatmessage.Select();
             return;
         }
 
         clientManager.resetData();
         clientManager.Send("chat-message," + chatmessage.text + "<EOF>");
-        Debug.Log("chat-message," + chatmessage.text + "<EOF>");
+        //Debug.Log("chat-message," + chatmessage.text + "<EOF>");
 
         UpdateChatlog(clientManager.getUsername(), chatmessage.text);
+
+        chatmessage.text = "";
+        chatmessage.Select();
     }
 
     public void UpdateChatlog(string user, string message)
     {
         chatlog.text = chatlog.text + user + ": " + message + "\n";
     }
+
+    // Sends the chat message when you hit Return/Enter
+    void OnGUI()
+    {
+        if (Event.current.Equals(Event.KeyboardEvent("Return")))
+        {
+            SendChatMessage();
+        }
+    }
+
 }

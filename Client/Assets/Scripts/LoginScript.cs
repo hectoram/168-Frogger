@@ -244,4 +244,18 @@ public class LoginScript : MonoBehaviour {
         clientManager.Send("userLogout," + currentUsername.text + "<EOF>");
         DisplayLoginMenu();
     }
+
+    // Calls Login when you hit Enter
+    void OnGUI()
+    {
+        if (Event.current.Equals(Event.KeyboardEvent("Return")))
+        {
+            LogIn();
+        }
+        else if (Event.current.Equals(Event.KeyboardEvent("Tab")))
+        {
+            password.Select();
+        }
+    }
+
 }
