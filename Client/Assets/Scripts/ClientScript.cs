@@ -628,10 +628,24 @@ public class ClientScript : MonoBehaviour
                 else if (messageToCheck[0] == "chat-message")
                 {
                     chatUser = messageToCheck[1];
-                    chatMessage = messageToCheck[2];
+
+                    // Fix to the chat message getting cropped off
+                    // Not the greatest solution, but it works for now
+                    string wholeMessage = "";
+                    int i = 2;
+                    while (messageToCheck[i] != "EOF")
+                    {
+                        wholeMessage = wholeMessage + messageToCheck[i] + " ";
+                        i++;
+                    }
+
+                    chatMessage = wholeMessage;
+
+
 
                     setData("chat-message");
                 }
+
 
                 if (messageToCheck.Length == 2)
                 {
