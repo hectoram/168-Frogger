@@ -200,7 +200,7 @@ namespace FroggerServer
                      GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(1) + ",2," +
                      GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(2) + ",3," +
                      GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(3) + ",4," +
-                     GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(3) + "<EOF>";
+                     GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(4) + "<EOF>";
                 }
                 catch (Exception e)
                 {
@@ -233,7 +233,7 @@ namespace FroggerServer
                      GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(1) + ",2," +
                      GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(2) + ",3," +
                      GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(3) + ",4," +
-                     GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(3) + "<EOF>";
+                     GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].playerIsReady(4) + "<EOF>";
                 }
                 catch (Exception e)
                 {
