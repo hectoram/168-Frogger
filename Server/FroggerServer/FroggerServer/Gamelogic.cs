@@ -497,7 +497,14 @@ namespace FroggerServer
 
         public bool allPlayersLoaded()
         {
-            return ( (p1Loaded && p2Loaded && p3Loaded && p4Loaded) || (p1Loaded && p2Loaded && p3Loaded) || (p1Loaded && p2Loaded) ) ;
+            if (playerCount == 4 && p1Loaded && p2Loaded && p3Loaded && p4Loaded)
+                return true;
+            else if (playerCount == 3 && p1Loaded && p2Loaded && p3Loaded)
+                return true;
+            else if (playerCount == 2 && p1Loaded && p2Loaded)
+                return true;
+            else return false;
+            
         }
 
         public bool addPlayerToGame(Player toAdd) 
