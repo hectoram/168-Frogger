@@ -36,6 +36,9 @@ public class LoginScript : MonoBehaviour {
 	ClientScript clientManager;
     GameObject networking;
 
+    GameObject menuGUI;
+    MenuScript menu;
+
     public static string getUsername()
     {
         return myUsername;
@@ -54,6 +57,9 @@ public class LoginScript : MonoBehaviour {
         loggedInMenu = loggedInMenu.GetComponent<Canvas>();
         lobbyMenu = lobbyMenu.GetComponent<Canvas>();
         sessionFailedMenu = sessionFailedMenu.GetComponent<Canvas>();
+
+        menuGUI = GameObject.FindGameObjectWithTag("Menus");
+        menu = menuGUI.GetComponent<MenuScript>();
 
         lobbyName = lobbyName.GetComponent<InputField>();
 
@@ -95,29 +101,33 @@ public class LoginScript : MonoBehaviour {
 
 	public void LogIn()
 	{
-    Debug.Log("CALLING LOGIN!!!!!!!!!!!!!!!!!!!!!!!");
-		//clientManager.Send("userLogin," + username.text + "," + password.text + "<EOF>");
-		if (!connectionStarted) {
-            clientManager.StartClient("userLogin", username.text, password.text);
-            ClientScript.myUsername = username.text;
-			connectionStarted = !connectionStarted;
-		} else
-		{
-			clientManager.resetData();
-			clientManager.Send("userLogin," + username.text + "," + password.text + "<EOF>");
-            ClientScript.myUsername = username.text;
-		}
-			
-		// Testing ability to connect to the server
-		//Network.Connect (ipAddress, port);
+        GetComponent<AudioSource>().PlayOneShot(menu.buttonClickSFX);
 
-        //clientManager.StartClient("userLogin", username.text, password.text);
-    myUsername = username.text;
-    clientManager.StartReceivingMessages();
+        Debug.Log("CALLING LOGIN!!!!!!!!!!!!!!!!!!!!!!!");
+		    //clientManager.Send("userLogin," + username.text + "," + password.text + "<EOF>");
+		    if (!connectionStarted) {
+                clientManager.StartClient("userLogin", username.text, password.text);
+                ClientScript.myUsername = username.text;
+			    connectionStarted = !connectionStarted;
+		    } else
+		    {
+			    clientManager.resetData();
+			    clientManager.Send("userLogin," + username.text + "," + password.text + "<EOF>");
+                ClientScript.myUsername = username.text;
+		    }
+			
+		    // Testing ability to connect to the server
+		    //Network.Connect (ipAddress, port);
+
+            //clientManager.StartClient("userLogin", username.text, password.text);
+        myUsername = username.text;
+        clientManager.StartReceivingMessages();
 	}
 
     public void CreateUser()
     {
+        GetComponent<AudioSource>().PlayOneShot(menu.buttonClickSFX);
+
         if (!connectionStarted)
         {
             clientManager.StartClient("userCreate", username.text, password.text);
@@ -136,6 +146,8 @@ public class LoginScript : MonoBehaviour {
 
 	public void DisplayLoginMenu()
 	{
+        GetComponent<AudioSource>().PlayOneShot(menu.buttonClickSFX);
+
         Debug.Log("Displaying Login Menu...");
 		loginMenu.enabled = true;
 		loginFailedMenu.enabled = false;
@@ -154,6 +166,8 @@ public class LoginScript : MonoBehaviour {
 
     public void DisplayLobbyMenu()
     {
+        GetComponent<AudioSource>().PlayOneShot(menu.buttonClickSFX);
+
         Debug.Log("Displaying session menu...");
         lobbyMenu.enabled = true;
         sessionFailedMenu.enabled = false;
@@ -164,6 +178,8 @@ public class LoginScript : MonoBehaviour {
 
     public void DismissLobbyMenu()
     {
+        GetComponent<AudioSource>().PlayOneShot(menu.buttonClickSFX);
+
         Debug.Log("Dismissing session menu...");
         lobbyMenu.enabled = false;
         loggedInMenu.enabled = true;
@@ -171,6 +187,8 @@ public class LoginScript : MonoBehaviour {
 
     public void ConnectLobby()
     {
+        GetComponent<AudioSource>().PlayOneShot(menu.buttonClickSFX);
+
         Debug.Log("Requesting to join session: " + lobbyName.text);
         clientManager.Send("join-session," + lobbyName.text + "<EOF>");
     }
@@ -226,6 +244,8 @@ public class LoginScript : MonoBehaviour {
 
 	public void DisplayMainMenu()
 	{
+        GetComponent<AudioSource>().PlayOneShot(menu.buttonClickSFX);
+
         Debug.Log("Displaying Main Menu...");
 		loginMenu.enabled = false;
 		loginFailedMenu.enabled = false;
@@ -240,6 +260,8 @@ public class LoginScript : MonoBehaviour {
 
     public void LogoutPressed()
     {
+        GetComponent<AudioSource>().PlayOneShot(menu.buttonClickSFX);
+
         Debug.Log("Logging out...");
         clientManager.Send("userLogout," + currentUsername.text + "<EOF>");
         DisplayLoginMenu();
