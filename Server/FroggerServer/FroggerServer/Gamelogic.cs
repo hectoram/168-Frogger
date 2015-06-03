@@ -52,7 +52,7 @@ namespace FroggerServer
         public bool p2Loaded = false;
         public bool p3Loaded = false;
         public bool p4Loaded = false;
-
+        public bool readySent = false;
         //Timer
         Stopwatch stopWatch = new Stopwatch();
 
@@ -484,9 +484,9 @@ namespace FroggerServer
                     p1Loaded = true;
                 else if (second.IP.Equals(IP))
                     p2Loaded = true;
-                else if (second.IP.Equals(IP))
+                else if (third.IP.Equals(IP))
                     p3Loaded = true;
-                else if (second.IP.Equals(IP))
+                else if (fourth.IP.Equals(IP))
                     p4Loaded = true;
             }
             catch (Exception e)
@@ -497,11 +497,11 @@ namespace FroggerServer
 
         public bool allPlayersLoaded()
         {
-            if (playerCount == 4 && p1Loaded && p2Loaded && p3Loaded && p4Loaded)
+            if (playerCount == 4 && (p1Loaded && p2Loaded && p3Loaded && p4Loaded))
                 return true;
-            else if (playerCount == 3 && p1Loaded && p2Loaded && p3Loaded)
+            else if (playerCount == 3 && (p1Loaded && p2Loaded && p3Loaded))
                 return true;
-            else if (playerCount == 2 && p1Loaded && p2Loaded)
+            else if (playerCount == 2 && (p1Loaded && p2Loaded))
                 return true;
             else return false;
             

@@ -53,6 +53,42 @@ namespace FroggerServer
             }
 
         }
+
+        private void sendMessageToClients(string senderIP , string message)
+        {
+            try
+            {
+                sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.IP, message);
+            }
+            catch (Exception e)
+            {
+                //Do nothing. Client isn't connected. 
+            }
+            try
+            {
+                sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.IP, message);
+            }
+            catch (Exception e)
+            {
+
+            }
+            try
+            {
+                sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].third.IP, message);
+            }
+            catch (Exception e)
+            {
+
+            }
+            try
+            {
+                sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].fourth.IP, message);
+            }catch(Exception e)
+            {
+            
+            }
+        }
+
         //Queue the player to be DC don't do it in the method. 
         private static void checkForDissconnect(Object o)
         {
@@ -249,38 +285,7 @@ namespace FroggerServer
                 if (GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].allReady())
                 {
                     string startGame = "start-game," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerCount() + "<EOF>";
-                    try
-                    {
-                        sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.IP, startGame);
-                    }
-                    catch (Exception e)
-                    { 
-                        //Do nothing. Client isn't connected. 
-                    }
-                    try
-                    {
-                        sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.IP, startGame);
-                    }
-                    catch (Exception e)
-                    {
-
-                    }
-                    try
-                    {
-                        sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].third.IP, startGame);
-                    }
-                    catch (Exception e)
-                    {
-
-                    }
-                    try
-                    {
-                        sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].fourth.IP, startGame);
-                    }
-                    catch (Exception e)
-                    {
-
-                    }
+                    sendMessageToClients(senderIP, startGame);
                 }
             }
             else if (message[0] == "frogPosition")
@@ -326,10 +331,14 @@ namespace FroggerServer
             else if (message[0] == "player-ready")
             {
                 GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].setLoadReady(senderIP);
+                Console.WriteLine("Ready message recieved");
                 if (GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].allPlayersLoaded())
                 {
-                    sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.IP, "start-timer<EOF>");
-                    sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.IP, "start-timer<EOF>");
+                    if (!GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].readySent)
+                    {
+                        sendMessageToClients(senderIP, "start-timer<EOF>");
+                        GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].readySent = true;
+                    }
                     GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].gameHasStarted = true;
                 }
             }
