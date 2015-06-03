@@ -221,6 +221,8 @@ public class MultiplayerLobbyScript : MonoBehaviour {
 
     public void DisplayLobby()
     {
+        GetComponent<AudioSource>().PlayOneShot(menu.buttonClickSFX);
+
         Debug.Log("You have entered the lobby.");
         lobbyMenu.enabled = true;
         clientManager.setIsPlayerInLobby(true);
@@ -231,6 +233,8 @@ public class MultiplayerLobbyScript : MonoBehaviour {
 
     public void DismissLobby()
     {
+        GetComponent<AudioSource>().PlayOneShot(menu.buttonClickSFX);
+
         Debug.Log("You have left the lobby.");
         lobbyMenu.enabled = false;
         clientManager.setIsPlayerInLobby(false);
@@ -241,6 +245,8 @@ public class MultiplayerLobbyScript : MonoBehaviour {
     // When you hit "SEND" in the chatbox
     public void SendChatMessage()
     {
+        GetComponent<AudioSource>().PlayOneShot(menu.buttonClickSFX);
+
         chatmessage = chatmessage.GetComponent<InputField>();
 
         if (chatmessage.text == "")
@@ -270,6 +276,7 @@ public class MultiplayerLobbyScript : MonoBehaviour {
     {
         if (Event.current.Equals(Event.KeyboardEvent("Return")))
         {
+            GetComponent<AudioSource>().PlayOneShot(menu.buttonClickSFX);
             SendChatMessage();
         }
     }

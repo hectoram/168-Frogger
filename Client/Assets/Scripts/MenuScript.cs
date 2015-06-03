@@ -43,6 +43,7 @@ public class MenuScript : MonoBehaviour {
 		creditsButton.enabled = false;
 		quitButton.enabled = false;
         multiplayerButton.enabled = false;
+        loginInfo.loggedInMenu.enabled = false;
 
 		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 	}
@@ -106,6 +107,8 @@ public class MenuScript : MonoBehaviour {
 
     public void StartMultiplayerGame()
     {
+        GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
+
         Application.LoadLevelAsync("Multiplayer Scene");
     }
 }
