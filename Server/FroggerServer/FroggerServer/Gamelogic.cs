@@ -507,6 +507,11 @@ namespace FroggerServer
             
         }
 
+        public bool allReady()
+        {
+            return ((p1Ready && p2Ready && p3Ready && p4Ready) || (p1Ready && p2Ready && p3Ready) || (p1Ready && p2Ready));
+        }
+
         public bool addPlayerToGame(Player toAdd) 
         {
             if (playerCount != 4)

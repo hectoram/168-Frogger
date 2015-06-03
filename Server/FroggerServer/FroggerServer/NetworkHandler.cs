@@ -246,13 +246,41 @@ namespace FroggerServer
                 sendMessage(senderIP, toSend);
 
 
-                if (GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].allPlayersLoaded())
+                if (GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].allReady())
                 {
                     string startGame = "start-game," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerCount() + "<EOF>";
-                    sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.IP, startGame);
-                    sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.IP, startGame);
-                    sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].third.IP, startGame);
-                    sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].fourth.IP, startGame);
+                    try
+                    {
+                        sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.IP, startGame);
+                    }
+                    catch (Exception e)
+                    { 
+                        //Do nothing. Client isn't connected. 
+                    }
+                    try
+                    {
+                        sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.IP, startGame);
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+                    try
+                    {
+                        sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].third.IP, startGame);
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+                    try
+                    {
+                        sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].fourth.IP, startGame);
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
                 }
             }
             else if (message[0] == "frogPosition")
