@@ -14,8 +14,8 @@ namespace FroggerServer
         private string SessionName = "";
         public Player first;
         public Player second;
-        Player third;
-        Player fourth;
+        public Player third;
+        public Player fourth;
 
         float[] positions = new float[8];
 

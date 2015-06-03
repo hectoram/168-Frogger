@@ -246,11 +246,13 @@ namespace FroggerServer
                 sendMessage(senderIP, toSend);
 
 
-                if (GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].p1Ready && GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].p2Ready)
+                if (GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].allPlayersLoaded())
                 {
                     string startGame = "start-game," + GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].getPlayerCount() + "<EOF>";
                     sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].first.IP, startGame);
                     sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].second.IP, startGame);
+                    sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].third.IP, startGame);
+                    sendMessage(GameHandler.Instance.gameSessions[GameHandler.Instance.getSessionName(senderIP)].fourth.IP, startGame);
                 }
             }
             else if (message[0] == "frogPosition")
