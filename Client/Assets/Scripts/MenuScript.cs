@@ -15,6 +15,9 @@ public class MenuScript : MonoBehaviour {
 	public AudioClip buttonClickSFX;
 	public AudioClip buttonHoverSFX;
 
+    LoginScript loginInfo;
+    GameObject loginMenu;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -24,6 +27,9 @@ public class MenuScript : MonoBehaviour {
         multiplayerButton = multiplayerButton.GetComponent<Button>();
 		quitButton = quitButton.GetComponent<Button> ();
         startMenu = startMenu.GetComponent<Canvas>();
+
+        loginMenu = GameObject.FindGameObjectWithTag("Login Menu");
+        loginInfo = loginMenu.GetComponent<LoginScript>();
 
 		quitMenu.enabled = false;
 		creditsMenu.enabled = false;
@@ -43,11 +49,13 @@ public class MenuScript : MonoBehaviour {
 
 	public void CreditsPressed()
 	{
+        Debug.Log("Displaying Credits Menu...");
 		creditsMenu.enabled = true;
 		playButton.enabled = false;
 		creditsButton.enabled = false;
 		quitButton.enabled = false;
         multiplayerButton.enabled = false;
+        loginInfo.loggedInMenu.enabled = false;
 
 		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 	}
@@ -59,6 +67,7 @@ public class MenuScript : MonoBehaviour {
 		creditsButton.enabled = true;
 		quitButton.enabled = true;
         multiplayerButton.enabled = true;
+        loginInfo.loggedInMenu.enabled = true;
 
 		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 	}
@@ -70,6 +79,7 @@ public class MenuScript : MonoBehaviour {
 		creditsButton.enabled = true;
 		quitButton.enabled = true;
         multiplayerButton.enabled = true;
+        loginInfo.loggedInMenu.enabled = true;
 
 		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 	}
