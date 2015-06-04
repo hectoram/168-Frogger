@@ -78,11 +78,17 @@ public class ClientScript : MonoBehaviour
     static string[] playerQueue = { "null", "null", "null", "null" };
     static string[] playerReady = { "null", "null", "null", "null" };
 
-    static bool startGame = false;
+    public static bool startGame = false;
+    public static bool startSingleGame = false;
+    public static bool returnMainMenu = false;
 
     bool isPlayerInLobby = false;
 
     static AsyncOperation async;
+
+    //static AsyncOperation asyncMultiplayer;
+    //static AsyncOperation asyncSingle;
+    //static AsyncOperation asyncMainMenu;
 
     public static bool spawnObstacles = false;
 
@@ -243,8 +249,15 @@ public class ClientScript : MonoBehaviour
         lobbyInfo = gameMenu.GetComponent<MultiplayerLobbyScript>();
 
         async = Application.LoadLevelAsync("Multiplayer Scene");
-        // Set this false to wait changing the scene
+        //asyncMultiplayer = Application.LoadLevelAsync("Multiplayer Scene");
+        //asyncSingle = Application.LoadLevelAsync("Main Scene");
+        //asyncMainMenu = Application.LoadLevelAsync("Menu Scene");
+
         async.allowSceneActivation = false;
+        // Set this false to wait changing the scene
+        //asyncMultiplayer.allowSceneActivation = false;
+        //asyncSingle.allowSceneActivation = false;
+        //asyncMainMenu.allowSceneActivation = false;
 
         gameUI = GameObject.FindGameObjectWithTag("Menus");
         gameplay = gameUI.GetComponent<GameUI>();
@@ -267,10 +280,38 @@ public class ClientScript : MonoBehaviour
 
         if (startGame)
         {
+            //asyncMultiplayer.allowSceneActivation = true;
             async.allowSceneActivation = true;
             startGame = false;
             isGameInProgress = true;
             currentScene = "Multiplayer Scene";
+        }
+        else if (startSingleGame)
+        {
+            Debug.Log("Starting single player game from inside the ClientScript...");
+            //asyncSingle.allowSceneActivation = true;
+            //async = Application.LoadLevelAsync("Main Scene");
+            //async.allowSceneActivation = true;
+            startSingleGame = false;
+            isGameInProgress = true;
+            currentScene = "Main Scene";
+        }
+        else if (returnMainMenu)
+        {
+            //asyncMainMenu.allowSceneActivation = true;
+            //asyncSingle.allowSceneActivation = false;
+            //asyncMultiplayer.allowSceneActivation = false;
+
+            Debug.Log("Trying to return to the Main Menu from Multiplayer game...");
+
+            async.allowSceneActivation = false;
+
+            //async = Application.LoadLevelAsync("Menu Scene");
+            //async.allowSceneActivation = true;
+
+            returnMainMenu = false;
+            isGameInProgress = false;
+            currentScene = "Menu Scene";
         }
 
         if (currentScene != "Multiplayer Scene")

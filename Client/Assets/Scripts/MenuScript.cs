@@ -18,6 +18,8 @@ public class MenuScript : MonoBehaviour {
     LoginScript loginInfo;
     GameObject loginMenu;
 
+    AsyncOperation async;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -34,6 +36,10 @@ public class MenuScript : MonoBehaviour {
 		quitMenu.enabled = false;
 		creditsMenu.enabled = false;
         startMenu.enabled = true;
+
+        async = Application.LoadLevelAsync("Main Scene");
+        // Set this false to wait changing the scene
+        async.allowSceneActivation = false;
 	}
 	
 	public void QuitPressed()
@@ -87,10 +93,16 @@ public class MenuScript : MonoBehaviour {
 
 	public void StartGame()
 	{
-		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
+        Debug.Log("Starting single player game...");
+		//GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 
-		Application.LoadLevel ("Main Scene");
-        ClientScript.currentScene = "Main Scene";
+        //ClientScript.currentScene = "Main Scene";
+        //Application.LoadLevelAsync("Main Scene");
+
+        //async.allowSceneActivation = true;
+        //Application.LoadLevel("Main Scene");
+
+        ClientScript.startSingleGame = true;
 	}
 
 	public void QuitGame()
@@ -109,6 +121,7 @@ public class MenuScript : MonoBehaviour {
     {
         GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 
+        ClientScript.currentScene = "Multiplayer Scene";
         Application.LoadLevelAsync("Multiplayer Scene");
     }
 }

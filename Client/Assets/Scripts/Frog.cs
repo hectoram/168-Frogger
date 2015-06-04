@@ -18,6 +18,9 @@ public class Frog : MonoBehaviour
     PlayerSpawner playerSpawner;
 
     Vector2 currentPosition;
+    Vector3 startingPosition;
+
+    public static bool doneDying = true;
 
     public static bool restrictMovement = true;
 
@@ -34,6 +37,7 @@ public class Frog : MonoBehaviour
         playerSpawner = spawner.GetComponent<PlayerSpawner>();
 
         currentPosition = transform.position;
+        startingPosition.Set(0, -8, 0); 
 	}
 
 	// Jump Speed - how fast the frog will jump
@@ -50,17 +54,38 @@ public class Frog : MonoBehaviour
 
 	// If the frog collides with a vehicle, then it's GAME OVER
 	//void OnCollisionEnter2D(Collision2D coll)
-    void OnTriggerEnter2D(Collider2D coll)
+    /*void OnTriggerStay2D(Collider2D coll)
 	{
 		//Destroy (gameObject);
 		//menu.ShowLoseMenu ();
 
-        if (coll.tag == "Car" || coll.tag == "Water")
+        if (coll.tag == "Car")
         {
+            doneDying = false;
+            Debug.Log("CAR DEATHHH!");
             gameUI.addDeathScore();
             transform.position = new Vector3(0, -8, 0);
         }
-	}
+        else if (coll.tag == "Water")
+        {
+            Debug.Log("Detecting water!");
+            // Check to see if the frog isn't jumping
+            if (!isJumping())
+            {
+                Debug.Log("Frog isn't jumping...");
+                // Check to see if the frog isn't on a platform
+                if (playerSpawner.getThisPlayer().transform.parent == null && playerSpawner.getThisPlayer().transform.position.y > -1 && playerSpawner.getThisPlayer().transform.position.y < 5)
+                {
+                    // GAME OVER
+                    //Destroy (coll.gameObject);
+                    //menu.ShowLoseMenu();
+                    Debug.Log("WATER DEATHHH!");
+                    gameUI.addDeathScore();
+                    transform.position = new Vector3(0, -8, 0);
+                }
+            }  
+        }
+	}*/
 
     // FixedUpdate is called in a fixed time interval
     void FixedUpdate()

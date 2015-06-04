@@ -14,7 +14,8 @@ public class Water : MonoBehaviour {
         gameUI = menuObject.GetComponent<GameUI>();
 	}
 
-	void OnTriggerStay2D(Collider2D coll)
+    void OnTriggerStay2D(Collider2D coll)
+	//void OnTriggerEnter2D(Collider2D coll)
 	{
 		// Check to see if the object is a frog
         if (coll.tag == "Player")

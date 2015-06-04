@@ -196,7 +196,7 @@ public class PlayerSpawner : MonoBehaviour {
         {
             if (numberOfPlayers == "2")
             {
-                Debug.Log("Updating player positions for 2 PLAYERS...");
+                //Debug.Log("Updating player positions for 2 PLAYERS...");
                 if (playerNumber == "1")
                     p2.transform.position = p2Pos;
                 else if (playerNumber == "2")
@@ -204,7 +204,7 @@ public class PlayerSpawner : MonoBehaviour {
             }
             else if (numberOfPlayers == "3")
             {
-                Debug.Log("Updating player positions for 3 PLAYERS...");
+                //Debug.Log("Updating player positions for 3 PLAYERS...");
                 if (playerNumber == "1")
                 {
                     p2.transform.position = p2Pos;
@@ -223,7 +223,7 @@ public class PlayerSpawner : MonoBehaviour {
             }
             else if (numberOfPlayers == "4")
             {
-                Debug.Log("Updating player positions for 4 PLAYERS...");
+                //Debug.Log("Updating player positions for 4 PLAYERS...");
                 if (playerNumber == "1")
                 {
                     p2.transform.position = p2Pos;

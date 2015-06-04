@@ -31,6 +31,8 @@ public class GameOverScript : MonoBehaviour {
     GameObject gameUI;
     GameUI menu;
 
+    static AsyncOperation async;
+
     public static bool gameOverReceived = false;
 
     public void setGameOverResult(string newResult)
@@ -61,6 +63,10 @@ public class GameOverScript : MonoBehaviour {
 		winMenu.enabled = false;
 		loseMenu.enabled = false;
         scoreMenu.enabled = false;
+
+        async = Application.LoadLevelAsync("Menu Scene");
+        // Set this false to wait changing the scene
+        async.allowSceneActivation = false;
 	}
 	
     void Update()
@@ -81,7 +87,10 @@ public class GameOverScript : MonoBehaviour {
 		GetComponent<AudioSource>().PlayOneShot(buttonClickSFX);
 
         Debug.Log("Loading Main Menu from in-game...");
-		Application.LoadLevel ("Menu Scene");
+		//Application.LoadLevel ("Menu Scene");
+        //async.allowSceneActivation = true;
+
+        ClientScript.returnMainMenu = true;
 	}
 
 	public void ShowWinMenu()

@@ -221,7 +221,7 @@ public class MultiplayerLobbyScript : MonoBehaviour {
 
     public void DisplayLobby()
     {
-        GetComponent<AudioSource>().PlayOneShot(menu.buttonClickSFX);
+        //GetComponent<AudioSource>().PlayOneShot(menu.buttonClickSFX);
 
         Debug.Log("You have entered the lobby.");
         lobbyMenu.enabled = true;
@@ -233,7 +233,7 @@ public class MultiplayerLobbyScript : MonoBehaviour {
 
     public void DismissLobby()
     {
-        GetComponent<AudioSource>().PlayOneShot(menu.buttonClickSFX);
+        //GetComponent<AudioSource>().PlayOneShot(menu.buttonClickSFX);
 
         Debug.Log("You have left the lobby.");
         lobbyMenu.enabled = false;
